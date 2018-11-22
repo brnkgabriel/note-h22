@@ -10,7 +10,8 @@
 </template>
 
 <script>
-
+import firebase from 'firebase/app'
+import 'firebase/auth'
 export default {
   data() {
     return {
@@ -20,6 +21,17 @@ export default {
   computed: {
     students: function () {
       return this.$store.state.students;
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      if (!firebase.auth().currentUser) {
+        next({
+          path: '/login'
+        });
+      } else {
+        next();
+      }
     }
   }
 };

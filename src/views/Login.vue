@@ -15,34 +15,45 @@
 </template>
 
 <script>
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from "firebase/app";
+import "firebase/auth";
 export default {
-  name: 'login',
+  name: "login",
   data() {
     return {
       email: null,
       password: null,
       delayToCompleteProcessing: null
-    }
+    };
   },
-  methods: { 
-    login: function (evt) {
+  beforeRouteLeave(to, from, next) {
+    console.log('window to path is', window.toPath);
+    console.log('to is', to);
+    window.toPath = to.path;
+    next();
+  },
+  methods: {
+    login: function(evt) {
       evt.preventDefault();
-      firebase.auth()
-      .signInWithEmailAndPassword(this.email, this.password)
-      .then(credential => {
-        this.$store.dispatch('getStudent', {uid: credential.user.uid});
-        this.delayToCompleteProcessing = setInterval(this.checkStudent, 10);
-      }).catch(err => console.log(err));
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .then(credential => {
+          this.$store.dispatch("getStudent", { uid: credential.user.uid });
+          this.delayToCompleteProcessing = setInterval(this.checkStudent, 10);
+        })
+        .catch(err => console.log(err));
     },
-    checkStudent: function () {
+    checkStudent: function() {
       if (this.$store.state.student) {
-        // this.$router.go({path: '/profile'});
-        this.$router.push('/profile');
-        clearInterval(this.delayToCompleteProcessing)
+        if (window.toPath) {
+          this.$router.push(window.toPath);
+        } else {
+         this.$router.push("/profile");
+        }
+        clearInterval(this.delayToCompleteProcessing);
       }
     }
   }
-}
+};
 </script>

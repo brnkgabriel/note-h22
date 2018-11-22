@@ -45,12 +45,18 @@ let router = new Router({
     {
       path: '/quiz',
       name: 'quiz',
-      component: Quiz
+      component: Quiz,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/rank',
       name: 'rank',
-      component: Rank
+      component: Rank,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '*',
