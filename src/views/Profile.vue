@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import firebase from "firebase/app";
-import "firebase/auth";
+import firebase from 'firebase/app';
+import 'firebase/auth';
 export default {
   data() {
     return {};
@@ -21,10 +21,7 @@ export default {
     if (to.matched.some(record => record.meta.requiresAuth)) {
       if (!firebase.auth().currentUser) {
         next({
-          path: "/login",
-          query: {
-            redirect: to.fullPath
-          }
+          path: '/login'
         });
       } else {
         next();
