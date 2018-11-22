@@ -35,22 +35,17 @@ export default {
   methods: {
     login: function(evt) {
       evt.preventDefault();
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then(credential => {
-          this.$store.dispatch("getStudent", { uid: credential.user.uid });
-          this.delayToCompleteProcessing = setInterval(this.checkStudent, 10);
-        })
-        .catch(err => console.log(err));
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+      .then(credential => {
+        this.$store.dispatch("getStudent", { uid: credential.user.uid });
+        this.delayToCompleteProcessing = setInterval(this.checkStudent, 10);
+      })
+      .catch(err => console.log(err));
     },
     checkStudent: function() {
       if (this.$store.state.student) {
-        if (window.toPath) {
-          this.$router.push(window.toPath);
-        } else {
-         this.$router.push("/profile");
-        }
+        if (window.toPath) { this.$router.push(window.toPath); } 
+        else { this.$router.push("/profile"); }
         clearInterval(this.delayToCompleteProcessing);
       }
     }

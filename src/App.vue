@@ -12,8 +12,16 @@ export default {
   components: {
     Navbar
   },
+  data() {
+    return {
+      currentUser: window.student
+    }
+  },
   created() { 
     this.$store.dispatch('getStudents');
   },
+  updated() {
+    // console.log('updated notified changes')
+  }
 }
 </script>
