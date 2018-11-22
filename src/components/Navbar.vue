@@ -4,26 +4,26 @@
       <li>
         <router-link to="/">Home</router-link>
       </li>
-      <li>
+      <li v-if="currentUser">
         <router-link to="/profile">Profile</router-link>
       </li>
-      <li>
+      <li v-if="currentUser">
         <router-link to="/quiz">Quiz</router-link>
       </li>
-      <li>
+      <li v-if="currentUser">
         <router-link to="/rank">Rank</router-link>
       </li> 
       <li v-if="!currentUser">
         <router-link to="/login">Login</router-link>
       </li>
-      <li>
+      <li v-if="!currentUser">
         <router-link to="/register">Register</router-link>
+      </li>
+      <li v-if="currentUser">
+        <button @click="logout">Logout</button>
       </li>
       <li>
         <router-link to="/about">About</router-link>
-      </li>
-      <li>
-        <button @click="logout">Logout</button>
       </li>
     </ul>
   </div>

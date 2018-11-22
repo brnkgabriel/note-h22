@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import db from '../firebase/firebase-init'
-import firebase from 'firebase/app';
 import 'firebase/auth';
 
 Vue.use(Vuex)
@@ -16,7 +15,6 @@ export default new Vuex.Store({
       state.students = payload
     },
     setStudent(state, payload) {
-      window.student = payload;
       state.student = payload;
     }
   },
@@ -54,6 +52,7 @@ export default new Vuex.Store({
               'user_data': doc.data().user_data
             }
           })
+          window.student = dbStudent;
           context.commit('setStudent', dbStudent);
         })
     },

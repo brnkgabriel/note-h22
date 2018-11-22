@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <navbar />
+    <navbar :currentUser="currentUser"></navbar>
     <router-view/>
   </div>
 </template>
@@ -14,14 +14,17 @@ export default {
   },
   data() {
     return {
-      currentUser: window.student
+      currentUser: null
     }
   },
   created() { 
     this.$store.dispatch('getStudents');
   },
   updated() {
-    // console.log('updated notified changes')
+    // this sets current user so it can be passed as props
+    // to trigger on and off the signout buttons
+    this.currentUser = window.student
+    console.log('currentUser is', this.currentUser)
   }
 }
 </script>
