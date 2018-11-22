@@ -52,7 +52,8 @@ export default {
           'user_data': {}
         }
         this.$store.dispatch('addStudent', dbStudent);
-        this.$router.push('/profile');
+        this.$router.go({path: this.$router.path});
+        // this.$router.push('/profile');
       })
     },
   }

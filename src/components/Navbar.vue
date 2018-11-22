@@ -1,13 +1,31 @@
 <template>
   <div id="navbar">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/profile">Profile</router-link> |
-    <router-link to="/quiz">Quiz</router-link> |
-    <router-link to="/rank">Rank</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/login">Login</router-link> |
-    <router-link to="/register">Register</router-link>
-    <button @click="logout">Logout</button>
+    <ul>
+      <li>
+        <router-link to="/">Home</router-link>
+      </li>
+      <li>
+        <router-link to="/profile">Profile</router-link>
+      </li>
+      <li>
+        <router-link to="/quiz">Quiz</router-link>
+      </li>
+      <li>
+        <router-link to="/rank">Rank</router-link>
+      </li> 
+      <li>
+        <router-link to="/login">Login</router-link>
+      </li>
+      <li>
+        <router-link to="/register">Register</router-link>
+      </li>
+      <li>
+        <router-link to="/about">About</router-link>
+      </li>
+      <li>
+        <button @click="logout">Logout</button>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -21,11 +39,12 @@ export default {
       isLoggedIn: false,
       currentUser: false
     }
-  },
+  }, 
   methods: {
     logout: function () {
       firebase.auth().signOut()
       .then(() => {
+        // this.$router.go({path: this.$router.path});
         this.$router.push('/login')
       })
     }

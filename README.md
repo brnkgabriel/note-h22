@@ -1,4 +1,4 @@
-# school-vue
+# Note Habakkuk 2:2
 
 ## Project setup
 ```

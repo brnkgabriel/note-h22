@@ -38,6 +38,7 @@ export default {
     },
     checkStudent: function () {
       if (this.$store.state.student) {
+        // this.$router.go({path: '/profile'});
         this.$router.push('/profile');
         clearInterval(this.delayToCompleteProcessing)
       }
