@@ -13,7 +13,7 @@
       <li>
         <router-link to="/rank">Rank</router-link>
       </li> 
-      <li>
+      <li v-if="!currentUser">
         <router-link to="/login">Login</router-link>
       </li>
       <li>
@@ -34,17 +34,17 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 export default {
   name: "navbar",
+  props: ['currentUser'],
   data() {
     return {
-      isLoggedIn: false,
-      currentUser: false
+      isLoggedIn: false
     }
-  }, 
+  },
   methods: {
     logout: function () {
       firebase.auth().signOut()
       .then(() => {
-        // this.$router.go({path: this.$router.path});
+        window.student = null;
         this.$router.push('/login')
       })
     }

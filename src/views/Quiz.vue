@@ -13,12 +13,8 @@ export default {
   beforeRouteEnter(to, from, next) {
     if (to.matched.some(record => record.meta.requiresAuth)) {
       if (!firebase.auth().currentUser) {
-        next({
-          path: '/login'
-        })
-      } else {
-        next();
-      }
+        next({ path: '/login' })
+      } else { next(); }
     }
   }
 }

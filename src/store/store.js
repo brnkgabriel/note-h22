@@ -16,6 +16,7 @@ export default new Vuex.Store({
       state.students = payload
     },
     setStudent(state, payload) {
+      window.student = payload;
       state.student = payload;
     }
   },
