@@ -27,8 +27,8 @@ export default {
     };
   },
   beforeRouteLeave(to, from, next) {
-    console.log('window to path is', window.toPath);
-    console.log('to is', to);
+    // console.log('window to path is', window.toPath);
+    // console.log('to is', to);
     window.toPath = to.path;
     next();
   },
