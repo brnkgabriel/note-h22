@@ -37,10 +37,6 @@ export default {
       delayToCompleteProcessing: null
     }
   },
-  beforeRouteLeave(to, from, next) {
-    window.toPath = to.path;
-    next();
-  },
   methods: {
     register: function (evt) {
       evt.preventDefault();
@@ -61,7 +57,6 @@ export default {
       }).catch(err => console.log(err));
     },
     checkStudent: function () {
-      // TO DO:
       if (this.$store.state.student) {
         bus.$emit('isLoggedIn', true);
         this.$router.push("/profile");

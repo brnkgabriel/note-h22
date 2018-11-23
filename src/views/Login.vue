@@ -27,13 +27,6 @@ export default {
       delayToCompleteProcessing: null
     };
   },
-  beforeRouteLeave(to, from, next) {
-    // console.log('window to path is', window.toPath);
-    // console.log('to is', to);
-    // window.toPath = to.path;
-    localStorage.setItem('toPath', to.path);
-    next();
-  },
   methods: {
     login: function(evt) {
       evt.preventDefault();

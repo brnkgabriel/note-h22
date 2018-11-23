@@ -6,13 +6,12 @@
 </template>
 
 <script>
-import Navbar from './components/Navbar.vue'
-import firebase from 'firebase/app'
+import Navbar from './components/Navbar.vue' 
 export default {
   components: {
     Navbar
   },
-  created() { 
+  created() {
     this.$store.dispatch('getStudents');
   }
 }

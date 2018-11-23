@@ -20,7 +20,6 @@ export default new Vuex.Store({
     },
     removeStudent(state) {
       localStorage.removeItem('student');
-      console.log('student removed');
       state.student = null;
     }
   },

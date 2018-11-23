@@ -10,6 +10,7 @@ let app;
 export const bus = new Vue();
 
 firebase.auth().onAuthStateChanged(user => {
+  if (user) { store.dispatch('getStudent', user); }
   if (!app) {
     app = new Vue({
       router,
@@ -18,9 +19,3 @@ firebase.auth().onAuthStateChanged(user => {
     }).$mount('#app')
   }
 })
-
-// new Vue({
-//   router,
-//   store,
-//   render: h => h(App)
-// }).$mount('#app')
