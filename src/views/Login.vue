@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { bus } from '../main'
 import firebase from "firebase/app";
 import "firebase/auth";
 export default {
@@ -29,7 +30,8 @@ export default {
   beforeRouteLeave(to, from, next) {
     // console.log('window to path is', window.toPath);
     // console.log('to is', to);
-    window.toPath = to.path;
+    // window.toPath = to.path;
+    localStorage.setItem('toPath', to.path);
     next();
   },
   methods: {
@@ -39,13 +41,12 @@ export default {
       .then(credential => {
         this.$store.dispatch("getStudent", { uid: credential.user.uid });
         this.delayToCompleteProcessing = setInterval(this.checkStudent, 10);
-      })
-      .catch(err => console.log(err));
+      }).catch(err => console.log(err));
     },
     checkStudent: function() {
       if (this.$store.state.student) {
-        if (window.toPath) { this.$router.push(window.toPath); } 
-        else { this.$router.push("/profile"); }
+        bus.$emit('isLoggedIn', true);
+        this.$router.push("/profile");
         clearInterval(this.delayToCompleteProcessing);
       }
     }

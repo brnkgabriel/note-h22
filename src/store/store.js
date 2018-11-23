@@ -15,7 +15,13 @@ export default new Vuex.Store({
       state.students = payload
     },
     setStudent(state, payload) {
+      localStorage.setItem('student', payload);
       state.student = payload;
+    },
+    removeStudent(state) {
+      localStorage.removeItem('student');
+      console.log('student removed');
+      state.student = null;
     }
   },
   actions: {
@@ -52,7 +58,6 @@ export default new Vuex.Store({
               'user_data': doc.data().user_data
             }
           })
-          window.student = dbStudent;
           context.commit('setStudent', dbStudent);
         })
     },

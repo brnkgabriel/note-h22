@@ -4,22 +4,22 @@
       <li>
         <router-link to="/">Home</router-link>
       </li>
-      <li v-if="currentUser">
+      <li v-if="isLoggedIn">
         <router-link to="/profile">Profile</router-link>
       </li>
-      <li v-if="currentUser">
+      <li v-if="isLoggedIn">
         <router-link to="/quiz">Quiz</router-link>
       </li>
-      <li v-if="currentUser">
+      <li v-if="isLoggedIn">
         <router-link to="/rank">Rank</router-link>
       </li> 
-      <li v-if="!currentUser">
+      <li v-if="!isLoggedIn">
         <router-link to="/login">Login</router-link>
       </li>
-      <li v-if="!currentUser">
+      <li v-if="!isLoggedIn">
         <router-link to="/register">Register</router-link>
       </li>
-      <li v-if="currentUser">
+      <li v-if="isLoggedIn">
         <button @click="logout">Logout</button>
       </li>
       <li>
@@ -32,19 +32,26 @@
 <script>
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import { bus } from '../main'
 export default {
   name: "navbar",
-  props: ['currentUser'],
   data() {
     return {
-      isLoggedIn: false
+      isLoggedIn: false 
     }
+  },
+  created() {
+    this.isLoggedIn = !!localStorage.getItem('student');
+    bus.$on('isLoggedIn', (flag) => {
+      this.isLoggedIn = flag;
+    })
   },
   methods: {
     logout: function () {
       firebase.auth().signOut()
       .then(() => {
-        window.student = null;
+        this.$store.commit('removeStudent');
+        this.isLoggedIn = false;
         this.$router.push('/login')
       })
     }

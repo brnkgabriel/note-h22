@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { bus } from '../main'
 import firebase from 'firebase/app';
 import 'firebase/auth';
 export default {
@@ -32,14 +33,18 @@ export default {
       firstName: null,
       lastName: null,
       email: null,
-      password: null
+      password: null,
+      delayToCompleteProcessing: null
     }
+  },
+  beforeRouteLeave(to, from, next) {
+    window.toPath = to.path;
+    next();
   },
   methods: {
     register: function (evt) {
       evt.preventDefault();
-      firebase.auth()
-      .createUserAndRetrieveDataWithEmailAndPassword(this.email, this.password)
+      firebase.auth().createUserAndRetrieveDataWithEmailAndPassword(this.email, this.password)
       .then(credential => { 
         var dbStudent = {
           'email': this.email,
@@ -52,10 +57,17 @@ export default {
           'user_data': {}
         }
         this.$store.dispatch('addStudent', dbStudent);
-        this.$router.go({path: this.$router.path});
-        // this.$router.push('/profile');
-      })
+        this.delayToCompleteProcessing = setInterval(this.checkStudent, 10);
+      }).catch(err => console.log(err));
     },
+    checkStudent: function () {
+      // TO DO:
+      if (this.$store.state.student) {
+        bus.$emit('isLoggedIn', true);
+        this.$router.push("/profile");
+        clearInterval(this.delayToCompleteProcessing);
+      }
+    }
   }
 }
 </script>
