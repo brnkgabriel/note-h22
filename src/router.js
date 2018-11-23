@@ -6,7 +6,6 @@ import Profile from './views/profile/Profile.vue'
 import Quiz from './views/quiz/Quiz.vue'
 import Rank from './views/rank/Rank.vue'
 import Login from './views/login/Login.vue'
-// import Register from './views/Register.vue'
 import Signup from './views/signup/Signup.vue'
 
 Vue.use(Router)
