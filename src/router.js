@@ -2,12 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import About from './views/About.vue'
-// import Profile from './views/Profile.vue'
 import Profile from './views/profile/Profile.vue'
-import Quiz from './views/Quiz.vue'
-import Rank from './views/Rank.vue'
-import Login from './views/Login.vue'
-import Register from './views/Register.vue'
+import Quiz from './views/quiz/Quiz.vue'
+import Rank from './views/rank/Rank.vue'
+import Login from './views/login/Login.vue'
+// import Register from './views/Register.vue'
+import Signup from './views/signup/Signup.vue'
 
 Vue.use(Router)
 
@@ -31,9 +31,9 @@ let router = new Router({
       component: Login
     },
     {
-      path: '/register',
-      name: 'register',
-      component: Register
+      path: '/signup',
+      name: 'signup',
+      component: Signup
     },
     {
       path: '/profile',

@@ -13,9 +13,6 @@
 <script>
 import beforeRouteEnter from './beforeRouteEnter-profile'
 export default {
-  data() {
-    return {};
-  },
   beforeRouteEnter: beforeRouteEnter
 };
 </script>
