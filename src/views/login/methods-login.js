@@ -20,4 +20,4 @@ var methods = {
   }
 }
 
-export default methods;
+export default methods

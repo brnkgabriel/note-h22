@@ -66,6 +66,13 @@ export default new Vuex.Store({
         console.log("Document successfully written!");
         context.commit('setStudent', payload);
       });
+    },
+    updateStudent(context, payload) {
+      db.collection("users")
+      .doc(payload.uid).update(payload)
+      .then(() => console.log('document successfully updated'))
+      .catch(err => console.log(err));
+      context.commit('setStudent', payload);
     }
   }
 })
