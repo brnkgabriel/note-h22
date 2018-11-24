@@ -15,7 +15,7 @@ export default new Vuex.Store({
       state.students = payload
     },
     setStudent(state, payload) {
-      localStorage.setItem('student', payload);
+      localStorage.setItem('student', JSON.stringify(payload));
       state.student = payload;
     },
     removeStudent(state) {
