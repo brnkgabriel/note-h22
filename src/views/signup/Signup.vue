@@ -17,6 +17,10 @@
         <label for="password">Password:</label>
         <input type="text" id="password" v-model="password" />
       </div>
+      <div>
+        <label for="birthday">Birthday:</label>
+        <input type="date" id="birthday" v-model="birthday" />
+      </div>
       <button @click="signup" type="submit">Signup</button>
     </form>
   </div>
@@ -32,6 +36,7 @@ export default {
       lastName: null,
       email: null,
       password: null,
+      birthday: null,
       delayToCompleteProcessing: null
     }
   },

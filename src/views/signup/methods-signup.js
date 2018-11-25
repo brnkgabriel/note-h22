@@ -2,21 +2,33 @@
 import { bus } from '../../main'
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import util from '../../util';
 
 var methods = {
   signup: function (evt) {
     evt.preventDefault();
-    firebase.auth().createUserAndRetrieveDataWithEmailAndPassword(this.email, this.password)
-    .then(credential => { 
+    firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+    .then(credential => {
+      var today = {
+        day: new Date().getDate(),
+        month: new Date().getMonth() + 1,
+        year: new Date().getFullYear()
+      }
+      var todayFormatted = today.year + '-' + today.month + '-' + today.day;
+      var dateAndMessage = todayFormatted + '|'+ (util.messages.length - 1);
+      var initialScore = dateAndMessage + '|3|0|' + util.getAge(this.birthday, today) + '|0'; 
       var dbStudent = {
         'email': this.email,
         'first_name': this.firstName,
         'last_name': this.lastName,
         'roles_permissions': {
-          'roles': 'user'
+          'roles': 'student'
         },
         'uid': credential.user.uid,
-        'user_data': {}
+        'user_data': {
+          'birthday': this.birthday,
+          'scores': initialScore
+        }
       }
       this.$store.dispatch('addStudent', dbStudent);
       this.delayToCompleteProcessing = setInterval(this.checkStudent, 10);

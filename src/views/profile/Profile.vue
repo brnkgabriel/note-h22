@@ -14,14 +14,35 @@
     </div>
     <button type="submit">Submit Form</button>
     </form>
-    <div class="scores">
-      {{ student.user_data.scores }}
-    </div>
+    
+    <table class="scores">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Message</th>
+          <th>Author</th>
+          <th>Score</th>
+          <th>Age</th>
+          <th>Aggregate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(score, index) in student.user_data.scores" :key="index">
+          <td>{{ score.date }}</td>
+          <td>{{ score.message }}</td>
+          <td>{{ score.preacher }}</td>
+          <td>{{ score.score }}</td>
+          <td>{{ score.age }}</td>
+          <td>{{ score.aggregate }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script>
 import beforeRouteEnter from "./beforeRouteEnter-profile";
+import util from "../../util";
 export default {
   data() {
     return {
@@ -36,14 +57,20 @@ export default {
     };
   },
   created() {
-    var localStorageStudent = JSON.parse(localStorage.getItem('student'));
+    var localStorageStudent = JSON.parse(localStorage.getItem("student"));
+    var scores = [], decodedScores = [];
+    scores = localStorageStudent.user_data.scores.split("*");
+    scores.forEach(score => {
+      decodedScores.push(util.decodeScores(score));
+    });
+    localStorageStudent.user_data.scores = decodedScores;
     this.student = localStorageStudent;
   },
   beforeRouteEnter: beforeRouteEnter,
   methods: {
     updateStudent: function(evt) {
       evt.preventDefault();
-      this.$store.dispatch('updateStudent', this.student);
+      this.$store.dispatch("updateStudent", this.student);
     }
   }
 };

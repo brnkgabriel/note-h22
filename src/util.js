@@ -1,4 +1,34 @@
 var util = {
+  getAge: function (birthday, today) {
+    var bday = util.getBirthdayObject(birthday);
+    return util.compareAndReturnRightAge(today, bday);
+  },
+  compareAndReturnRightAge: function (today, bday) {
+    if (
+      today.month < bday.month ||
+      (
+        today.month == bday.month &&
+        today.day < bday.day
+      )
+    ) { return (today.year - bday.year) - 1; }
+    return today.year - bday.year;
+  },
+  getBirthdayObject: function (birthday) {
+    var delimeter = (birthday.indexOf('/') !== -1) ? '/' : '-';
+    var bdayArray = birthday.split(delimeter);
+    if (delimeter === '-') {
+      return {
+        day: parseInt(bdayArray[2]),
+        month: parseInt(bdayArray[1]),
+        year: parseInt(bdayArray[0])
+      }
+    }
+    return {
+      day: parseInt(bdayArray[1]),
+      month: parseInt(bdayArray[0]),
+      year: parseInt(bdayArray[2])
+    }
+  },
   decodeScores: function (codedScores) {
     var codedArray = codedScores.split('|');
     return {
@@ -12,21 +42,21 @@ var util = {
   },
   codeScores: function (decodedScores) {
     var messageIndex = util.messages
-    .findIndex(message => decodedScores.message === message);
+      .findIndex(message => decodedScores.message === message);
     var preacherIndex = util.preachers
-    .findIndex(preacher => decodedScores.preacher === preacher);
+      .findIndex(preacher => decodedScores.preacher === preacher);
     return decodedScores.date + '|'
-    + messageIndex + '|'
-    + preacherIndex + '|'
-    + decodedScores.score + '|'
-    + decodedScores.age + '|'
-    + decodedScores.aggregate;
+      + messageIndex + '|'
+      + preacherIndex + '|'
+      + decodedScores.score + '|'
+      + decodedScores.age + '|'
+      + decodedScores.aggregate;
   },
   preachers: [
     "Myles Munroe",
     "Kenneth E Hagin",
     "Bishop David Oyedepo",
-    "Lanre Ibironke",
+    "Admin",
     "Youths",
     "Jesse Duplantis",
     "Andrew Wommack",
@@ -141,8 +171,14 @@ var util = {
     "You Have the Power",
     "Principles of Male and Female Relationships",
     "The Life and Power of Words",
-    "Word Finder"]
-  
-}
+    "Word Finder",
+    "Signed Up"]
 
-module.exports = util;
+}
+// uncomment below when you want to test
+// and comment when you want to use
+// module.exports = util;
+
+// comment below when you want to test
+// and uncomment when you want to use
+export default util;
