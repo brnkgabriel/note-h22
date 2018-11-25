@@ -14,6 +14,9 @@
     </div>
     <button type="submit">Submit Form</button>
     </form>
+    <div class="scores">
+      {{ student.user_data.scores }}
+    </div>
   </div>
 </template>
 
