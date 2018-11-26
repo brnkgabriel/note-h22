@@ -10,6 +10,7 @@ var decodedScores = {
   age: '12',
   aggregate: '13.328'
 }
+
 var decodedStudent = {
   email: "brnkgabriel@gmail.com",
   first_name: "Olanrewaju",
@@ -53,6 +54,7 @@ var encodedStudent = {
     scores: "2018-11-26|101|3|0|28|0*2018-11-25|101|3|0|28|0"
   }
 }
+
 describe('util', () => {
   it('should pass this canary test', () => {
     expect(true).to.be.true;

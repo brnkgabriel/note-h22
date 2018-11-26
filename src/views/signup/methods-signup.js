@@ -23,7 +23,7 @@ var methods = {
         'user_data': {
           'birthday': this.birthday,
           'scores': initialScore,
-          'completedIndex': 0
+          'nextMessage': 0
         }
       }
       this.$store.dispatch('addStudent', dbStudent);

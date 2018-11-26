@@ -212,7 +212,6 @@ var util = {
     "The Life and Power of Words|16",
     "Word Finder|3",
     "Signed Up"]
-
 }
 // uncomment below when you want to test
 // and comment when you want to use

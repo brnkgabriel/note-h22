@@ -19,7 +19,7 @@
       <input type="text" v-model="studentScore.score" placeholder="Score"/> 
     </div>
     <div class="aggregate">
-      <input type="text" v-model="studentScore.aggregate" placeholder="Aggregate"/> 
+      <input type="text" v-model="aggregate" placeholder="Aggregate"/> 
     </div>
     <button type="submit">Submit Form</button>
     </form>
@@ -42,24 +42,28 @@ export default {
       },
       studentScore: {
         age: null,
-        aggregate: null,
         date: null,
         message: null,
         preacher: null,
-        score: null
+        aggregate: null,
+        score: 5
       }
     };
   },
   created() {
     var dbStudent = JSON.parse(localStorage.getItem("student"));
     this.student = util.decodeStudent(dbStudent);
-    this.studentScore.date = util.today.year + '-' + util.today.month + '-' + util.today.day;
-    this.studentScore.message = util.messages[parseInt(this.student.user_data.completedIndex)].split('|')[0];
+    this.studentScore.date = `${util.today.year}-${util.today.month}-${util.today.day}`;
+    var messageAndPreacherIdx = util.messages[parseInt(this.student.user_data.nextMessage)].split('|');
+    this.studentScore.message = messageAndPreacherIdx[0];
+    this.studentScore.preacher = util.preachers[parseInt(messageAndPreacherIdx[1])];
     this.studentScore.age = util.getAge(this.student.user_data.birthday, util.today);
+    this.studentScore.aggregate = parseInt(this.studentScore.score) / parseInt(this.studentScore.age);
   },
   beforeRouteEnter: beforeRouteEnter,
   methods: methods
 }
+// TODO: initiate new score only when student starts quiz
 </script>
 
 <style scoped>
