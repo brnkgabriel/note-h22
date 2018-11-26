@@ -10,7 +10,7 @@ var methods = {
     firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
     .then(credential => {
       var todayFormatted = util.today.year + '-' + util.today.month + '-' + util.today.day;
-      var dateAndMessage = todayFormatted + '|'+ (util.messages.length - 1);
+      var dateAndMessage = todayFormatted + '|0';
       var initialScore = dateAndMessage + '|3|0|' + util.getAge(this.birthday, util.today) + '|0'; 
       var dbStudent = {
         'email': this.email,

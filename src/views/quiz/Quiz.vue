@@ -54,7 +54,7 @@ export default {
     var dbStudent = JSON.parse(localStorage.getItem("student"));
     this.student = util.decodeStudent(dbStudent);
     this.studentScore.date = util.today.year + '-' + util.today.month + '-' + util.today.day;
-    this.studentScore.message = util.messages[parseInt(this.student.user_data.completedIndex)];
+    this.studentScore.message = util.messages[parseInt(this.student.user_data.completedIndex)].split('|')[0];
     this.studentScore.age = util.getAge(this.student.user_data.birthday, util.today);
   },
   beforeRouteEnter: beforeRouteEnter,
