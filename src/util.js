@@ -45,12 +45,45 @@ var util = {
       .findIndex(message => decodedScores.message === message);
     var preacherIndex = util.preachers
       .findIndex(preacher => decodedScores.preacher === preacher);
-    return decodedScores.date + '|'
-      + messageIndex + '|'
-      + preacherIndex + '|'
-      + decodedScores.score + '|'
-      + decodedScores.age + '|'
-      + decodedScores.aggregate;
+    var encodedScores = decodedScores.date + '|'
+    + messageIndex + '|'
+    + preacherIndex + '|'
+    + decodedScores.score + '|'
+    + decodedScores.age + '|'
+    + decodedScores.aggregate; 
+    return encodedScores
+  },
+  decodeStudent: function (student) {
+    var decodedStudent = student;
+    var scores = [], decodedScores = [];
+    scores = decodedStudent.user_data.scores.split("*");
+    scores.forEach(score => {
+      decodedScores.push(util.decodeScores(score));
+    });
+    decodedStudent.user_data.scores = decodedScores;
+    return decodedStudent;
+  },
+  encodeStudent: function (student) {
+    var encodedStudent = student;
+    var scores = [], codedScores = [], encodedScores = '';
+    scores = encodedStudent.user_data.scores;
+    scores.forEach(score => {
+      codedScores.push(util.codeScores(score));
+    })
+    encodedScores = codedScores.join('*')
+    return {
+      email: encodedStudent.email,
+      first_name: encodedStudent.first_name,
+      last_name: encodedStudent.last_name,
+      roles_permissions: {
+        roles: encodedStudent.roles_permissions.roles
+      },
+      uid: encodedStudent.uid,
+      user_data: {
+        birthday: encodedStudent.user_data.birthday,
+        scores: encodedScores
+      }
+    }
   },
   preachers: [
     "Myles Munroe",

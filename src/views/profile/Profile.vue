@@ -14,7 +14,7 @@
     </div>
     <button type="submit">Submit Form</button>
     </form>
-    
+    {{student.email}}
     <table class="scores">
       <thead>
         <tr>
@@ -57,20 +57,16 @@ export default {
     };
   },
   created() {
-    var localStorageStudent = JSON.parse(localStorage.getItem("student"));
-    var scores = [], decodedScores = [];
-    scores = localStorageStudent.user_data.scores.split("*");
-    scores.forEach(score => {
-      decodedScores.push(util.decodeScores(score));
-    });
-    localStorageStudent.user_data.scores = decodedScores;
-    this.student = localStorageStudent;
+    var dbStudent = JSON.parse(localStorage.getItem("student"));
+    this.student = util.decodeStudent(dbStudent);
+      console.log(this.student)
   },
   beforeRouteEnter: beforeRouteEnter,
   methods: {
     updateStudent: function(evt) {
       evt.preventDefault();
-      this.$store.dispatch("updateStudent", this.student);
+      console.log('util.encodeStudent is', util.encodeStudent(this.student));
+      this.$store.dispatch("updateStudent", util.encodeStudent(this.student));
     }
   }
 };

@@ -10,7 +10,49 @@ var decodedScores = {
   age: '12',
   aggregate: '13.328'
 }
-
+var decodedStudent = {
+  email: "brnkgabriel@gmail.com",
+  first_name: "Olanrewaju",
+  last_name: "Ibironke",
+  roles_permissions: {
+    roles: "student"
+  },
+  uid: "2Bs8P3CP1aMHXxQZ4gAJezLuzZG2",
+  user_data: {
+    birthday: "1990-10-31",
+    scores: [
+      {
+        age: "28",
+        aggregate: "0",
+        date: "2018-11-26",
+        message: "Signed Up",
+        preacher: "Admin",
+        score: "0"
+      },
+      {
+        age: "28",
+        aggregate: "0",
+        date: "2018-11-25",
+        message: "Signed Up",
+        preacher: "Admin",
+        score: "0"
+      }
+    ]
+  }
+}
+var encodedStudent = {
+  email: "brnkgabriel@gmail.com",
+  first_name: "Olanrewaju",
+  last_name: "Ibironke",
+  roles_permissions: {
+    roles: "student"
+  },
+  uid: "2Bs8P3CP1aMHXxQZ4gAJezLuzZG2",
+  user_data: {
+    birthday: "1990-10-31",
+    scores: "2018-11-26|101|3|0|28|0*2018-11-25|101|3|0|28|0"
+  }
+}
 describe('util', () => {
   it('should pass this canary test', () => {
     expect(true).to.be.true;
@@ -22,6 +64,15 @@ describe('util', () => {
 
   it('.codeScores(decodedScores) should return codedScores', () => {
     expect(util.codeScores(decodedScores)).to.be.eql(codedScores)
+  })
+
+  it('.encodeStudent(decodedStudent) should return encodedStudent', () => {
+    expect(util.encodeStudent(decodedStudent).user_data.scores).to.be.eql(encodedStudent.user_data.scores);
+    expect(util.encodeStudent(decodedStudent)).to.be.eql(encodedStudent);
+  })
+
+  it('.decodeStudent(encodedStudent) should return decodedStudent', () => {
+    expect(util.decodeStudent(encodedStudent).user_data.scores).to.be.eql(decodedStudent.user_data.scores);
   })
 })
 
