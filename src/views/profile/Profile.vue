@@ -43,6 +43,7 @@
 <script>
 import beforeRouteEnter from "./beforeRouteEnter-profile";
 import util from "../../util";
+import methods from './methods-profile'
 export default {
   data() {
     return {
@@ -59,16 +60,9 @@ export default {
   created() {
     var dbStudent = JSON.parse(localStorage.getItem("student"));
     this.student = util.decodeStudent(dbStudent);
-      console.log(this.student)
   },
   beforeRouteEnter: beforeRouteEnter,
-  methods: {
-    updateStudent: function(evt) {
-      evt.preventDefault();
-      console.log('util.encodeStudent is', util.encodeStudent(this.student));
-      this.$store.dispatch("updateStudent", util.encodeStudent(this.student));
-    }
-  }
+  methods: methods
 };
 </script>
 

@@ -9,14 +9,9 @@ var methods = {
     evt.preventDefault();
     firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
     .then(credential => {
-      var today = {
-        day: new Date().getDate(),
-        month: new Date().getMonth() + 1,
-        year: new Date().getFullYear()
-      }
-      var todayFormatted = today.year + '-' + today.month + '-' + today.day;
+      var todayFormatted = util.today.year + '-' + util.today.month + '-' + util.today.day;
       var dateAndMessage = todayFormatted + '|'+ (util.messages.length - 1);
-      var initialScore = dateAndMessage + '|3|0|' + util.getAge(this.birthday, today) + '|0'; 
+      var initialScore = dateAndMessage + '|3|0|' + util.getAge(this.birthday, util.today) + '|0'; 
       var dbStudent = {
         'email': this.email,
         'first_name': this.firstName,
@@ -27,7 +22,8 @@ var methods = {
         'uid': credential.user.uid,
         'user_data': {
           'birthday': this.birthday,
-          'scores': initialScore
+          'scores': initialScore,
+          'completedIndex': 0
         }
       }
       this.$store.dispatch('addStudent', dbStudent);
