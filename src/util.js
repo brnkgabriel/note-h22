@@ -47,11 +47,11 @@ var util = {
     var preacherIndex = util.preachers
       .findIndex(preacher => decodedScores.preacher.toLowerCase() === preacher.toLowerCase());
     var encodedScores = decodedScores.date + '|'
-    + messageIndex + '|'
-    + preacherIndex + '|'
-    + decodedScores.score + '|'
-    + decodedScores.age + '|'
-    + decodedScores.aggregate; 
+      + messageIndex + '|'
+      + preacherIndex + '|'
+      + decodedScores.score + '|'
+      + decodedScores.age + '|'
+      + decodedScores.aggregate;
     return encodedScores
   },
   decodeStudent: function (student) {
@@ -82,8 +82,9 @@ var util = {
       uid: encodedStudent.uid,
       user_data: {
         birthday: encodedStudent.user_data.birthday,
-        scores: encodedScores
-      }
+        scores: encodedScores,
+        quiz_status: student.user_data.quiz_status
+      },
     }
   },
   today: {

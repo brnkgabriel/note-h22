@@ -21,6 +21,22 @@ var decodedStudent = {
   uid: "2Bs8P3CP1aMHXxQZ4gAJezLuzZG2",
   user_data: {
     birthday: "1990-10-31",
+    quiz_status: {
+      cTab: "Worship",
+      wQAnswered: "0",
+      wQGotten: "0",
+      wQMissed: "0",
+      mQAnswered: "0",
+      mQGotten: "0",
+      mQMissed: "0",
+      sTyped: "0",
+      sWordsTyped: "",
+      sGotten: "0",
+      sMissed: "0",
+      tPoints: "0",
+      aggregate: "0",
+      lastQuizIndex: "0"
+    },
     scores: [
       {
         age: "28",
@@ -51,7 +67,23 @@ var encodedStudent = {
   uid: "2Bs8P3CP1aMHXxQZ4gAJezLuzZG2",
   user_data: {
     birthday: "1990-10-31",
-    scores: "2018-11-26|101|3|0|28|0*2018-11-25|101|3|0|28|0"
+    scores: "2018-11-26|101|3|0|28|0*2018-11-25|101|3|0|28|0",
+    quiz_status: {
+      cTab: "Worship",
+      wQAnswered: "0",
+      wQGotten: "0",
+      wQMissed: "0",
+      mQAnswered: "0",
+      mQGotten: "0",
+      mQMissed: "0",
+      sTyped: "0",
+      sWordsTyped: "",
+      sGotten: "0",
+      sMissed: "0",
+      tPoints: "0",
+      aggregate: "0",
+      lastQuizIndex: "0"
+    }
   }
 }
 
