@@ -10,6 +10,9 @@
       <li v-if="isLoggedIn">
         <router-link to="/quiz">Quiz</router-link>
       </li>
+      <li v-if="isLoggedIn && student.roles_permissions.roles === 'admin'">
+        <router-link to="/questions">Questions</router-link>
+      </li>
       <li v-if="isLoggedIn">
         <router-link to="/rank">Rank</router-link>
       </li> 
@@ -37,13 +40,16 @@ export default {
   name: "navbar",
   data() {
     return {
-      isLoggedIn: false 
+      isLoggedIn: false,
+      student: null
     }
   },
   created() {
+    this.student = JSON.parse(localStorage.getItem('student'))
     this.isLoggedIn = !!localStorage.getItem('student');
-    bus.$on('isLoggedIn', (flag) => {
-      this.isLoggedIn = flag;
+    bus.$on('isLoggedIn', (student) => {
+      this.isLoggedIn = !!student;
+      this.student = student;
     })
   },
   methods: {

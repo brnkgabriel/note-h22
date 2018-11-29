@@ -5,6 +5,7 @@ import About from './views/About.vue'
 import Profile from './views/profile/Profile.vue'
 import Quiz from './views/quiz/Quiz.vue'
 import Rank from './views/rank/Rank.vue'
+import Questions from './views/questions/Questions.vue'
 import Login from './views/login/Login.vue'
 import Signup from './views/signup/Signup.vue'
 
@@ -46,6 +47,14 @@ let router = new Router({
       path: '/quiz',
       name: 'quiz',
       component: Quiz,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/questions',
+      name: 'questions',
+      component: Questions,
       meta: {
         requiresAuth: true
       }

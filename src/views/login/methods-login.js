@@ -13,7 +13,7 @@ var methods = {
   },
   checkStudent: function() {
     if (this.$store.state.student) {
-      bus.$emit('isLoggedIn', true);
+      bus.$emit('isLoggedIn', this.$store.state.student);
       this.$router.push("/profile");
       clearInterval(this.delayToCompleteProcessing);
     }
