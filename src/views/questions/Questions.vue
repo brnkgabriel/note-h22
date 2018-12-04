@@ -1,5 +1,5 @@
 <template>
-  <div class="questions">
+  <div class="questions" v-if="selectedQuestion">
     <question :question="selectedQuestion" />
     <ul class="question-list">
       <li
@@ -17,6 +17,7 @@
 
 <script>
 import Question from "./question/Question.vue";
+import { bus } from '../../main'
 export default {
   components: {
     Question
@@ -24,46 +25,30 @@ export default {
   data() {
     return {
       selectedQuestion: null,
-      questions: [
-        {
-          serial: 0,
-          stage: 0,
-          question: "#?",
-          options: [],
-          option: {
-            key: "#",
-            value: "#",
-            pts: 0
-          },
-          answer: null,
-          type: "#"
-        },
-        {
-          serial: 1,
-          img: '',
-          stage: 0,
-          question: "#?",
-          options: [],
-          option: {
-            key: "#",
-            value: "#",
-            pts: 0
-          },
-          answer: null,
-          type: "#"
-        }
-      ]
+      questions: [],
+      delayToCompleteProcessing: null
     };
   },
   created() {
-    this.selectedQuestion = this.questions[0];
+    bus.$on('incomingQuestions', () => {
+      this.questions = JSON.parse(localStorage.getItem('questions'));
+    })
+    this.delayToCompleteProcessing = setInterval(this.checkQuestions, 10);
   },
   methods: {
+    checkQuestions: function() {
+      console.log('questions-checking');
+      if (this.$store.state.questions) {
+        this.questions = JSON.parse(localStorage.getItem('questions'));
+        this.selectedQuestion = this.questions[0];
+        clearInterval(this.delayToCompleteProcessing);
+      }
+    },
     selectQuestion(question) {
       this.selectedQuestion = question;
     },
     saveQuestions() {
-      console.log('questions are', this.questions);
+      console.log("questions are", this.questions);
     }
   }
 };

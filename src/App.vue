@@ -13,6 +13,7 @@ export default {
   },
   created() {
     this.$store.dispatch('getStudents');
+    this.$store.dispatch('getQuestions')
   }
 }
 </script>

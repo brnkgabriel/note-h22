@@ -9,7 +9,7 @@
         <label for="stage">Stage</label>
         <input type="number" v-model="question.stage" id="stage"/>
       </div>
-      <div v-if="question.img !== undefined">
+      <div v-if="question.img !== ''">
         <label for="image">Image</label>
         <input type="file" name="image" id="image" accept="image/*">
         <input type="submit">

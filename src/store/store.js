@@ -2,17 +2,25 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import db from '../firebase/firebase-init'
 import 'firebase/auth';
+import { bus } from '../main'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     students: null,
+    questions: null,
     student: null
   },
   mutations: {
     setStudents(state, payload) {
       state.students = payload
+    },
+    setQuestions(state, payload) {
+      // console.log('changed with', payload[0]);
+      localStorage.setItem('questions', JSON.stringify(payload));
+      bus.$emit('incomingQuestions');
+      state.questions = payload;
     },
     setStudent(state, payload) {
       localStorage.setItem('student', JSON.stringify(payload));
@@ -40,6 +48,26 @@ export default new Vuex.Store({
             dbStudents.push(student);
           })
           context.commit('setStudents', dbStudents);
+        })
+    },
+    getQuestions(context) {
+      db.collection('questions')
+        .onSnapshot(snapshot => {
+          var dbQuestions = [];
+          snapshot.forEach(doc => {
+            const question = {
+              'serial': doc.data().serial,
+              'stage': doc.data().stage,
+              'img': doc.data().img,
+              'question': doc.data().question,
+              'options': doc.data().options,
+              'option': doc.data().option,
+              'answer': doc.data().answer,
+              'type': doc.data().type
+            }
+            dbQuestions.push(question);
+          })
+          context.commit('setQuestions', dbQuestions);
         })
     },
     getStudent(context, payload) {
@@ -73,6 +101,11 @@ export default new Vuex.Store({
       .then(() => console.log('document successfully updated'))
       .catch(err => console.log(err));
       context.commit('setStudent', payload);
+    }
+  },
+  getters: {
+    getStudent(state) {
+      return state.students;
     }
   }
 })
