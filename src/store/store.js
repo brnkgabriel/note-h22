@@ -18,7 +18,7 @@ export default new Vuex.Store({
     },
     setQuestions(state, payload) {
       localStorage.setItem('questions', JSON.stringify(payload));
-      bus.$emit('incomingQuestions');
+      // bus.$emit('incomingQuestions');
       state.questions = payload;
     },
     setStudent(state, payload) {
@@ -102,7 +102,8 @@ export default new Vuex.Store({
       .catch(err => console.log(err));
       context.commit('setStudent', payload);
     },
-    storeQuestions(context, payload) { 
+    storeQuestions(context, payload) {
+      localStorage.setItem('questions', JSON.stringify(payload))
       var batch = db.batch();
       for (var i = 0; i < payload.length; i++) {
         var ref = db.collection("questions").doc(payload[i].uid);

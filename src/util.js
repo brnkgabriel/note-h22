@@ -1,4 +1,17 @@
+import { bus } from './main'
+import store from './store/store';
+
 var util = {
+  delayTillArrival: null,
+  handleIncomingEvent: function () {
+    var CheckQuestions = function () {
+      if (store.state.questions) {
+        bus.$emit('incomingQuestions', JSON.parse(localStorage.getItem('questions')));
+        clearInterval(util.delayTillArrival);
+      }
+    }
+    util.delayTillArrival = setInterval(CheckQuestions, 10);
+  },
   getAge: function (birthday, today) {
     var bday = util.getBirthdayObject(birthday);
     return util.compareAndReturnRightAge(today, bday);

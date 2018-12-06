@@ -19,6 +19,7 @@
 <script>
 import Question from "./question/Question.vue";
 import { bus } from '../../main'
+import util from '../../util';
 export default {
   components: {
     Question
@@ -31,28 +32,22 @@ export default {
     };
   },
   created() {
-    bus.$on('incomingQuestions', () => {
-      this.questions = JSON.parse(localStorage.getItem('questions'));
+    util.handleIncomingEvent();
+    bus.$on('incomingQuestions', (questions) => {
+      this.questions = questions;
+      this.selectedQuestion = this.questions[0];
     })
-    this.delayToCompleteProcessing = setInterval(this.checkQuestions, 10);
   },
   methods: {
-    checkQuestions: function() {
-      if (this.$store.state.questions) {
-        this.questions = JSON.parse(localStorage.getItem('questions'));
-        this.selectedQuestion = this.questions[0];
-        clearInterval(this.delayToCompleteProcessing);
-      }
-    },
     selectQuestion(question) {
       this.selectedQuestion = question;
     },
     saveQuestions() {
-      this.selectedQuestion.uid = 'question-' + (this.questions.length + 1);
       this.$store.dispatch('storeQuestions', this.questions);
     },
     addQuestion() {
       var newQuestion = {
+        uid: 'question-' + +new Date,
         serial: 0,
         stage: 0,
         img: '',
@@ -66,8 +61,8 @@ export default {
         answer: null,
         type: ''
       }
-      this.questions.push(newQuestion)
       this.selectedQuestion = newQuestion;
+      this.questions.push(this.selectedQuestion)
     }
   }
 };
