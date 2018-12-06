@@ -17,7 +17,6 @@ export default new Vuex.Store({
       state.students = payload
     },
     setQuestions(state, payload) {
-      // console.log('changed with', payload[0]);
       localStorage.setItem('questions', JSON.stringify(payload));
       bus.$emit('incomingQuestions');
       state.questions = payload;
@@ -56,6 +55,7 @@ export default new Vuex.Store({
           var dbQuestions = [];
           snapshot.forEach(doc => {
             const question = {
+              'uid': doc.data().uid,
               'serial': doc.data().serial,
               'stage': doc.data().stage,
               'img': doc.data().img,
@@ -101,6 +101,17 @@ export default new Vuex.Store({
       .then(() => console.log('document successfully updated'))
       .catch(err => console.log(err));
       context.commit('setStudent', payload);
+    },
+    storeQuestions(context, payload) { 
+      var batch = db.batch();
+      for (var i = 0; i < payload.length; i++) {
+        var ref = db.collection("questions").doc(payload[i].uid);
+        batch.set(ref, payload[i]);
+        console.log(payload[i]);
+      }
+      batch.commit().then(function () {
+        console.log('committed')
+      })
     }
   },
   getters: {
