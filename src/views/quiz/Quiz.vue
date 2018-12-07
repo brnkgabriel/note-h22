@@ -24,6 +24,7 @@ export default {
     return {
       student: null,
       questions: [],
+      responses: []
     };
   },
   created() {

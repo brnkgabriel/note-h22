@@ -53,11 +53,6 @@ export default {
         img: '',
         question: 'Enter Question...',
         options: [],
-        option: {
-          key: '',
-          value: '',
-          pts: 0
-        },
         answer: null,
         type: ''
       }

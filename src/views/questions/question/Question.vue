@@ -20,8 +20,8 @@
       </div>
       <div>
         <label for="option">Options</label>
-        <input type="text" id="option" v-model="question.option.value" />
-        <input type="number" name="pts" v-model="question.option.pts" />
+        <input type="text" id="option" v-model="option.value" />
+        <input type="number" name="pts" v-model="option.pts" />
         <button @click="storeOption">Store Option</button>
       </div>
       <ul>
@@ -54,35 +54,29 @@
 </template>
 
 <script>
+import util from "../../../util";
 export default {
-  props: ['question'],
+  props: ["question"],
   data() {
     return {
-      types: [
-        'worship',
-        'message',
-        'bible',
-        'books',
-        'picture'
-      ]
-    }
-  },
-  computed: {
-    id: function () {
-      console.log('hello')
-      return this.question.serial + '|' + this.question.stage
-    }
+      types: util.questionTypes,
+      option: {
+        key: "#",
+        value: "#",
+        pts: 0
+      }
+    };
   },
   methods: {
     storeOption(evt) {
       evt.preventDefault();
-      var optionValue = this.question.option.value.split(' ').join('-')
+      var optionValue = this.option.value.split(" ").join("-");
       console.log(optionValue);
       this.question.options.push({
         key: optionValue.toLowerCase(),
-        value: this.question.option.value,
-        pts: this.question.option.pts
-      })
+        value: this.option.value,
+        pts: this.option.pts
+      });
     },
     selectAnswer(value) {
       this.question.answer = value;
@@ -90,8 +84,8 @@ export default {
     deleteOption(option) {
       this.question.options = this.question.options.filter(opt => {
         return opt.key != option.key;
-      })
+      });
     }
   }
-}
+};
 </script>

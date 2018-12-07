@@ -5,7 +5,31 @@ Question types:
 . Multiple Choice Questions-Drag in to the center gift box for Worship and Message
 . Typing books
 
-
+var responses = [
+  {
+    type: 'worship',
+    responses: [],
+    totalPoints: 1450
+  }
+]
+uid|serial|stage|question|type|option.value|option.pts
+question-1544106119844|1|1|option.value|10
+lastQuestion
+var newQuestion = {
+  uid: 'question-#',
+  serial: 0,
+  stage: 0,
+  img: '',
+  question: 'Enter Question...',
+  options: [],
+  option: {
+    key: '',
+    value: '',
+    pts: 0
+  },
+  answer: null,
+  type: ''
+}
 var question = {
   id: '#|#',
   img: '',
@@ -27,6 +51,8 @@ worship
 var question = {
   id: '1|1',
   img: '',
+  serial: 0,
+  stage: 0,
   question: 'What is the solid rating?',
   options: [
     {key: 'solid',  value: 'Solid', pts: 10},
@@ -43,6 +69,8 @@ message
 var question = {
   id: '1|1',
   img: '',
+  serial: 0,
+  stage: 0,
   question: 'What is the solid rating?',
   options: [
     {key: 'solid',  value: 'Solid', pts: 10},
@@ -59,6 +87,8 @@ bible
 var question = {
   id: '1|1',
   img: '',
+  serial: 0,
+  stage: 0,
   question: 'In the beginning God created the heaven and the earth',
   options: [
     {key: 'gen-1v1',  value: 'In the beginning God Created the heavens and the earth', pts: value.wordCount}
@@ -72,6 +102,8 @@ books
 var question = {
   id: '1|1',
   img: '',
+  serial: 0,
+  stage: 0,
   question: 'In the beginning God created the heaven and the earth',
   options: [
     {key: 'cha-1p1',  value: 'Exploits of Faith', pts: value.wordCount}
@@ -86,6 +118,8 @@ illustrations
 var question = {
   id: '1|1',
   img: 'sfs.jpg',
+  serial: 0,
+  stage: 0,
   question: 'What is the circled word?',
   options: [
     {key: 'sfs',  value: 'Science Falsely So-Called', pts: 10},
