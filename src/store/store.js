@@ -18,7 +18,7 @@ export default new Vuex.Store({
     },
     setQuestions(state, payload) {
       localStorage.setItem('questions', JSON.stringify(payload));
-      // bus.$emit('incomingQuestions');
+      bus.$emit('incomingQuestions', payload);
       state.questions = payload;
     },
     setStudent(state, payload) {

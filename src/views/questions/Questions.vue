@@ -32,7 +32,7 @@ export default {
     };
   },
   created() {
-    util.handleIncomingEvent();
+    util.fetchQuestions();
     bus.$on('incomingQuestions', (questions) => {
       this.questions = questions;
       this.selectedQuestion = this.questions[0];
