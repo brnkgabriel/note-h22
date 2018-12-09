@@ -1,5 +1,6 @@
 var expect = require('chai').expect;
 var util = require('../src/util');
+var quizData = require('./data')
 
 var codedScores = '2018-02-23|87|13|160|12|13.328';
 var decodedScores = {
@@ -164,5 +165,11 @@ describe('util', () => {
       year: 2018
     };
     expect(util.getAge(birthday, today)).to.be.eql(28)
+  })
+})
+
+describe('util.getScores', () => {
+  it('should return quizData.formatExpectation for quizData.responses', () => {
+    expect(util.getScores(quizData.responses, quizData.questions)).to.be.eql(10);
   })
 })

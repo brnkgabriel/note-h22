@@ -4,7 +4,36 @@ import store from './store/store';
 var mapData = require('./map-data');
 
 var util = {
-  questionTypes: mapData.questionTypes,
+  getScores: function (responses, questions) {
+    var scores = 0; 
+    for (var i = 0; i < responses.length; i++) {
+      var response = responses[i].split('|');
+      var foundQuestion = questions
+      .find(question => question.uid === response[0])
+
+      if (foundQuestion) {
+        scores += util.obtainScore(foundQuestion, response[1]); 
+        break;
+      }
+    }
+    return scores;
+  },
+  obtainScore: function (foundQuestion, studentAnswer) {
+    var score = foundQuestion.options
+    .find(option => option.key === studentAnswer);
+
+    if (score !== undefined) { return parseInt(score.pts); }
+    else { return 0; }
+  },
+  fetchMaterials: function () { 
+    var CheckMaterials = function () {
+      if (store.state.materials) {
+        bus.$emit('incomingMaterials', JSON.parse(localStorage.getItem('materials')));
+        clearInterval(delayTillArrival)
+      }
+    }
+    var delayTillArrival = setInterval(CheckMaterials, 10);
+  },
   fetchQuestions: function () {
     var CheckQuestions = function () {
       if (store.state.questions) {
@@ -103,6 +132,7 @@ var util = {
     month: new Date().getMonth() + 1,
     year: new Date().getFullYear()
   },
+  questionTypes: mapData.questionTypes,
   preachers: mapData.preachers,
   messages: mapData.messages
 }

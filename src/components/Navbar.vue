@@ -13,6 +13,9 @@
       <li v-if="isLoggedIn && student.roles_permissions.roles === 'admin'">
         <router-link to="/questions">Questions</router-link>
       </li>
+      <li v-if="isLoggedIn && student.roles_permissions.roles === 'admin'">
+        <router-link to="/excel2json">Excel2Json</router-link>
+      </li>
       <li v-if="isLoggedIn">
         <router-link to="/rank">Rank</router-link>
       </li> 

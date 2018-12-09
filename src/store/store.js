@@ -9,12 +9,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     students: null,
+    materials: null,
     questions: null,
     student: null
   },
   mutations: {
     setStudents(state, payload) {
       state.students = payload
+    },
+    setMaterials(state, payload) {
+      localStorage.setItem('materials', JSON.stringify(payload));
+      bus.$emit('incomingMaterials', payload);
+      state.materials = payload;
     },
     setQuestions(state, payload) {
       localStorage.setItem('questions', JSON.stringify(payload));
@@ -48,6 +54,26 @@ export default new Vuex.Store({
           })
           context.commit('setStudents', dbStudents);
         })
+    },
+    getMaterials(context) {
+      db.collection('materials')
+      .onSnapshot(snapshot => {
+        var dbMaterials = [];
+        snapshot.forEach(doc => {
+          const material = {
+            'author': doc.data().author,
+            'location': doc.data().location,
+            'questions': doc.data().questions,
+            'stage': doc.data().stage,
+            'title': doc.data().title,
+            'type': doc.data().type,
+            'uid': doc.data().uid
+          }
+          dbMaterials.push(material)
+        })
+
+        context.commit('setMaterials', dbMaterials);
+      })
     },
     getQuestions(context) {
       db.collection('questions')
@@ -101,6 +127,12 @@ export default new Vuex.Store({
       .then(() => console.log('document successfully updated'))
       .catch(err => console.log(err));
       context.commit('setStudent', payload);
+    },
+    saveMaterial(context, payload) {
+      db.collection('materials')
+      .doc(payload.uid).update(payload)
+      .then(() => console.log('document successfully updated'))
+      .catch(err => console.log(err));
     },
     storeQuestions(context, payload) {
       localStorage.setItem('questions', JSON.stringify(payload))

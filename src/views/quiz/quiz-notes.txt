@@ -1,5 +1,25 @@
 Nov 27, 2018
 ------------
+
+worship
+message
+bible
+books
+image
+
+var questionMaterial = 
+  {
+    "title": "in the beginning",
+    "uid": 'material-xxxx',
+    "location": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/fn-wEOpPsMo\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>",
+    "author": "superbook",
+    "type": "message",
+    "stage": "one",
+    "questions": [
+
+    ]
+  }
+
 Question types:
 . Find the Word in Pace and Ramsay's Cartoon Pictures.
 . Multiple Choice Questions-Drag in to the center gift box for Worship and Message
@@ -13,7 +33,7 @@ var responses = [
   }
 ]
 uid|serial|stage|question|type|option.value|option.pts
-question-1544106119844|1|1|option.value|10
+question-1544106119844|option.value
 lastQuestion
 var newQuestion = {
   uid: 'question-#',

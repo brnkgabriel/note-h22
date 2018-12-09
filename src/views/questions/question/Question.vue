@@ -1,14 +1,6 @@
 <template>
   <div class="question">
     <form>
-      <div>
-        <label for="serial">Serial #</label>
-        <input type="number" v-model="question.serial" id="serial"/>
-      </div>
-      <div>
-        <label for="stage">Stage</label>
-        <input type="number" v-model="question.stage" id="stage"/>
-      </div>
       <div v-if="question.img !== ''">
         <label for="image">Image</label>
         <input type="file" name="image" id="image" accept="image/*">
@@ -25,30 +17,10 @@
         <button @click="storeOption">Store Option</button>
       </div>
       <ul>
-        <li v-for="(option, index) in question.options" :key="index">
-          <button @click.prevent="selectAnswer(option)">{{ option.value }} ({{ option.pts }})</button> <button @click.prevent="deleteOption(option)">x</button>
+        <li v-for="(option, index) in question.options" :key="index" :class="answer(option)">
+          <button @click.prevent="0">{{ option.value }} ({{ option.pts }})</button> <button @click.prevent="deleteOption(option)">x</button>
         </li>
-      </ul> 
-      <div>
-        <label for="answer">Answer is: </label><span>{{question.answer}}</span>
-      </div>
-      <div>
-        <label for="type">Type: </label>
-        <select v-model="question.type">
-          <option v-for="(type, index) in types" :key="index">{{type}}</option>
-        </select>
-      </div>
-      <div id="preview">
-        <h3>Preview Question</h3>
-        <p>Id is: {{question.id}}</p>
-        <p>Question is: {{question.question}}</p>
-        <p>Options:</p>
-        <ul>
-          <li v-for="(option, index) in question.options" :key="index">{{option}}</li>
-        </ul>
-        <p>Answer is: {{question.answer}}</p>
-        <p>Type is: {{question.type}}</p>
-      </div>
+      </ul>
     </form>
   </div>
 </template>
@@ -68,6 +40,9 @@ export default {
     };
   },
   methods: {
+    answer: function (option) {
+      return parseInt(option.pts) > 0 ? 'answer' : '';
+    },
     storeOption(evt) {
       evt.preventDefault();
       var optionValue = this.option.value.split(" ").join("-");
@@ -78,9 +53,6 @@ export default {
         pts: this.option.pts
       });
     },
-    selectAnswer(value) {
-      this.question.answer = value;
-    },
     deleteOption(option) {
       this.question.options = this.question.options.filter(opt => {
         return opt.key != option.key;
@@ -89,3 +61,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.answer {
+  background-color: green;
+}
+</style>
