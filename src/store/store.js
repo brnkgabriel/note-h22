@@ -134,6 +134,12 @@ export default new Vuex.Store({
       .then(() => console.log('document successfully updated'))
       .catch(err => console.log(err));
     },
+    addMaterial(context, payload) {
+      db.collection("materials")
+      .doc(payload.uid).set(payload).then(function () {
+        console.log(payload.title, 'successfully written!')
+      })
+    },
     storeQuestions(context, payload) {
       localStorage.setItem('questions', JSON.stringify(payload))
       var batch = db.batch();

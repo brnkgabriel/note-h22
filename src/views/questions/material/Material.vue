@@ -1,5 +1,6 @@
 <template>
-  <div id="excel">
+  <div id="material">
+    <h3>Add Material</h3>
     <div> 
       <label for="title">title</label>
       <input id="title" v-model="title"/>
@@ -14,15 +15,15 @@
     </div>
     <div>
       <label for="type">Type</label>
-      <select @change="whatIsType()" v-model="type">
-        <option v-for="(type, index) in types" :key="index">{{type}}</option>
+      <select v-model="type">
+        <option v-for="(type, index) in types" :key="index" :value="type">{{type}}</option>
       </select>
     </div>
     <div>
       <label for="stage">Stage</label>
       <input id="stage" v-model="stage"/>
     </div>
-    <button @click="addMaterial">Add</button>
+    <button @click="addMaterial">Add Material</button>
   </div>
 </template>
 
@@ -40,9 +41,6 @@ export default {
     };
   },
   methods: {
-    whatIsType() {
-      console.log('type is', this.type)
-    },
     addMaterial() {
       var material = {
         author: this.author,

@@ -1,11 +1,6 @@
 <template>
   <div class="question">
     <form>
-      <div v-if="question.img !== ''">
-        <label for="image">Image</label>
-        <input type="file" name="image" id="image" accept="image/*">
-        <input type="submit">
-      </div>
       <div>
         <label for="question">Question</label>
         <textarea id="question" cols="30" rows="10" v-model="question.question"></textarea>

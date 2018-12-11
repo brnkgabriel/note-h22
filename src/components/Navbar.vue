@@ -13,9 +13,6 @@
       <li v-if="isLoggedIn && student.roles_permissions.roles === 'admin'">
         <router-link to="/questions">Questions</router-link>
       </li>
-      <li v-if="isLoggedIn && student.roles_permissions.roles === 'admin'">
-        <router-link to="/excel2json">Excel2Json</router-link>
-      </li>
       <li v-if="isLoggedIn">
         <router-link to="/rank">Rank</router-link>
       </li> 
@@ -69,6 +66,16 @@ export default {
 </script>
 
 <style scoped>
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+  display: inline-block;
+  margin: 0px 5px;
+}
+
 #navbar {
   padding: 30px;
 }

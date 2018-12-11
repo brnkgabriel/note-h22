@@ -9,9 +9,7 @@ var methods = {
     evt.preventDefault();
     firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
     .then(credential => {
-      var todayFormatted = util.today.year + '-' + util.today.month + '-' + util.today.day;
-      var dateAndMessage = todayFormatted + '|0';
-      var initialScore = dateAndMessage + '|3|0|' + util.getAge(this.birthday, util.today) + '|0';
+      var today = util.today.year + '-' + util.today.month + '-' + util.today.day;
       var dbStudent = {
         'email': this.email,
         'first_name': this.firstName,
@@ -21,24 +19,10 @@ var methods = {
         },
         'uid': credential.user.uid,
         'user_data': {
+          'nextQuiz': 0,
           'birthday': this.birthday,
-          'scores': initialScore, 
-          'quiz_status': {
-            'cTab': "Worship",
-            'wQAnswered': "0",
-            'wQGotten': "0",
-            'wQMissed': "0",
-            'mQAnswered': "0",
-            'mQGotten': "0",
-            'mQMissed': "0",
-            'sTyped': "0",
-            'sWordsTyped': "",
-            'sGotten': "0",
-            'sMissed': "0",
-            'tPoints': "0",
-            'aggregate': "0",
-            'lastQuizIndex': "0"
-          }
+          'scores': today + '@0', 
+          'quiz_status': today + '@0'
         }
       }
       this.$store.dispatch('addStudent', dbStudent);
@@ -47,7 +31,8 @@ var methods = {
   },
   checkStudent: function () {
     if (this.$store.state.student) {
-      bus.$emit('isLoggedIn', true);
+      console.log('student role', this.$store.state.student.roles_permissions.roles)
+      bus.$emit('isLoggedIn', this.$store.state.student);
       this.$router.push("/profile");
       clearInterval(this.delayToCompleteProcessing);
     }

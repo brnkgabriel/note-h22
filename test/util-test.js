@@ -2,14 +2,10 @@ var expect = require('chai').expect;
 var util = require('../src/util');
 var quizData = require('./data')
 
-var codedScores = '2018-02-23|87|13|160|12|13.328';
-var decodedScores = {
-  date: '2018-02-23',
-  message: "The Pilgrim's Progress",
-  preacher: 'John Bunyan',
-  score: '160',
-  age: '12',
-  aggregate: '13.328'
+var codedScore = '2018-12-10@0';
+var decodedScore = {
+  date: '2018-12-10',
+  quizNo: '0',
 }
 
 var decodedStudent = {
@@ -23,37 +19,17 @@ var decodedStudent = {
   user_data: {
     birthday: "1990-10-31",
     quiz_status: {
-      cTab: "Worship",
-      wQAnswered: "0",
-      wQGotten: "0",
-      wQMissed: "0",
-      mQAnswered: "0",
-      mQGotten: "0",
-      mQMissed: "0",
-      sTyped: "0",
-      sWordsTyped: "",
-      sGotten: "0",
-      sMissed: "0",
-      tPoints: "0",
-      aggregate: "0",
-      lastQuizIndex: "0"
+      date: '2018-12-11',
+      quizNo: '1',
     },
     scores: [
       {
-        age: "28",
-        aggregate: "0",
-        date: "2018-11-26",
-        message: "Signed Up",
-        preacher: "Admin",
-        score: "0"
+        date: '2018-12-10',
+        quizNo: '0',
       },
       {
-        age: "28",
-        aggregate: "0",
-        date: "2018-11-25",
-        message: "Signed Up",
-        preacher: "Admin",
-        score: "0"
+        date: '2018-12-11',
+        quizNo: '1',
       }
     ]
   }
@@ -68,23 +44,8 @@ var encodedStudent = {
   uid: "2Bs8P3CP1aMHXxQZ4gAJezLuzZG2",
   user_data: {
     birthday: "1990-10-31",
-    scores: "2018-11-26|101|3|0|28|0*2018-11-25|101|3|0|28|0",
-    quiz_status: {
-      cTab: "Worship",
-      wQAnswered: "0",
-      wQGotten: "0",
-      wQMissed: "0",
-      mQAnswered: "0",
-      mQGotten: "0",
-      mQMissed: "0",
-      sTyped: "0",
-      sWordsTyped: "",
-      sGotten: "0",
-      sMissed: "0",
-      tPoints: "0",
-      aggregate: "0",
-      lastQuizIndex: "0"
-    }
+    scores: '2018-12-10@0*2018-12-11@1',
+    quiz_status: '2018-12-11@1'
   }
 }
 
@@ -94,20 +55,20 @@ describe('util', () => {
   })
 
   it('.decodeScores(codedScores) should return decodedScores', () => {
-    expect(util.decodeScores(codedScores)).to.be.eql(decodedScores)
+    expect(util.decodeScore(codedScore, quizData.materials)).to.be.eql(decodedScore)
   })
 
   it('.codeScores(decodedScores) should return codedScores', () => {
-    expect(util.codeScores(decodedScores)).to.be.eql(codedScores)
+    expect(util.encodeScore(decodedScore)).to.be.eql(codedScore)
+  })
+
+  it('.decodeScores(encodedScores) should return decodedStudent', () => {
+    expect(util.decodeScores(encodedStudent.user_data.scores, quizData.materials)).to.be
+      .eql(decodedStudent.user_data.scores);
   })
 
   it('.encodeStudent(decodedStudent) should return encodedStudent', () => {
-    expect(util.encodeStudent(decodedStudent).user_data.scores).to.be.eql(encodedStudent.user_data.scores);
-    expect(util.encodeStudent(decodedStudent)).to.be.eql(encodedStudent);
-  })
-
-  it('.decodeStudent(encodedStudent) should return decodedStudent', () => {
-    expect(util.decodeStudent(encodedStudent).user_data.scores).to.be.eql(decodedStudent.user_data.scores);
+    expect(util.encodeScores(decodedStudent.user_data.scores)).to.be.eql(encodedStudent.user_data.scores);
   })
 })
 
@@ -171,5 +132,17 @@ describe('util', () => {
 describe('util.getScores', () => {
   it('should return quizData.formatExpectation for quizData.responses', () => {
     expect(util.getScores(quizData.responses, quizData.questions)).to.be.eql(10);
+  })
+})
+
+describe('util.compressResponse', () => {
+  it('should compress quizData.expandedResponse', () => {
+    expect(util.compressResponse(quizData.expandedResponse)).to.be.eql(quizData.compressedResponse)
+  })
+})
+
+describe('util.expandResponse', () => {
+  it('should expand quizData.compressedResponse', () => {
+    expect(util.expandResponse(quizData.compressedResponse, quizData.materials)).to.be.eql(quizData.expandedResponse)
   })
 })

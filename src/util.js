@@ -1,9 +1,17 @@
-import { bus } from './main'
-import store from './store/store'; 
+// import { bus } from './main'
+// import store from './store/store'; 
 // Comment the above when you want to run test
 var mapData = require('./map-data');
 
 var util = {
+  processQuizType: function (type, response) {
+    var processedType = '|' + response[type]['id'];
+    response[type]['missed'].forEach(item => {
+      processedType += ';' + item;
+    });
+    processedType += ';' + response[type]['stopped'];
+    return processedType;
+  },
   getScores: function (responses, questions) {
     var scores = 0; 
     for (var i = 0; i < responses.length; i++) {
@@ -71,75 +79,79 @@ var util = {
       year: parseInt(bdayArray[2])
     }
   },
-  decodeScores: function (codedScores) {
-    var codedArray = codedScores.split('|');
-    var extractedMsg = util.messages[parseInt(codedArray[1])]
-    return {
-      date: codedArray[0],
-      message: extractedMsg.split('|')[0],
-      preacher: util.preachers[parseInt(codedArray[2])],
-      score: codedArray[3],
-      age: codedArray[4],
-      aggregate: codedArray[5]
+  expandResponse: function (response, materials) {
+    var splittedResponse = response.split('|');
+    var dateAndQuizNo = splittedResponse[0].split('@');
+    var quizzes = splittedResponse
+    .filter(response => response !== splittedResponse[0]);
+    var expandedResponse = {
+      date: dateAndQuizNo[0],
+      quizNo: dateAndQuizNo[1]
+    }
+    util.addQuizzes(quizzes, expandedResponse, materials);
+    return expandedResponse
+  },
+  addQuizzes: function (quizzes, expandedResponse, materials) {
+    for (var i = 0; i < quizzes.length; i++) {
+      var splitted = quizzes[i].split(';');
+      var id = splitted[0];
+      var stopped = splitted[splitted.length - 1];
+      var missed = [];
+      for (var j = 1; j < splitted.length-1; j++) {
+        missed.push(splitted[j]);
+      }
+      // made use of destructuring below
+      expandedResponse[util.getType(id, materials)] = {
+        id, stopped, missed
+      }
     }
   },
-  codeScores: function (decodedScores) {
-    var messageIndex = util.messages
-      .findIndex(message => decodedScores.message.toLowerCase() === message.split('|')[0].toLowerCase());
-    var preacherIndex = util.preachers
-      .findIndex(preacher => decodedScores.preacher.toLowerCase() === preacher.toLowerCase());
-    var encodedScores = decodedScores.date + '|'
-      + messageIndex + '|'
-      + preacherIndex + '|'
-      + decodedScores.score + '|'
-      + decodedScores.age + '|'
-      + decodedScores.aggregate;
-    return encodedScores
+  getType: function (id, materials) {
+    var foundMaterial = materials.find(mat => mat.uid === id);
+    return foundMaterial.type;
   },
-  decodeStudent: function (student) {
-    var decodedStudent = student;
-    var scores = [], decodedScores = [];
-    scores = decodedStudent.user_data.scores.split("*");
-    scores.forEach(score => decodedScores.push(util.decodeScores(score)));
-    decodedStudent.user_data.scores = decodedScores;
-    return decodedStudent;
-  },
-  encodeStudent: function (student) {
-    var encodedStudent = student;
-    var scores = [], codedScores = [], encodedScores = '';
-    scores = encodedStudent.user_data.scores;
-    scores.forEach(score => {
-      codedScores.push(util.codeScores(score));
+  compressResponse: function (response) {
+    var compressedResponse = response['date'] + '@' + response['quizNo'];
+    util.quizTypes.forEach(type => {
+      if (response[type]) {
+        compressedResponse += util.processQuizType(type, response);
+      }
     })
-    encodedScores = codedScores.join('*')
-    return {
-      email: encodedStudent.email,
-      first_name: encodedStudent.first_name,
-      last_name: encodedStudent.last_name,
-      roles_permissions: {
-        roles: encodedStudent.roles_permissions.roles
-      },
-      uid: encodedStudent.uid,
-      user_data: {
-        birthday: encodedStudent.user_data.birthday,
-        scores: encodedScores,
-        quiz_status: student.user_data.quiz_status
-      },
+    return compressedResponse;
+  },
+  decodeScore: function (codedScore, materials) {
+    return util.expandResponse(codedScore, materials);
+  },
+  encodeScore: function (decodedScore) {
+    return util.compressResponse(decodedScore);
+  },
+  decodeScores: function (scores, materials) {
+    var encodedScores = scores.split('*'), decodedScores = []
+    for (var i = 0; i < encodedScores.length; i++) {
+      decodedScores.push(util.decodeScore(encodedScores[i], materials))
     }
+    return decodedScores;
+  },
+  encodeScores: function (scores) {
+    var encodedScores = [];
+    for (var i = 0; i < scores.length; i++) {
+      encodedScores.push(util.encodeScore(scores[i]))
+    }
+    return encodedScores.join('*')
   },
   today: {
     day: new Date().getDate(),
     month: new Date().getMonth() + 1,
     year: new Date().getFullYear()
   },
-  questionTypes: mapData.questionTypes,
+  quizTypes: mapData.quizTypes,
   preachers: mapData.preachers,
   messages: mapData.messages
 }
 // uncomment below when you want to test
 // and comment when you want to use
-// module.exports = util;
+module.exports = util;
 
 // comment below when you want to test
 // and uncomment when you want to use
-export default util;
+// export default util;

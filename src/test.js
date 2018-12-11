@@ -1,18 +1,42 @@
-"0|Myles Munroe",
-"1|Kenneth E Hagin",
-"2|Bishop David Oyedepo",
-"3|Admin",
-"4|Youths",
-"5|Jesse Duplantis",
-"6|Andrew Wommack",
-"7|Pastor E.A. Adeboye",
-"8|Pure Flix Entertainment",
-"9|Christiano Film Group",
-"10|TD Jakes",
-"11|Akatio Films",
-"12|John Maxwell",
-"13|John Bunyan",
-"14|Kenneth Copeland",
-"15|Mel Gibson",
-"16|Charles Capps",
-"17|Dave Stotts"
+var score = 'date@quizNo|material-id;missedQuestion-wrongPickedOption;stopped|material-id;missedQuestion-wrongPickedOption;stopped';
+var score = '2018-07-09@2|material-1544331983313;50-23;50-23;50-23;50-23;50-23;50-23;23|material-1544331983314;50-23;50-23;50-23;50-23;50-23;50-23;24';
+
+score = {
+  date: '2018-07-09',
+  quizNo: 2,
+  worship: {
+    id: 'material-1544331983313',
+    stopped: 0,
+    missed: [
+      '50-23',
+      '2-23',
+      '5-23',
+      '0-23',
+      '5-3',
+    ]
+  },
+  message: {
+    id: 'material-1544331983313',
+    missed: [
+      '24|50'
+    ]
+  },
+  bible: {
+    id: 'material-1544331983313',
+    missed: [
+      '2|3'
+    ]
+  },
+  book: {
+    id: 'material-1544331983313',
+    missed: [
+      '8|9'
+    ]
+  },
+  picture: {
+    id: 'material-1544331983313',
+    missed: [
+      '1|2'
+    ]
+  },
+}

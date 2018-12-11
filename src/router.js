@@ -6,7 +6,6 @@ import Profile from './views/profile/Profile.vue'
 import Quiz from './views/quiz/Quiz.vue'
 import Rank from './views/rank/Rank.vue'
 import Questions from './views/questions/Questions.vue'
-import Excel2Json from './views/questions/excel2json/Excel2Json.vue'
 import Login from './views/login/Login.vue'
 import Signup from './views/signup/Signup.vue'
 
@@ -56,14 +55,6 @@ let router = new Router({
       path: '/questions',
       name: 'questions',
       component: Questions,
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: '/excel2json',
-      name: 'excel2json',
-      component: Excel2Json,
       meta: {
         requiresAuth: true
       }
