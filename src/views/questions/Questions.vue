@@ -44,7 +44,7 @@
       <iframe class="material" :src="selectedMaterial.location" frameborder="0"></iframe>
     </div>
     <div>
-      <question class="question" :question="selectedMaterial.questions[questionIdx]" />
+      <question class="question" :question="selectedMaterial.questions[questionIdx]" :type="selectedMaterial.type" />
       <ul class="question-list">
         <li
         v-for="(question, index) in selectedMaterial.questions"
@@ -92,6 +92,7 @@ export default {
       return this.materials.filter(material => material.stage === stage)
     },
     selectMaterial() {
+      console.log(this.materials);
       this.materialIdx = this.materials.findIndex(
         mat => mat.uid === this.selectedMaterial.uid
       );
@@ -116,6 +117,7 @@ export default {
       };
       this.selectedQuestion = newQuestion;
       this.selectedMaterial.questions.push(this.selectedQuestion);
+      this.selectQuestion(this.selectedQuestion)
     }
   }
 };

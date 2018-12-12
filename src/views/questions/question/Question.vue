@@ -5,13 +5,13 @@
         <label for="question">Question</label>
         <textarea id="question" cols="30" rows="10" v-model="question.question"></textarea>
       </div>
-      <div>
+      <div v-if="multipleChoice">
         <label for="option">Options</label>
         <input type="text" id="option" v-model="option.value" />
         <input type="number" name="pts" v-model="option.pts" />
         <button @click="storeOption">Store Option</button>
       </div>
-      <ul>
+      <ul v-if="multipleChoice">
         <li v-for="(option, index) in question.options" :key="index" :class="answer(option)">
           <button @click.prevent="0">{{ option.value }} ({{ option.pts }})</button> <button @click.prevent="deleteOption(option)">x</button>
         </li>
@@ -23,16 +23,23 @@
 <script>
 import util from "../../../util";
 export default {
-  props: ["question"],
+  props: ["question", "type"],
   data() {
     return {
-      types: util.questionTypes,
+      types: util.quizTypes,
       option: {
         key: "#",
         value: "#",
         pts: 0
       }
     };
+  },
+  computed: {
+    multipleChoice: function () {
+      return this.type === 'worship' ||
+      this.type === 'message' ||
+      this.type === 'picture'
+    }
   },
   methods: {
     answer: function (option) {

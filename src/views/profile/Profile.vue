@@ -41,9 +41,10 @@
 </template>
 
 <script>
-import beforeRouteEnter from "./beforeRouteEnter-profile";
-import util from "../../util";
+import beforeRouteEnter from "./beforeRouteEnter-profile"
+import util from "../../util"
 import methods from './methods-profile'
+import { bus } from '../../main'
 export default {
   data() {
     return {
@@ -58,8 +59,15 @@ export default {
     };
   },
   created() {
-    var dbStudent = JSON.parse(localStorage.getItem("student"));
-    this.student = util.decodeStudent(dbStudent);
+    var dbStudent = JSON.parse(localStorage.getItem('student'))
+    var dbMaterials = JSON.parse(localStorage.getItem('materials'))
+    this.student = util.decodeScoreAndScores(dbStudent, dbMaterials);
+    util.fetchMaterials()
+    bus.$on('incomingMaterials', (materials) => {
+      var dbStud = JSON.parse(localStorage.getItem('student'))
+      this.student = util.decodeScoreAndScores(dbStud, materials)
+      this.materials = materials 
+    }) 
   },
   beforeRouteEnter: beforeRouteEnter,
   methods: methods

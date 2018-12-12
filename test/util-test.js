@@ -146,3 +146,9 @@ describe('util.expandResponse', () => {
     expect(util.expandResponse(quizData.compressedResponse, quizData.materials)).to.be.eql(quizData.expandedResponse)
   })
 })
+
+describe('util.getQuizzes', () => {
+  it('should get one quiz from each stage', () => {
+    // Finish updating all quiz types
+  })
+})

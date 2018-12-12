@@ -37,7 +37,7 @@ export default {
       author: "",
       type: "",
       stage: "",
-      types: util.questionTypes
+      types: util.quizTypes
     };
   },
   methods: {

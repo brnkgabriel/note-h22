@@ -1,5 +1,5 @@
-// import { bus } from './main'
-// import store from './store/store'; 
+import { bus } from './main'
+import store from './store/store'; 
 // Comment the above when you want to run test
 var mapData = require('./map-data');
 
@@ -132,6 +132,12 @@ var util = {
     }
     return decodedScores;
   },
+  decodeScoreAndScores: function (dbStudent, materials) {
+    var student = dbStudent;
+    student.user_data.scores = util.decodeScores(student.user_data.scores, materials)
+    student.user_data.quiz_status = util.decodeScore(student.user_data.quiz_status, materials)
+    return student;
+  },
   encodeScores: function (scores) {
     var encodedScores = [];
     for (var i = 0; i < scores.length; i++) {
@@ -150,8 +156,8 @@ var util = {
 }
 // uncomment below when you want to test
 // and comment when you want to use
-module.exports = util;
+// module.exports = util;
 
 // comment below when you want to test
 // and uncomment when you want to use
-// export default util;
+export default util;

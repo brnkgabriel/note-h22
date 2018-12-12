@@ -163,3 +163,11 @@ var question = {
 }
 
 2018-03-09|material-1544331983313|5|1|450|5|0|material-1544331983314|5|1|450|5|0|material-1544331983315|5|1|450|5|0|material-1544331983313|5|1|450|5|0
+
+TODO
+----
+. to get one question from each stage
+. that question must not be among the ones done already
+. index in each question stage group must match nextQuiz
+
+title
