@@ -22,7 +22,7 @@ var methods = {
           'nextQuiz': 0,
           'birthday': this.birthday,
           'scores': today + '@0', 
-          'quiz_status': today + '@0'
+          'state': today + '@0'
         }
       }
       this.$store.dispatch('addStudent', dbStudent);

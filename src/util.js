@@ -4,6 +4,44 @@ import store from './store/store';
 var mapData = require('./map-data');
 
 var util = {
+  getQuestions: function (nextQuiz, materials) {
+    var keys = Object.keys(nextQuiz), questions = [];
+    keys.forEach(key => {
+      var material = materials.find(mat => mat.uid === nextQuiz[key].materialId)
+      questions.push({
+        id: nextQuiz[key].materialId, type: key,
+        questions: material.questions,
+      })
+    })
+    return questions;
+  },
+  getQuizData: function (user_data) {
+    return {
+      nextQuiz: user_data.nextQuiz,
+      state: user_data.state,
+      scores: user_data.scores
+    }
+  },
+  /**
+   * picks the first quiz (index = 0) out of the untaken quiz set
+   */
+  getQuizID: function (scores, materials) {
+    var decodedScores = util.decodeScores(scores, materials), quizzesTaken = [];
+    var quiz = {}, untakenType = [];
+    decodedScores.forEach(score => {
+      Object.keys(score).forEach(key => {
+        if (score[key].id) { quizzesTaken.push(score[key].id); }
+      })
+    });
+    var untakenQuizzes = materials
+    .filter(material => !quizzesTaken.includes(material.uid));
+
+    util.quizTypes.forEach(type => {
+      untakenType = untakenQuizzes.filter(material => material.type === type)
+      quiz[type] = { quizType: type, materialId: untakenType[0].uid }
+    })
+    return quiz;
+  },
   processQuizType: function (type, response) {
     var processedType = '|' + response[type]['id'];
     response[type]['missed'].forEach(item => {
@@ -36,7 +74,7 @@ var util = {
   fetchMaterials: function () { 
     var CheckMaterials = function () {
       if (store.state.materials) {
-        bus.$emit('incomingMaterials', JSON.parse(localStorage.getItem('materials')));
+        bus.$emit('incomingMaterials');
         clearInterval(delayTillArrival)
       }
     }
@@ -79,18 +117,6 @@ var util = {
       year: parseInt(bdayArray[2])
     }
   },
-  expandResponse: function (response, materials) {
-    var splittedResponse = response.split('|');
-    var dateAndQuizNo = splittedResponse[0].split('@');
-    var quizzes = splittedResponse
-    .filter(response => response !== splittedResponse[0]);
-    var expandedResponse = {
-      date: dateAndQuizNo[0],
-      quizNo: dateAndQuizNo[1]
-    }
-    util.addQuizzes(quizzes, expandedResponse, materials);
-    return expandedResponse
-  },
   addQuizzes: function (quizzes, expandedResponse, materials) {
     for (var i = 0; i < quizzes.length; i++) {
       var splitted = quizzes[i].split(';');
@@ -110,6 +136,18 @@ var util = {
     var foundMaterial = materials.find(mat => mat.uid === id);
     return foundMaterial.type;
   },
+  expandResponse: function (response, materials) {
+    var splittedResponse = response.split('|');
+    var dateAndQuizNo = splittedResponse[0].split('@');
+    var quizzes = splittedResponse
+    .filter(response => response !== splittedResponse[0]);
+    var expandedResponse = {
+      date: dateAndQuizNo[0],
+      quizNo: dateAndQuizNo[1]
+    }
+    util.addQuizzes(quizzes, expandedResponse, materials);
+    return expandedResponse
+  },
   compressResponse: function (response) {
     var compressedResponse = response['date'] + '@' + response['quizNo'];
     util.quizTypes.forEach(type => {
@@ -126,17 +164,11 @@ var util = {
     return util.compressResponse(decodedScore);
   },
   decodeScores: function (scores, materials) {
-    var encodedScores = scores.split('*'), decodedScores = []
+    var encodedScores = scores.split('*'), decodedScores = [];
     for (var i = 0; i < encodedScores.length; i++) {
       decodedScores.push(util.decodeScore(encodedScores[i], materials))
     }
     return decodedScores;
-  },
-  decodeScoreAndScores: function (dbStudent, materials) {
-    var student = dbStudent;
-    student.user_data.scores = util.decodeScores(student.user_data.scores, materials)
-    student.user_data.quiz_status = util.decodeScore(student.user_data.quiz_status, materials)
-    return student;
   },
   encodeScores: function (scores) {
     var encodedScores = [];
@@ -144,6 +176,23 @@ var util = {
       encodedScores.push(util.encodeScore(scores[i]))
     }
     return encodedScores.join('*')
+  },
+  localStorage: function () { 
+    var dbStudent = JSON.parse(localStorage.getItem('student'))
+    var dbMaterials = JSON.parse(localStorage.getItem('materials'))
+    var decodedStudent = util.decodeStudentData(dbStudent, dbMaterials);
+    return { student: decodedStudent, materials: dbMaterials }
+  },
+  decodeStudentData: function (dbStudent, materials) {
+    var student = dbStudent;
+    var userData = util.getQuizData(student.user_data);
+    var nextQuiz = util.getQuizID(userData.scores, materials);
+    var state = util.decodeScore(userData.state, materials);
+    var scores = util.decodeScores(userData.scores, materials);
+    student.user_data.nextQuiz = nextQuiz;
+    student.user_data.scores = scores
+    student.user_data.state = state
+    return student;
   },
   today: {
     day: new Date().getDate(),

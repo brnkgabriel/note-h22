@@ -129,11 +129,11 @@ describe('util', () => {
   })
 })
 
-describe('util.getScores', () => {
-  it('should return quizData.formatExpectation for quizData.responses', () => {
-    expect(util.getScores(quizData.responses, quizData.questions)).to.be.eql(10);
-  })
-})
+// describe('util.getScores', () => {
+//   it('should return quizData.formatExpectation for quizData.responses', () => {
+//     expect(util.getScores(quizData.responses, quizData.questions)).to.be.eql(10);
+//   })
+// })
 
 describe('util.compressResponse', () => {
   it('should compress quizData.expandedResponse', () => {
@@ -147,8 +147,32 @@ describe('util.expandResponse', () => {
   })
 })
 
-describe('util.getQuizzes', () => {
+describe('util.getQuizID', () => {
   it('should get one quiz from each stage', () => {
-    // Finish updating all quiz types
+    var scores = quizData.dbStudent.user_data.scores;
+    var materials = quizData.dbMaterials;
+    var quiz = util.getQuizID(scores, materials);
+    var expectation = {}
+    util.quizTypes.forEach(type => {
+      expectation[type] = {
+        quizType: type,
+        materialId: ''
+      }
+    })
+    expectation['worship'].materialId = 'material-1544449100049';
+    expectation['message'].materialId = 'material-1544367739730';
+    expectation['bible'].materialId = 'material-1544608248064';
+    expectation['book'].materialId = 'material-1544608070514';
+    expectation['picture'].materialId = 'material-1544605596751';
+    expect(quiz).to.be.eql(expectation)
+  })
+})
+
+describe('util.getQuestions', () => {
+  it('util.getQuestions should return corresponding Question', () => {
+    var gotten = util.getQuestions(quizData.nextQuiz, quizData.dbMaterials);
+    gotten.forEach((got, index) => {
+      expect(got.questions.length).to.be.eql(quizData.questions[index].questions.length)
+    })
   })
 })

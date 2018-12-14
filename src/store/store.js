@@ -19,7 +19,7 @@ export default new Vuex.Store({
     },
     setMaterials(state, payload) {
       localStorage.setItem('materials', JSON.stringify(payload));
-      bus.$emit('incomingMaterials', payload);
+      bus.$emit('incomingMaterials');
       state.materials = payload;
     },
     setQuestions(state, payload) {

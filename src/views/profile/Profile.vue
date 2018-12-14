@@ -59,15 +59,13 @@ export default {
     };
   },
   created() {
-    var dbStudent = JSON.parse(localStorage.getItem('student'))
-    var dbMaterials = JSON.parse(localStorage.getItem('materials'))
-    this.student = util.decodeScoreAndScores(dbStudent, dbMaterials);
+    this.student = util.localStorage().student
+    this.materials = util.localStorage().materials
     util.fetchMaterials()
-    bus.$on('incomingMaterials', (materials) => {
-      var dbStud = JSON.parse(localStorage.getItem('student'))
-      this.student = util.decodeScoreAndScores(dbStud, materials)
-      this.materials = materials 
-    }) 
+    bus.$on('incomingMaterials', () => {
+      this.student = util.localStorage().student
+      this.materials = util.localStorage().materials
+    })
   },
   beforeRouteEnter: beforeRouteEnter,
   methods: methods
