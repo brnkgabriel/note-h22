@@ -21,29 +21,13 @@
       <div class="content-wrap">
         <section v-for="(quiz, index) in nextQuiz" :key="index" :id="'section-' + quiz.type">
           <ul>
-            <li v-for="(question, index) in quiz.questions" :key="index">{{question.question}}</li>
+            <li v-for="(question, index) in quiz.questions" :key="index">
+              <question :question="question" :type="quiz.type"  />  
+            </li> 
           </ul>
         </section>
       </div>
     </div>
-      <!-- <div class="tabs tabs-style-underline">
-        <nav>
-          <ul>
-            <li><a href="#section-underline-1" class="icon icon-worship"><span>Worship</span></a></li>
-            <li><a href="#section-underline-2" class="icon icon-message"><span>Message</span></a></li>
-            <li><a href="#section-underline-3" class="icon icon-bible"><span>Bible</span></a></li>
-            <li><a href="#section-underline-4" class="icon icon-book"><span>Book</span></a></li>
-            <li><a href="#section-underline-5" class="icon icon-picture"><span>Picture</span></a></li>
-          </ul>
-        </nav>
-        <div class="content-wrap">
-          <section id="section-underline-1"><p>1</p></section>
-          <section id="section-underline-2"><p>2</p></section>
-          <section id="section-underline-3"><p>3</p></section>
-          <section id="section-underline-4"><p>4</p></section>
-          <section id="section-underline-5"><p>5</p></section>
-        </div>
-      </div> -->
   </div>
 </template>
 
@@ -53,7 +37,11 @@ import methods from "./methods-quiz";
 import util from "../../util";
 import CBPFWTabs from "../../cbpFWTabs";
 import { bus } from "../../main";
+import Question from './question/Question.vue'
 export default {
+  components: {
+    Question
+  },
   data() {
     return {
       student: null,

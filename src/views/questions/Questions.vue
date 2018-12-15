@@ -2,47 +2,21 @@
   <div class="materials" v-if="selectedMaterial">
     <div> 
       <!-- Create 6 types of the select box below for the 6 stages of the quiz -->
-      <div class="stages material">
-        <div class="stage">
-          <label for="stg-1">Stage 1: </label>
-          <select id="stg-1" v-model="selectedMaterial" @change="selectMaterial()">
-            <option v-for="(material, index) in getMaterials('one')" :key="index" :value="material">{{material.title}}</option>
-          </select>
+      <div class="material-table">
+        <div class="material">
+          <div class="title material-info">Title</div>
+          <div class="stage material-info">Stage</div>
+          <div class="type material-info">Type</div>
         </div>
-        <div class="stage">
-          <label for="stg-2">Stage 2: </label>
-          <select id="stg-2" v-model="selectedMaterial" @change="selectMaterial()">
-            <option v-for="(material, index) in getMaterials('two')" :key="index" :value="material">{{material.title}}</option>
-          </select>
-        </div>
-        <div class="stage">
-          <label for="stg-3">Stage 3: </label>
-          <select id="stg-3" v-model="selectedMaterial" @change="selectMaterial()">
-            <option v-for="(material, index) in getMaterials('three')" :key="index" :value="material">{{material.title}}</option>
-          </select>
-        </div>
-        <div class="stage">
-          <label for="stg-4">Stage 4: </label>
-          <select id="stg-4" v-model="selectedMaterial" @change="selectMaterial()">
-            <option v-for="(material, index) in getMaterials('four')" :key="index" :value="material">{{material.title}}</option>
-          </select>
-        </div>
-        <div class="stage">
-          <label for="stg-5">Stage 5: </label>
-          <select id="stg-5" v-model="selectedMaterial" @change="selectMaterial()">
-            <option v-for="(material, index) in getMaterials('five')" :key="index" :value="material">{{material.title}}</option>
-          </select>
-        </div>
-        <div class="stage">
-          <label for="stg-6">Stage 6: </label>
-          <select id="stg-6" v-model="selectedMaterial" @change="selectMaterial()">
-            <option v-for="(material, index) in getMaterials('six')" :key="index" :value="material">{{material.title}}</option>
-          </select>
+        <div class="material">
+          <div class="title material-info">In the beginning</div>
+          <div class="stage material-info">1</div>
+          <div class="type material-info">message</div>
         </div>
       </div>
-      <material class="material" />
+      <div class="material-panel">
+        <material />
       <iframe class="material" :src="selectedMaterial.location" frameborder="0"></iframe>
-    </div>
     <div>
       <question class="question" :question="selectedMaterial.questions[questionIdx]" :type="selectedMaterial.type" />
       <ul class="question-list">
@@ -57,6 +31,8 @@
     <div class="buttons">
       <button @click.prevent="addQuestion">Add Question</button>
       <button @click.prevent="saveMaterial">Save Material</button>
+    </div>
+      </div>
     </div>
   </div>
 </template>
@@ -82,14 +58,14 @@ export default {
   },
   created() {
     util.fetchMaterials();
-    bus.$on("incomingMaterials", materials => {
-      this.materials = materials;
+    bus.$on("incomingMaterials", () => {
+      this.materials = util.localStorage().materials;
       this.selectedMaterial = this.materials[this.materialIdx];
     });
   },
   methods: {
     getMaterials(stage) {
-      return this.materials.filter(material => material.stage === stage)
+      return this.materials.filter(material => material.stage === stage);
     },
     selectMaterial() {
       console.log(this.materials);
@@ -117,7 +93,7 @@ export default {
       };
       this.selectedQuestion = newQuestion;
       this.selectedMaterial.questions.push(this.selectedQuestion);
-      this.selectQuestion(this.selectedQuestion)
+      this.selectQuestion(this.selectedQuestion);
     }
   }
 };
@@ -130,7 +106,20 @@ export default {
   vertical-align: top;
   max-width: 600px;
 }
-.material {
+
+.material-info {
   display: inline-block;
+}
+
+.material-table {
+  width: 60%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.material-panel {
+  width: 35%;
+  display: inline-block;
+  vertical-align: top;
 }
 </style>
