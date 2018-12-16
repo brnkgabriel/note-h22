@@ -18,3 +18,15 @@ export default {
   }
 }
 </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+#app * {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+}
+
+h3 {
+  margin: 7px 0px 3px 0px;
+}
+</style>
