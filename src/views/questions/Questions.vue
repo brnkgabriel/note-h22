@@ -21,55 +21,30 @@
 </template>
 
 <script>
-import Question from "./question/Question.vue";
 import Material from "./material/Material.vue";
 import { bus } from "../../main";
 import util from "../../util";
 export default {
   components: {
-    Question,
     Material
   },
   data() {
     return {
       selectedMaterial: null,
-      materialIdx: 0,
       materials: [],
-      questionIdx: 0,
-      questions: []
     };
   },
   created() {
     util.fetchMaterials();
     bus.$on("incomingMaterials", () => {
       this.materials = util.localStorage().materials;
-      this.selectedMaterial = this.materials[this.materialIdx];
+      this.selectedMaterial = this.materials[0];
       console.log(this.selectedMaterial)
     });
   },
   methods: {
-    getMaterials(stage) {
-      return this.materials.filter(material => material.stage === stage);
-    },
     selectMaterial(material) {
       this.selectedMaterial = material;
-    },
-    saveMaterial() {
-      this.$store.dispatch("saveMaterial", this.selectedMaterial);
-    },
-    saveQuestions() {
-      this.$store.dispatch("storeQuestions", this.questions);
-    },
-    addQuestion() {
-      var newQuestion = {
-        uid: "question-" + +new Date(),
-        img: "",
-        question: "Enter Question...",
-        options: []
-      };
-      this.selectedQuestion = newQuestion;
-      this.selectedMaterial.questions.push(this.selectedQuestion);
-      this.selectQuestion(this.selectedQuestion);
     }
   }
 };

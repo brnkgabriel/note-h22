@@ -20,7 +20,8 @@
           <input type="text" id="stage" v-model="material.stage" />
         </div>
         <select class="material-type" v-model="material.type">
-          <option v-for="(type, index) in types" :key="index">{{type}}</option>
+          <label for="type">Type:</label>
+          <option id="type" v-for="(type, index) in types" :key="index">{{type}}</option>
         </select>
       </div>
       <div class="preview-pane">
@@ -31,103 +32,61 @@
         <div class="preview-type"><span class="-preview_type">Type: </span> {{material.type}}</div>
       </div>
     </div>
-    <div class="material-questions"> 
-      <div class="question-details"> 
-        <h3>Material Question</h3>
-        <div class="question">
-          <label for="question">Question: </label>
-          <textarea name="question" id="question" cols="30" rows="5" v-model="selectedQuestion.question"></textarea>
-        </div>
-        <div class="question-picture-location" v-if="pictureQuestion">
-          <input type="text" class="question-picture" placeholder="enter picture url..." />
-        </div>
-        <div class="question-option-points" v-if="optionedQuestion">
-          <input type="text" class="question-option" v-model="newOption.value" placeholder="option..." />
-          <input type="number" class="question-points" v-model="newOption.pts" placeholder="points..." />
-          <button @click="addOption(newOption)">Add Option</button>
-        </div>
-        <div class="question-preview">
-          <h3>Question Preview</h3>
-          <div class="preview-question">{{selectedQuestion.question}}</div>
-          <ul>
-            <li v-for="(option, index) in selectedQuestion.options" :key="index">
-              {{option.value}} ({{option.pts}}) <span class="remove-option" @click.prevent="removeOption(option)">x</span>
-            </li>
-          </ul>
-        </div>
-      </div>
+    <div class="material-questions">
+      <question class="question-details" :question="selectedQuestion" :type="material.type" />
       <div class="questions-list">
         <h3>List of Questions</h3>
         <input type="text" class="question-search" placeholder="search for question..."/>
         <ol>
-          <li v-for="(question, index) in material.questions" :key="index" @click.prevent="selectQuestion(question)">
-            {{question.uid}}
+          <li v-for="(question, index) in material.questions" :key="index">
+            <span class="question-id" @click.prevent="selectQuestion(question)">{{question.uid}}</span> <span class="remove-question" @click.prevent="removeQuestion(question)">x</span>
           </li>
         </ol>
       </div>
     </div>
-      <div class="question-actions">
-        <button class="add-question">Add Question</button>
-        <button class="save-question">Save Question</button>
-      </div>
-      <div class="material-actions">
-        <button class="add-material">Add Material</button>
-        <button class="save-material">Save Material</button>
-      </div>
+    <div class="question-actions">
+      <button class="add-question">Add Question</button>
+      <button class="save-question">Save Question</button>
+    </div>
+    <div class="material-actions">
+      <button class="add-material">Add Material</button>
+      <button class="save-material">Save Material</button>
+    </div>
   </div>
 </template>
 
 <script>
-import util from "../../../util";
+import util from "../../../util"
+import Question from "./question/Question.vue"
+
 export default {
   props: ["material"],
+  components: { Question },
   data() {
     return {
       types: util.quizTypes,
-      selectedQuestion: null,
-      newOption: {
-        pts: null,
-        key: '',
-        value: ''
-      }
+      selectedQuestion: null
     };
+  },
+  watch: {
+    material: function (mat) {
+      this.selectedQuestion = mat.questions[0];
+    }
   },
   created() {
     this.selectedQuestion = this.material.questions[0]
-  },
-  computed: {
-    optionedQuestion: function () {
-      return this.material.type === 'worship' ||
-      this.material.type === 'message' ||
-      this.material.type === 'picture'
-    },
-    typingQuestion: function () {
-      return this.material.type === 'bible' || this.material.type === 'book'
-    },
-    pictureQuestion: function () {
-      return this.material.type === 'picture'
-    }
   },
   methods: {
     selectQuestion: function(question) {
       this.selectedQuestion = question;
     },
-    removeOption: function (option) {
-      this.selectedQuestion.options = this.selectedQuestion.options.filter(opt => {
-        return opt.key !== option.key
-      })
-    },
-    addOption(newOption) {
-      newOption.key = newOption.value.split(' ').join('-').toLowerCase();
-      this.selectedQuestion.options.push({
-        key: newOption.key,
-        value: newOption.value,
-        pts: newOption.pts
+    removeQuestion: function (question) {
+      var originalQuestions = this.material.questions;
+      this.material.questions = originalQuestions.filter(que => {
+        return que.uid !== question.uid
       });
-      this.newOption['key'] = ''
-      this.newOption['pts'] = null
-      this.newOption['value'] = ''
-    }
+      this.selectedQuestion = this.material.questions[0];
+    },
   }
 };
 </script>
