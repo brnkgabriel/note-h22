@@ -18,7 +18,6 @@
           <div class="type material-info">{{material.type}}</div>
           <div class="stage material-info">{{material.stage}}</div>
         </div>
-        <!-- <span @click="selectMaterial(material)" class="icon icon-edit"></span> -->
         <span @click.prevent="deleteMaterial(material)" class="icon icon-delete"></span>
       </div>
     </div>
@@ -49,7 +48,6 @@ export default {
   },
   computed: {
     searched: function () {
-      console.log('searched is', this.searchTerm)
       var filtered = this.materials.filter(material => {
         var condition = false;
         if (
@@ -60,7 +58,6 @@ export default {
         ) { condition = true; }
         return condition
       })
-      console.log('filtered length is', filtered.length)
       return filtered
     }
   },
@@ -75,8 +72,11 @@ export default {
     selectMaterial(material) {
       this.selectedMaterial = material;
     },
-    deleteMaterial() {
-
+    deleteMaterial(deletedMat) {
+      this.materials = this.materials.filter(material => {
+        return material.uid !== deletedMat.uid
+      })
+      this.selectedMaterial = this.materials[0]
     },
     saveMaterials() {
       this.$store.dispatch('saveMaterials', this.materials)
@@ -113,7 +113,10 @@ export default {
 }
 
 .material-table {
-  width: 60%;
+  width: 58%;
+  height: 500px;
+  overflow: auto;
+  margin: 0 1%;
 }
 
 .material-panel {
@@ -121,7 +124,7 @@ export default {
 }
 
 .info {
-  width: 90%;
+  width: 95%;
   display: inline-block;
   margin: 5px 0;
 }

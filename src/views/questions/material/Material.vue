@@ -27,9 +27,8 @@
       <div class="preview-pane">
         <iframe class="preview-iframe" :src="material.location"></iframe>
         <div class="preview-title"><span class="-preview_title">Title: </span> {{material.title}}</div>
-        <div class="preview-author"><span class="-preview_author">Author: </span> {{material.author}}</div>
-        <div class="preview-stage"><span class="-preview_stage">Stage: </span> {{material.stage}}</div>
-        <div class="preview-type"><span class="-preview_type">Type: </span> {{material.type}}</div>
+        <div class="preview-author"><span class="-preview_author">By: </span> {{material.author}}</div>
+        <div class="preview-type"><span class="-preview_type">Category: </span> {{material.type}} | <span class="-preview_stage">Stage: </span> {{material.stage}}</div>
       </div>
     </div>
     <div class="material-questions">
