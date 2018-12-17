@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="material-questions">
-      <question class="question-details" :question="selectedQuestion" :type="material.type" />
+      <question @addQuestion="addQuestion(question)" class="question-details" :question="selectedQuestion" :type="material.type" />
       <div class="questions-list">
         <h3>List of Questions</h3>
         <input type="text" class="question-search" placeholder="search for question..."/>
@@ -87,6 +87,9 @@ export default {
       });
       this.selectedQuestion = this.material.questions[0];
     },
+    addQuestion: function (question) {
+      console.log('added question is', question);
+    }
   }
 };
 </script>
