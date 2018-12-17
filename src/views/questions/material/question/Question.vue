@@ -3,14 +3,14 @@
     <h3>Material Question</h3>
     <div class="question">
       <label for="question">Question: </label>
-      <textarea name="question" id="question" cols="30" rows="5" v-model="question.question"></textarea>
+      <textarea name="question" id="question" cols="30" rows="5" v-model="question.question" placeholder="Enter question..."></textarea>
     </div>
     <div class="question-picture-location" v-if="pictureQuestion">
-      <input type="text" class="question-picture" placeholder="enter picture url..." />
+      <input type="text" class="question-picture" placeholder="Enter picture url..." />
     </div>
     <div class="question-option-points" v-if="optionedQuestion">
-      <input type="text" class="question-option" v-model="newOption.value" placeholder="option..." />
-      <input type="number" class="question-points" v-model="newOption.pts" placeholder="points..." />
+      <input type="text" class="question-option" v-model="newOption.value" placeholder="Enter option..." />
+      <input type="number" class="question-points" v-model="newOption.pts" placeholder="Enter points..." />
       <button @click="addOption(newOption)">Add Option</button>
     </div>
     <div class="question-preview">
@@ -22,10 +22,14 @@
         </li>
       </ul>
     </div>
+    <div class="question-actions">
+      <button @click.prevent="addQuestion()" class="add-question">Add Question</button>
+    </div>
   </div>
 </template>
 
 <script>
+import { bus } from '../../../../main'
 export default {
   props: ['question', 'type'],
   data() {
@@ -58,6 +62,7 @@ export default {
         question: "Enter Question...",
         options: []
       };
+      bus.$emit('addQuestion', newQuestion)
     },
     removeOption: function (option) {
       this.question.options = this.question.options.filter(opt => {
@@ -66,7 +71,7 @@ export default {
     },
     addOption(newOption) {
       newOption.key = newOption.value.split(' ').join('-').toLowerCase();
-      this.selectedQuestion.options.push({
+      this.question.options.push({
         key: newOption.key,
         value: newOption.value,
         pts: newOption.pts

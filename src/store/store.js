@@ -134,6 +134,18 @@ export default new Vuex.Store({
       .then(() => console.log('document successfully updated'))
       .catch(err => console.log(err));
     },
+    saveMaterials(context, payload) {
+      localStorage.setItem('materials', JSON.stringify(payload))
+      var batch = db.batch();
+      for (var i = 0; i < payload.length; i++) {
+        var ref = db.collection("materials").doc(payload[i].uid);
+        batch.set(ref, payload[i]);
+        console.log(payload[i]);
+      }
+      batch.commit().then(function () {
+        console.log('committed')
+      })
+    },
     addMaterial(context, payload) {
       db.collection("materials")
       .doc(payload.uid).set(payload).then(function () {

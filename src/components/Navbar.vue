@@ -68,6 +68,7 @@ export default {
 <style scoped>
 ul {
   padding: 0;
+  margin: 0;
 }
 
 li {
@@ -77,7 +78,7 @@ li {
 }
 
 #navbar {
-  padding: 30px;
+  padding: 10px;
 }
 
 #navbar a {

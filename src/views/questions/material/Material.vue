@@ -5,19 +5,19 @@
       <div class="edit-pane">
         <div class="title">
           <label for="title">Title:</label>
-          <input type="text" id="title" v-model="material.title" />
+          <input type="text" id="title" v-model="material.title" placeholder="Enter title..." />
         </div>
         <div class="author">
           <label for="author">Author:</label>
-          <input type="text" id="author" v-model="material.author" />
+          <input type="text" id="author" v-model="material.author" placeholder="Enter author..." />
         </div>
         <div class="location">
           <label for="location">Location:</label>
-          <input type="text" id="location" v-model="material.location" />
+          <input type="text" id="location" v-model="material.location" placeholder="Enter location..." />
         </div>
         <div class="stage">
           <label for="stage">Stage:</label>
-          <input type="text" id="stage" v-model="material.stage" />
+          <input type="text" id="stage" v-model="material.stage" placeholder="Enter stage..." />
         </div>
         <select class="material-type" v-model="material.type">
           <label for="type">Type:</label>
@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="material-questions">
-      <question @addQuestion="addQuestion(question)" class="question-details" :question="selectedQuestion" :type="material.type" />
+      <question class="question-details" :question="selectedQuestion" :type="material.type" />
       <div class="questions-list">
         <h3>List of Questions</h3>
         <input type="text" class="question-search" placeholder="search for question..."/>
@@ -44,20 +44,13 @@
         </ol>
       </div>
     </div>
-    <div class="question-actions">
-      <button class="add-question">Add Question</button>
-      <button class="save-question">Save Question</button>
-    </div>
-    <div class="material-actions">
-      <button class="add-material">Add Material</button>
-      <button class="save-material">Save Material</button>
-    </div>
   </div>
 </template>
 
 <script>
-import util from "../../../util"
-import Question from "./question/Question.vue"
+import util from "../../../util";
+import Question from "./question/Question.vue";
+import { bus } from "../../../main";
 
 export default {
   props: ["material"],
@@ -69,26 +62,27 @@ export default {
     };
   },
   watch: {
-    material: function (mat) {
+    material: function(mat) {
       this.selectedQuestion = mat.questions[0];
     }
   },
   created() {
-    this.selectedQuestion = this.material.questions[0]
+    this.selectedQuestion = this.material.questions[0];
+    bus.$on("addQuestion", question => {
+      this.material.questions.unshift(question);
+      this.selectedQuestion = this.material.questions[0];
+    });
   },
   methods: {
     selectQuestion: function(question) {
       this.selectedQuestion = question;
     },
-    removeQuestion: function (question) {
+    removeQuestion: function(question) {
       var originalQuestions = this.material.questions;
       this.material.questions = originalQuestions.filter(que => {
-        return que.uid !== question.uid
+        return que.uid !== question.uid;
       });
       this.selectedQuestion = this.material.questions[0];
-    },
-    addQuestion: function (question) {
-      console.log('added question is', question);
     }
   }
 };
@@ -106,7 +100,7 @@ export default {
 .edit-pane,
 .preview-pane,
 .questions-list,
-.question-details{
+.question-details {
   width: 50%;
 }
 

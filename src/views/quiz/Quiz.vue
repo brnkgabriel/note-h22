@@ -97,20 +97,6 @@ export default {
     url("../../assets/fonts/stroke7pixeden/stroke7pixeden.svg?u58ytb#stroke7pixeden")
       format("svg");
 }
-@font-face {
-  font-weight: normal;
-  font-style: normal;
-  font-family: "icomoon";
-  src: url("../../assets/fonts/icomoon/icomoon.eot?u59ytb");
-  src: url("../../assets/fonts/icomoon/icomoon.eot?#iefixu59ytb")
-      format("embedded-opentype"),
-    url("../../assets/fonts/icomoon/icomoon.woff?u59ytb")
-      format("woff"),
-    url("../../assets/fonts/icomoon/icomoon.ttf?u59ytb")
-      format("truetype"),
-    url("../../assets/fonts/icomoon/icomoon.svg?u59ytb#icomoon")
-      format("svg");
-}
 /* from tabs.css */
 .tabs {
   position: relative;
@@ -162,97 +148,6 @@ export default {
 
 .tabs nav a:focus {
   outline: none;
-}
-
-/* Icons */
-.icon::before {
-  z-index: 10;
-  display: inline-block;
-  margin: 0 0.4em 0 0;
-  vertical-align: middle;
-  text-transform: none;
-  font-weight: normal;
-  font-variant: normal;
-  font-size: 1.3em;
-  font-family: "icomoon";
-  line-height: 1;
-  speak-as: none;
-  -webkit-backface-visibility: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.icon-worship::before {
-  content: "\e60b";
-}
-
-.icon-message::before {
-  content: "\e60a";
-}
-
-.icon-bible::before {
-  content: "\e60c";
-}
-
-.icon-book::before {
-  content: "\e60d";
-}
-
-.icon-picture::before {
-  content: "\e60e";
-}
-
-.icon-upload::before {
-  content: "\e68a";
-}
-
-.icon-tools::before {
-  content: "\e60a";
-}
-
-
-.icon-plane::before {
-  content: "\e625";
-}
-
-.icon-joy::before {
-  content: "\e6a4";
-}
-
-.icon-plug::before {
-  content: "\e69a";
-}
-
-.icon-home::before {
-  content: "\e648";
-}
-
-.icon-gift::before {
-  content: "\e652";
-}
-
-.icon-display::before {
-  content: "\e65e";
-}
-
-.icon-date::before {
-  content: "\e660";
-}
-
-.icon-config::before {
-  content: "\e666";
-}
-
-.icon-coffee::before {
-  content: "\e669";
-}
-
-.icon-camera::before {
-  content: "\e66f";
-}
-
-.icon-box::before {
-  content: "\e674";
 }
 
 /* Content */
