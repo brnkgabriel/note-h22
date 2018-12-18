@@ -12,6 +12,7 @@
         {{option.value}}
       </div>
     </div>
+    <div class="icon icon-basket"></div>
   </div>
 </template>
 

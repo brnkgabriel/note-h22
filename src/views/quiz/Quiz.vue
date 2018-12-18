@@ -1,13 +1,6 @@
 <template>
   <div id="quiz" v-if="student">
     <h1>Quiz</h1>
-    <!-- <div v-for="(material, index) in materials" :key="index">
-      <ul>
-        <li v-for="(questionObj, index) in material.questions" :key="index">
-          {{questionObj.question}}
-        </li>
-      </ul>
-    </div> -->
     <div class="tabs tabs-style-underline">
       <nav>
         <ul>
