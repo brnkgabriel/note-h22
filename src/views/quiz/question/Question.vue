@@ -38,8 +38,6 @@ export default {
   mounted() {
     var draggable = document.querySelectorAll("[draggable]");
     var targets = document.querySelectorAll("[data-drop-target]");
-    // this.options = document.querySelectorAll(".option");
-    // this.basket = document.querySelector('.icon-basket');
     var dragDiv = new DragDiv();
     
 
@@ -53,18 +51,6 @@ export default {
       element.addEventListener("dragleave", dragDiv.leave);
       element.addEventListener("drop", dragDiv.drop);
     })
-    
-    // window.options = this.options;
-    // window.basket = this.basket;
-    // this.options.forEach(function(option) {
-    //   option.addEventListener("dragstart", dragDiv.start, false);
-    //   option.addEventListener("dragend", dragDiv.end, false);
-    // });
-    // this.basket.addEventListener('dragenter', dragDiv.enter, false);
-    // this.basket.addEventListener('dragover', dragDiv.over, false);
-    // this.basket.addEventListener('dragleave', dragDiv.leave, false);
-    // this.basket.addEventListener('drop', dragDiv.drop, false);
-    // this.basket.addEventListener('dragend', dragDiv.end, false);
   }
 };
 </script>
@@ -90,6 +76,6 @@ export default {
   max-width: 150px;
   background-color: gray;
   margin: 1%;
-  color: white;
+  color: white !important;
 }
 </style>

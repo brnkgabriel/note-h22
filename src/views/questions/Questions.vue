@@ -114,13 +114,18 @@ export default {
 
 .material-table {
   width: 58%;
-  height: 500px;
+  height: 530px;
   overflow: auto;
-  margin: 0 1%;
+  margin: 0 0.5%;
+  background-color: white;
 }
 
 .material-panel {
   width: 40%;
+  margin: 0 0.5%;
+  height: 530px;
+  overflow: auto;
+  background-color: white;
 }
 
 .info {

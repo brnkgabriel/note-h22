@@ -4,31 +4,42 @@
       <h3>Material Info</h3>
       <div class="edit-pane">
         <div class="title">
-          <label for="title">Title:</label>
-          <input type="text" id="title" v-model="material.title" placeholder="Enter title..." />
+          <label for="title" class="label">Title:</label>
+          <input type="text" class="element" id="title" v-model="material.title" placeholder="Enter title..." />
         </div>
         <div class="author">
-          <label for="author">Author:</label>
-          <input type="text" id="author" v-model="material.author" placeholder="Enter author..." />
+          <label for="author" class="label">Author:</label>
+          <input type="text" class="element" id="author" v-model="material.author" placeholder="Enter author..." />
         </div>
         <div class="location">
-          <label for="location">Location:</label>
-          <input type="text" id="location" v-model="material.location" placeholder="Enter location..." />
+          <label for="location" class="label">Location:</label>
+          <input type="text" class="element" id="location" v-model="material.location" placeholder="Enter location..." />
         </div>
         <div class="stage">
-          <label for="stage">Stage:</label>
-          <input type="text" id="stage" v-model="material.stage" placeholder="Enter stage..." />
+          <label for="stage" class="label">Stage:</label>
+          <input type="text" class="element" id="stage" v-model="material.stage" placeholder="Enter stage..." />
         </div>
-        <select class="material-type" v-model="material.type">
-          <label for="type">Type:</label>
-          <option id="type" v-for="(type, index) in types" :key="index">{{type}}</option>
-        </select>
+        <div class="type"> 
+          <label for="type" class="label">Type:</label>
+          <select  class="element" v-model="material.type">
+            <option id="type" v-for="(type, index) in types" :key="index">{{type}}</option>
+          </select>
+        </div>
       </div>
       <div class="preview-pane">
         <iframe class="preview-iframe" :src="material.location"></iframe>
         <div class="preview-title"><span class="-preview_title">Title: </span> {{material.title}}</div>
         <div class="preview-author"><span class="-preview_author">By: </span> {{material.author}}</div>
         <div class="preview-type"><span class="-preview_type">Category: </span> {{material.type}} | <span class="-preview_stage">Stage: </span> {{material.stage}}</div>
+        <div class="question-preview">
+          <h3>Question Preview</h3>
+          <div class="preview-question">{{selectedQuestion.question}}</div>
+          <ul v-if="optionedQuestion">
+            <li v-for="(option, index) in selectedQuestion.options" :key="index" class="option">
+              {{option.value}} ({{option.pts}}) <span class="remove-option" @click.prevent="removeOption(option)">x</span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="material-questions">
@@ -72,6 +83,13 @@ export default {
       this.selectedQuestion = this.material.questions[0];
     });
   },
+  computed: {
+    optionedQuestion: function () {
+      return this.material.type === 'worship' ||
+      this.material.type === 'message' ||
+      this.material.type === 'picture'
+    },
+  },
   methods: {
     selectQuestion: function(question) {
       this.selectedQuestion = question;
@@ -82,29 +100,64 @@ export default {
         return que.uid !== question.uid;
       });
       this.selectedQuestion = this.material.questions[0];
-    }
+    },
+    removeOption: function (option) {
+      this.selectedQuestion.options = this.selectedQuestion.options.filter(opt => {
+        return opt.key !== option.key
+      })
+    },
   }
 };
 </script>
 
 <style scoped>
-.edit-pane,
-.preview-pane,
-.questions-list,
-.question-details {
-  display: inline-block;
-  vertical-align: top;
-}
 
-.edit-pane,
-.preview-pane,
-.questions-list,
-.question-details {
-  width: 50%;
+#material {
+  text-align: center;
 }
 
 .preview-iframe {
   width: 95%;
+}
+
+ol {
+  padding: 0;
+}
+
+.material-info,
+.material-questions {
+  display: inline-block;
+  width: 48%;
+  vertical-align: top;
+  margin: 0 1%;
+  background-color: aqua;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+li.option  {
+  display: inline-block;
+  max-width: 120px;
+  width: 100%;
+  background-color: yellow;
+  margin: 5px;
+}
+
+.label,
+.element {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.label {
+  width: 30%;
+}
+
+.element {
+  width: 65%;
 }
 
 .question-option,
@@ -112,7 +165,8 @@ export default {
   width: 40%;
 }
 
-ol {
-  padding: 0;
+
+.question-search {
+  width: 90%;
 }
 </style>

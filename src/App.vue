@@ -39,10 +39,12 @@ export default {
 body {
   margin: 0;
   padding: 0;
+  background-color: #F1ECFF;
 }
 #app * {
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
+  color: #2E3037;
 }
 
 h3 {
@@ -91,7 +93,7 @@ h3 {
 }
 
 .icon-delete::before {
-  content: "\e9ac"
+  content: "\e610"
 }
 
 .icon-basket::before {

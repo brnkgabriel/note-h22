@@ -11,16 +11,7 @@
     <div class="question-option-points" v-if="optionedQuestion">
       <input type="text" class="question-option" v-model="newOption.value" placeholder="Enter option..." />
       <input type="number" class="question-points" v-model="newOption.pts" placeholder="Enter points..." />
-      <button @click="addOption(newOption)">Add Option</button>
-    </div>
-    <div class="question-preview">
-      <h3>Question Preview</h3>
-      <div class="preview-question">{{question.question}}</div>
-      <ul v-if="optionedQuestion">
-        <li v-for="(option, index) in question.options" :key="index">
-          {{option.value}} ({{option.pts}}) <span class="remove-option" @click.prevent="removeOption(option)">x</span>
-        </li>
-      </ul>
+      <button @click="addOption(newOption)" class="add-option">Add Option</button>
     </div>
     <div class="question-actions">
       <button @click.prevent="addQuestion()" class="add-question">Add Question</button>
@@ -85,4 +76,37 @@ export default {
 </script>
 
 <style scoped>
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+li  {
+  display: inline-block;
+  max-width: 100px;
+  width: 100%;
+  background-color: yellow;
+  margin: 5px;
+}
+
+.question-option-points {
+  text-align: center;
+}
+
+.question-option,
+.question-picture {
+  width: 90%;
+  margin: 5px 2%;
+}
+
+.question-points {
+  width: 20%;
+  margin: 5px 1%;
+}
+
+.add-option {
+  width: 68%;
+  margin: 5px 1%
+}
+
 </style>

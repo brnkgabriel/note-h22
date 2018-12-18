@@ -189,7 +189,7 @@ ul {
   left: 0;
   width: 100%;
   height: 6px;
-  background: #2cc185;
+  background: #2E3037;
   content: "";
   -webkit-transition: -webkit-transform 0.3s;
   transition: transform 0.3s;
