@@ -46,7 +46,6 @@ export default {
       var quiz = util.getQuestions(
         this.student.user_data.nextQuiz, this.materials
       );
-      console.log('quiz', quiz);
       return quiz
     }
   },
@@ -54,8 +53,6 @@ export default {
     this.student = util.localStorage().student;
     this.materials = util.localStorage().materials;
     util.fetchMaterials();
-
-    console.log(this.student);
     
     bus.$on("incomingMaterials", () => {
       this.student = util.localStorage().student;
@@ -76,19 +73,9 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
-  font-weight: normal;
-  font-style: normal;
-  font-family: "stroke7pixeden";
-  src: url("../../assets/fonts/stroke7pixeden/stroke7pixeden.eot?u58ytb");
-  src: url("../../assets/fonts/stroke7pixeden/stroke7pixeden.eot?#iefixu58ytb")
-      format("embedded-opentype"),
-    url("../../assets/fonts/stroke7pixeden/stroke7pixeden.woff?u58ytb")
-      format("woff"),
-    url("../../assets/fonts/stroke7pixeden/stroke7pixeden.ttf?u58ytb")
-      format("truetype"),
-    url("../../assets/fonts/stroke7pixeden/stroke7pixeden.svg?u58ytb#stroke7pixeden")
-      format("svg");
+ul {
+  padding: 0;
+  list-style: none;
 }
 /* from tabs.css */
 .tabs {
@@ -151,7 +138,7 @@ export default {
 .content-wrap section {
   display: none;
   margin: 0 none;
-  padding: 1em;
+  /* padding: 1em; */
   max-width: 1200px;
   text-align: center;
 }
@@ -189,6 +176,7 @@ export default {
   border-left: 1px solid #e7ecea;
   -webkit-transition: color 0.2s;
   transition: color 0.2s;
+  text-decoration: none;
 }
 
 .tabs-style-underline nav li:last-child a {

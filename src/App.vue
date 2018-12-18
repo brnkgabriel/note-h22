@@ -36,6 +36,10 @@ export default {
     url("./assets/fonts/icomoon/icomoon.svg?u59ytb#icomoon")
       format("svg");
 }
+body {
+  margin: 0;
+  padding: 0;
+}
 #app * {
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
@@ -90,4 +94,7 @@ h3 {
   content: "\e9ac"
 }
 
+.icon-basket::before {
+  content: "\e611"
+}
 </style>
