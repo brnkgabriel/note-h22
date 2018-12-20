@@ -15,10 +15,10 @@
           <label for="location" class="label">Location:</label>
           <input type="text" class="element" id="location" v-model="material.location" placeholder="Enter location..." />
         </div>
-        <div class="stage">
+        <!-- <div class="stage">
           <label for="stage" class="label">Stage:</label>
           <input type="text" class="element" id="stage" v-model="material.stage" placeholder="Enter stage..." />
-        </div>
+        </div> -->
         <div class="type"> 
           <label for="type" class="label">Type:</label>
           <select  class="element" v-model="material.type">
@@ -30,7 +30,7 @@
         <iframe class="preview-iframe" :src="material.location"></iframe>
         <div class="preview-title"><span class="-preview_title">Title: </span> {{material.title}}</div>
         <div class="preview-author"><span class="-preview_author">By: </span> {{material.author}}</div>
-        <div class="preview-type"><span class="-preview_type">Category: </span> {{material.type}} | <span class="-preview_stage">Stage: </span> {{material.stage}}</div>
+        <!-- <div class="preview-type"><span class="-preview_type">Category: </span> {{material.type}} | <span class="-preview_stage">Stage: </span> {{material.stage}}</div> -->
         <div class="question-preview">
           <h3>Question Preview</h3>
           <div class="preview-question">{{selectedQuestion.question}}</div>

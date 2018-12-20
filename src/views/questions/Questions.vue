@@ -5,20 +5,21 @@
       <input id="search-box" v-model="searchTerm" type="text" placeholder="search for material..."/>
       <div class="material">
         <div class="info">
+          <span @click.prevent="deleteMaterials()" class="icon icon-delete"></span>
           <div class="title material-info"><strong>Title</strong></div>
           <div class="author material-info"><strong>By</strong></div>
           <div class="type material-info"><strong>Type</strong></div>
-          <div class="stage material-info"><strong>Stage</strong></div>
+          <div class="time material-info"><strong>Time</strong></div>
         </div>
       </div>
       <div class="material" v-for="(material, index) in searched" :key="index">
+        <input :class="'checkbox-'+material.uid+' chkbx'" @click="checkedMaterial(material)" type="checkbox" name="material-" />
         <div class="info" @click="selectMaterial(material)">
           <div class="title material-info">{{material.title}}</div>
           <div class="author material-info">{{material.author}}</div>
           <div class="type material-info">{{material.type}}</div>
-          <div class="stage material-info">{{material.stage}}</div>
+          <div class="time material-info">{{material.time}}</div>
         </div>
-        <span @click.prevent="deleteMaterial(material)" class="icon icon-delete"></span>
       </div>
     </div>
     <div class="material-panel">
@@ -43,6 +44,7 @@ export default {
     return {
       selectedMaterial: null,
       materials: [],
+      checkedMaterials: [],
       searchTerm: ''
     };
   },
@@ -53,8 +55,8 @@ export default {
         if (
           material.title.indexOf(this.searchTerm) !== -1 ||
           material.author.indexOf(this.searchTerm) !== -1 ||
-          material.type.indexOf(this.searchTerm) !== -1 ||
-          material.stage.indexOf(this.searchTerm) !== -1
+          material.time.indexOf(this.searchTerm) !== -1 ||
+          material.type.indexOf(this.searchTerm) !== -1 
         ) { condition = true; }
         return condition
       })
@@ -72,16 +74,29 @@ export default {
     selectMaterial(material) {
       this.selectedMaterial = material;
     },
-    deleteMaterial(deletedMat) {
-      this.materials = this.materials.filter(material => {
-        return material.uid !== deletedMat.uid
-      })
-      this.selectedMaterial = this.materials[0]
+    deleteMaterials() {
+      var chkboxes = document.querySelectorAll('.chkbx');
+      if (this.checkedMaterials.length > 0) {
+        this.$store.dispatch('deleteMaterials', this.checkedMaterials)
+      }
+      for (var i = 0; i < chkboxes.length; i++) {
+        chkboxes[i].checked = false;
+      }
     },
     saveMaterials() {
       this.$store.dispatch('saveMaterials', this.materials)
     },
-    addMaterial: function() {
+    checkedMaterial(material) {
+      var chkbox = document.querySelector('.checkbox-'+material.uid);
+      if (chkbox.checked) {
+        this.checkedMaterials.push(material.uid)
+      } else {
+        var index = this.checkedMaterials.indexOf(material.uid)
+        this.checkedMaterials.splice(index, 1);
+      }
+      console.log('checked materials are', this.checkedMaterials)
+    },
+    addMaterial() {
       var newMaterial = {
         author: "Enter author...",
         location: "",
@@ -92,7 +107,7 @@ export default {
             options: []
           }
         ],
-        stage: "Enter stage...",
+        time: "Enter time...",
         title: "Enter title...",
         type: "Enter type...",
         uid: "material-" + +new Date()
@@ -140,10 +155,11 @@ export default {
   width: 30%;
 }
 
-.stage {
-  width: 10%
+.time {
+  width: 6%
 }
-.icon-delete {
+.icon-delete,
+.checkbox {
   width: 2%;
 }
 </style>

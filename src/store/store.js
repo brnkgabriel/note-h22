@@ -134,6 +134,18 @@ export default new Vuex.Store({
       .then(() => console.log('document successfully updated'))
       .catch(err => console.log(err));
     },
+    deleteMaterials (context, payload) {
+      localStorage.setItem('materials', JSON.stringify(payload))
+      var batch = db.batch();
+      for (var i = 0; i < payload.length; i++) {
+        var ref = db.collection("materials").doc(payload[i]);
+        batch.delete(ref);
+        console.log(payload[i]);
+      }
+      batch.commit().then(function () {
+        console.log('deleted')
+      })
+    },
     saveMaterials(context, payload) {
       localStorage.setItem('materials', JSON.stringify(payload))
       var batch = db.batch();

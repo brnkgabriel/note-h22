@@ -29,7 +29,7 @@ var util = {
     var decodedScores = util.decodeScores(scores, materials), quizzesTaken = [];
     var quiz = {}, untakenType = [];
     decodedScores.forEach(score => {
-      Object.keys(score).forEach(key => {
+      Object.keys(score).forEach(key => { 
         if (score[key].id) { quizzesTaken.push(score[key].id); }
       })
     });
@@ -186,10 +186,10 @@ var util = {
   decodeStudentData: function (dbStudent, materials) {
     var student = dbStudent;
     var userData = util.getQuizData(student.user_data);
-    var nextQuiz = util.getQuizID(userData.scores, materials);
+    // var nextQuiz = util.getQuizID(userData.scores, materials);
     var state = util.decodeScore(userData.state, materials);
     var scores = util.decodeScores(userData.scores, materials);
-    student.user_data.nextQuiz = nextQuiz;
+    // student.user_data.nextQuiz = nextQuiz;
     student.user_data.scores = scores
     student.user_data.state = state
     return student;
@@ -201,7 +201,8 @@ var util = {
   },
   quizTypes: mapData.quizTypes,
   preachers: mapData.preachers,
-  messages: mapData.messages
+  messages: mapData.messages,
+  bibleTimeline: mapData.bibleTimeline
 }
 // uncomment below when you want to test
 // and comment when you want to use

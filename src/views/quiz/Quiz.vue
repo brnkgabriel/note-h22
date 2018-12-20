@@ -1,21 +1,27 @@
 <template>
   <div id="quiz" v-if="student">
     <h1>Quiz</h1>
+    <ul class="timeline">
+      <li class="time" v-for="(time, index) in timeline" :key="index">
+        {{time.date}}
+      </li>
+    </ul>
     <div class="tabs tabs-style-underline">
       <nav>
         <ul>
-          <li v-for="(quiz, index) in nextQuiz" :key="index">
-            <a :href="'#section-' + quiz.type" :class="'icon icon-' + quiz.type">
-              <span>{{quiz.type}}</span>
+          <li v-for="(type, index) in quizTypes" :key="index">
+            <a :href="'#section-' + type" :class="'icon icon-' + type">
+              <span>{{type}}</span>
             </a>
           </li>
         </ul>
       </nav>
       <div class="content-wrap">
-        <section v-for="(quiz, index) in nextQuiz" :key="index" :id="'section-' + quiz.type">
+        <section v-for="(quiz, index) in quizTypes" :key="index" :id="'section-' + quiz.type">
           <ul>
-            <li v-for="(question, index) in quiz.questions" :key="index">
-              <question :question="question" :type="quiz.type"  />  
+            <li>
+              {{index}}
+              <!-- <question :question="question" :type="quiz.type"  />   -->
             </li> 
           </ul>
         </section>
@@ -32,13 +38,13 @@ import CBPFWTabs from "../../cbpFWTabs";
 import { bus } from "../../main";
 import Question from './question/Question.vue'
 export default {
-  components: {
-    Question
-  },
+  components: { Question },
   data() {
     return {
       student: null,
-      materials: []
+      materials: [],
+      quizTypes: util.quizTypes,
+      timeline: util.bibleTimeline
     };
   },
   computed: {
@@ -204,5 +210,19 @@ ul {
 
 .tabs-style-underline nav a span {
   font-weight: 700;
+}
+
+.timeline {
+  height: 50px;
+  width: 50%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  margin: 0 auto;
+  white-space: nowrap;
+}
+
+.time {
+  display: inline-block;
+  margin: 5px;
 }
 </style>
