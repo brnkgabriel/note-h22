@@ -99,4 +99,12 @@ h3 {
 .icon-basket::before {
   content: "\e611"
 }
+
+.icon-menu-toggle::before {
+  content: "\e613"
+}
+
+.icon-arrow-right::before {
+  content: "\e612"
+}
 </style>

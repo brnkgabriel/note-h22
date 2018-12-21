@@ -15,10 +15,10 @@
           <label for="location" class="label">Location:</label>
           <input type="text" class="element" id="location" v-model="material.location" placeholder="Enter location..." />
         </div>
-        <!-- <div class="stage">
-          <label for="stage" class="label">Stage:</label>
-          <input type="text" class="element" id="stage" v-model="material.stage" placeholder="Enter stage..." />
-        </div> -->
+        <div class="stage">
+          <label for="time" class="label">Time:</label>
+          <input type="text" class="element" disabled id="time" v-model="material.time" placeholder="Click left to select time..." />
+        </div>
         <div class="type"> 
           <label for="type" class="label">Type:</label>
           <select  class="element" v-model="material.type">
@@ -68,6 +68,7 @@ export default {
   data() {
     return {
       types: util.quizTypes,
+      times: util.bibleTimeline,
       selectedQuestion: null
     };
   },

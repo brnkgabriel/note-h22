@@ -1,6 +1,10 @@
 import { bus } from './main'
 import store from './store/store'; 
+import process from './process-scores'
+import birthdate from './birthdate'
 // Comment the above when you want to run test
+// var process = require('./process-scores');
+// var birthdate = require('./birthdate');
 var mapData = require('./map-data');
 
 var util = {
@@ -42,34 +46,11 @@ var util = {
     })
     return quiz;
   },
-  processQuizType: function (type, response) {
-    var processedType = '|' + response[type]['id'];
-    response[type]['missed'].forEach(item => {
-      processedType += ';' + item;
-    });
-    processedType += ';' + response[type]['stopped'];
-    return processedType;
-  },
   getScores: function (responses, questions) {
-    var scores = 0; 
-    for (var i = 0; i < responses.length; i++) {
-      var response = responses[i].split('|');
-      var foundQuestion = questions
-      .find(question => question.uid === response[0])
-
-      if (foundQuestion) {
-        scores += util.obtainScore(foundQuestion, response[1]); 
-        break;
-      }
-    }
-    return scores;
+    return process.getScores(responses, questions)
   },
   obtainScore: function (foundQuestion, studentAnswer) {
-    var score = foundQuestion.options
-    .find(option => option.key === studentAnswer);
-
-    if (score !== undefined) { return parseInt(score.pts); }
-    else { return 0; }
+    return process.obtainScore(foundQuestion, studentAnswer)
   },
   fetchMaterials: function () { 
     var CheckMaterials = function () {
@@ -80,102 +61,26 @@ var util = {
     }
     var delayTillArrival = setInterval(CheckMaterials, 10);
   },
-  fetchQuestions: function () {
-    var CheckQuestions = function () {
-      if (store.state.questions) {
-        bus.$emit('incomingQuestions', JSON.parse(localStorage.getItem('questions')));
-        clearInterval(delayTillArrival);
-      }
-    }
-    var delayTillArrival = setInterval(CheckQuestions, 10);
-  },
   getAge: function (birthday, today) {
-    var bday = util.getBirthdayObject(birthday);
-    return util.compareAndReturnRightAge(today, bday);
+    return birthdate.getAge(birthday, today)
   },
   compareAndReturnRightAge: function (today, bday) {
-    if (today.month < bday.month ||
-      (
-        today.month == bday.month &&
-        today.day < bday.day
-      )) { return (today.year - bday.year) - 1; }
-    return today.year - bday.year;
+    return birthdate.compareAndReturnRightAge(today, bday);
   },
   getBirthdayObject: function (birthday) {
-    var delimeter = (birthday.indexOf('/') !== -1) ? '/' : '-';
-    var bdayArray = birthday.split(delimeter);
-    if (delimeter === '-') {
-      return {
-        day: parseInt(bdayArray[2]),
-        month: parseInt(bdayArray[1]),
-        year: parseInt(bdayArray[0])
-      }
-    }
-    return {
-      day: parseInt(bdayArray[1]),
-      month: parseInt(bdayArray[0]),
-      year: parseInt(bdayArray[2])
-    }
-  },
-  addQuizzes: function (quizzes, expandedResponse, materials) {
-    for (var i = 0; i < quizzes.length; i++) {
-      var splitted = quizzes[i].split(';');
-      var id = splitted[0];
-      var stopped = splitted[splitted.length - 1];
-      var missed = [];
-      for (var j = 1; j < splitted.length-1; j++) {
-        missed.push(splitted[j]);
-      }
-      // made use of destructuring below
-      expandedResponse[util.getType(id, materials)] = {
-        id, stopped, missed
-      }
-    }
-  },
-  getType: function (id, materials) {
-    var foundMaterial = materials.find(mat => mat.uid === id);
-    return foundMaterial.type;
-  },
-  expandResponse: function (response, materials) {
-    var splittedResponse = response.split('|');
-    var dateAndQuizNo = splittedResponse[0].split('@');
-    var quizzes = splittedResponse
-    .filter(response => response !== splittedResponse[0]);
-    var expandedResponse = {
-      date: dateAndQuizNo[0],
-      quizNo: dateAndQuizNo[1]
-    }
-    util.addQuizzes(quizzes, expandedResponse, materials);
-    return expandedResponse
-  },
-  compressResponse: function (response) {
-    var compressedResponse = response['date'] + '@' + response['quizNo'];
-    util.quizTypes.forEach(type => {
-      if (response[type]) {
-        compressedResponse += util.processQuizType(type, response);
-      }
-    })
-    return compressedResponse;
+    return birthdate.getBirthdayObject(birthday);
   },
   decodeScore: function (codedScore, materials) {
-    return util.expandResponse(codedScore, materials);
+    return process.decodeScore(codedScore, materials);
   },
-  encodeScore: function (decodedScore) {
-    return util.compressResponse(decodedScore);
+  encodeScore: function (decodedScores) {
+    return process.encodeScore(decodedScores)
   },
-  decodeScores: function (scores, materials) {
-    var encodedScores = scores.split('*'), decodedScores = [];
-    for (var i = 0; i < encodedScores.length; i++) {
-      decodedScores.push(util.decodeScore(encodedScores[i], materials))
-    }
-    return decodedScores;
+  decodeScores: function (scores, materials){
+    return process.decodeScores(scores, materials)
   },
   encodeScores: function (scores) {
-    var encodedScores = [];
-    for (var i = 0; i < scores.length; i++) {
-      encodedScores.push(util.encodeScore(scores[i]))
-    }
-    return encodedScores.join('*')
+    return process.encodeScores(scores)
   },
   localStorage: function () { 
     var dbStudent = JSON.parse(localStorage.getItem('student'))
@@ -186,10 +91,8 @@ var util = {
   decodeStudentData: function (dbStudent, materials) {
     var student = dbStudent;
     var userData = util.getQuizData(student.user_data);
-    // var nextQuiz = util.getQuizID(userData.scores, materials);
     var state = util.decodeScore(userData.state, materials);
     var scores = util.decodeScores(userData.scores, materials);
-    // student.user_data.nextQuiz = nextQuiz;
     student.user_data.scores = scores
     student.user_data.state = state
     return student;

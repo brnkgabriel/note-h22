@@ -64,7 +64,7 @@ export default new Vuex.Store({
             'author': doc.data().author,
             'location': doc.data().location,
             'questions': doc.data().questions,
-            'stage': doc.data().stage,
+            'time': doc.data().time,
             'title': doc.data().title,
             'type': doc.data().type,
             'uid': doc.data().uid

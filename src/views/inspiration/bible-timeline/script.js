@@ -19,10 +19,10 @@
     var event = { date: '', events: [] }
     if (foundIdx == -1) {
       event['date'] = time.date;
-      event['events'].push(time.event)
+      event['events'].push(time.event + ' (' + time.bibleRef + ')')
       times.push(event);
     } else {
-      times[foundIdx].events.push(time.event)
+      times[foundIdx].events.push(time.event + ' (' + time.bibleRef + ')')
     }
   })
   localStorage.setItem('times', JSON.stringify(times))

@@ -1,5 +1,6 @@
 var expect = require('chai').expect;
 var util = require('../src/util');
+var process = require('../src/process-scores')
 var quizData = require('./data')
 
 var codedScore = '2018-12-10@0';
@@ -135,15 +136,15 @@ describe('util', () => {
 //   })
 // })
 
-describe('util.compressResponse', () => {
+describe('process.compressResponse', () => {
   it('should compress quizData.expandedResponse', () => {
-    expect(util.compressResponse(quizData.expandedResponse)).to.be.eql(quizData.compressedResponse)
+    expect(process.compressResponse(quizData.expandedResponse)).to.be.eql(quizData.compressedResponse)
   })
 })
 
-describe('util.expandResponse', () => {
+describe('process.expandResponse', () => {
   it('should expand quizData.compressedResponse', () => {
-    expect(util.expandResponse(quizData.compressedResponse, quizData.materials)).to.be.eql(quizData.expandedResponse)
+    expect(process.expandResponse(quizData.compressedResponse, quizData.materials)).to.be.eql(quizData.expandedResponse)
   })
 })
 

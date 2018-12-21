@@ -1,11 +1,29 @@
 <template>
   <div id="quiz" v-if="student">
     <h1>Quiz</h1>
-    <ul class="timeline">
+    <div id="wrapper">
+      <input type="checkbox" id="menu" name="menu" class="menu-checkbox"/>
+      <div class="menu">
+        <label for="menu" class="menu-toggle icon icon-menu-toggle"></label>
+        <ul>
+          <li v-for="(time, index) in timeline" :key="index">
+            <label :for="'menu-' + index">{{time.date}} <span class="icon icon-arrow-right"></span></label>
+            <input type="checkbox" :id="'menu-' + index" :name="'menu-' + index" class="menu-checkbox"/>
+            <div class="menu">
+              <label :for="'menu-' + index" class="menu-toggle icon icon-menu-toggle"></label>
+              <ul>
+                <li v-for="(event, index) in time.events" :key="index"><a href="#">{{event}}</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- <ul class="timeline">
       <li class="time" v-for="(time, index) in timeline" :key="index">
         {{time.date}}
       </li>
-    </ul>
+    </ul> -->
     <div class="tabs tabs-style-underline">
       <nav>
         <ul>
@@ -21,7 +39,6 @@
           <ul>
             <li>
               {{index}}
-              <!-- <question :question="question" :type="quiz.type"  />   -->
             </li> 
           </ul>
         </section>
@@ -88,7 +105,7 @@ ul {
   position: relative;
   overflow: hidden;
   margin: 0 auto;
-  width: 100%;
+  /* width: 100%; */
   font-weight: 300;
   font-size: 1.25em;
 }
@@ -213,16 +230,106 @@ ul {
 }
 
 .timeline {
-  height: 50px;
-  width: 50%;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  height: 530px;
+  width: auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
   margin: 0 auto;
   white-space: nowrap;
 }
 
-.time {
+/* .tabs,
+.timeline {
   display: inline-block;
+  vertical-align: top;
+} */
+
+/* .tabs {
+  width: 80%;
+}
+
+.timeline {
+  width: 10%;
+} */
+
+.time {
+  /* display: inline-block; */
   margin: 5px;
+}
+
+#quiz {
+  text-align: center;
+  /* position: relative; */
+}
+
+/*********************** timeline css *************************/
+#wrapper {
+  position: absolute;
+  width: 30%;
+  height: 100%;
+  overflow: scroll;
+  z-index: 1;
+}
+
+label {
+  cursor: pointer;
+}
+
+label:focus {
+  outline: none;
+}
+
+.menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #fff;
+  width: 240px;
+  height: 100%;
+  transform: translate3d(-240px,0,0);
+  transition: transform 0.35s;
+}
+
+.menu label.menu-toggle {
+  position: absolute;
+  right: -60px;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  display: block;
+  padding: 0;
+  text-align: center;
+  background-color: white;
+}
+
+.menu label.menu-toggle * {
+  color: black;
+}
+
+.menu ul li a,
+.menu ul li label {
+  display: block;
+  text-align: center;
+  padding: 0 20px;
+  line-height: 60px;
+  text-decoration: none;
+  color: #000;
+}
+
+.menu ul li a:hover,
+.menu ul li label:hover {
+  color: #666;
+}
+
+.menu-checkbox {
+  display: none;
+}
+
+.menu .menu label.menu-toggle {
+  background: none;
+}
+
+.menu-checkbox:checked + .menu {
+  transform: translate3d(0,0,0);
 }
 </style>
