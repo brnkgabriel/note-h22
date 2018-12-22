@@ -45,6 +45,9 @@ body {
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   color: #2E3037;
+  /* Better Font Rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale
 }
 
 h3 {
