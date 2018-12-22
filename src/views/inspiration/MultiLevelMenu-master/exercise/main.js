@@ -140,6 +140,51 @@
         this._crawlCrumbs(self.menusArr[self.current_menu].backIdx, self.menusArr);
         this.breadCrumbs = true;
       }
+
+      // Create current submenu breadcrumb
+      if (self.current_menu != 0) {
+        this._addBreadcrumb(self.current_menu);
+        this.breadCrumbs = true;
+      }
+    }
+    // create back button
+    if (this.options.backCtrl) {
+      this.backCtrl = document.createElement('button');
+      if (this.breadCrumbs) {
+        this.backCtrl.className = 'menu__back';
+      } else {
+        this.backCtrl.className = 'menu__back menu__back--hidden';
+      }
+
+      this.backCtrl.setAttribute('aria-label', 'Go back');
+      this.backCtrl.innerHTML = '<span class="icon icon--arrow-left"></span>';
+      this.el.insertBefore(this.backCtrl, this.el.firstChild);
+    }
+    // event binding
+    this._initEvents();
+  }
+
+  MLMenu.prototype._initEvents = function () {
+    var self = this;
+
+    for (var i = 0, len = this.menusArr.length; i < len; ++i) {
+      this.menusArr[i].menuItems.forEach(function (item, pos) {
+        item.querySelector('a').addEventListener('click', function (ev) {
+          var submenu = ev.target.getAttribute('data-submenu');
+          var itemName = ev.target.innerHTML;
+          var subMenuEl = self.el.querySelector('ul[data-menu="' + submenu + '"]');
+
+          // check if there's a sub menu for this item
+          if (submenu && subMenuEl) {
+            ev.preventDefault();
+            // open it
+            self._openSubMenu(subMenuEl, pos, itemName);
+          } else {
+            // add class current
+            
+          }
+        })
+      })
     }
   }
-})();
+}) ();
