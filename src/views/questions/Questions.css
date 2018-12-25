@@ -1,0 +1,66 @@
+
+.material-tables,
+.material-panel,
+.material-info {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.material-tables {
+  width: 58%;
+  height: 530px;
+}
+
+.list-of-materials,
+.list-of-bible-times {
+  overflow: auto;
+  margin: 0 0.5%;
+  background-color: white;
+  height: 300px;
+}
+
+.list-of-bible-times {
+  margin-bottom: 10px;
+  height: 220px;
+}
+
+.material-panel {
+  width: 40%;
+  margin: 0 0.5%;
+  height: 530px;
+  overflow: auto;
+  background-color: white;
+}
+
+.info {
+  width: 95%;
+  display: inline-block;
+  margin: 5px 0;
+}
+
+.title,
+.author {
+  width: 30%;
+}
+
+.time,
+.type {
+  width: 18%
+}
+.icon-delete,
+.checkbox {
+  width: 2%;
+}
+
+.timeline-time {
+  width: 40%;
+}
+
+.timeline-events {
+  width: 50%;
+}
+@media only screen and (max-width: 768px) {
+  .materials {
+    display: none;
+  }
+}

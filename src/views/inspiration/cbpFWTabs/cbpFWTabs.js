@@ -1,4 +1,10 @@
 
+(function () {
+	[].slice.call(document.querySelectorAll('.tabs'))
+		.forEach(function (el) {
+			new CBPFWTabs(el);
+		})
+})();
 export default function CBPFWTabs(el, options) {
 	this.el = el;
 	this.options = extend({}, this.options);

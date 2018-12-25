@@ -1,0 +1,28 @@
+<div id="quiz" v-if="student">
+  <h1>Quiz</h1>
+    <input v-model="search" type="text" placeholder="Enter search term...">
+    <button @click.prevent="gotoPage('prev')">Prev Page</button>
+    <button @click.prevent="gotoPage('next')">Next Page</button>
+    <div class="container">
+      <div class="mp-pusher" id="mp-pusher">
+        <nav id="mp-menu" class="mp-menu">
+          <div class="mp-level">
+            <h2 class="icon icon-world">Creation till Date</h2>
+            <ul>
+              <li v-for="(time, index) in timeline" :key="index" class="icon icon-arrow-right">
+                <a href="#">{{time.date}}</a>
+                <div class="mp-level">
+                  <h2>{{time.date}}</h2>
+                  <a href="#" class="mp-back">back</a>
+                  <ul>
+                    <li :class="" v-for="(event, index) in time.events" :key="index">{{event}}</li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+    
+</div>
