@@ -2,6 +2,7 @@ import beforeRouteEnter from "./beforeRouteEnter-quiz";
 import util from "../../util";
 import { bus } from "../../main";
 import Question from './question/Question.vue'
+import SideNav from './sidenav'
 
 export default {
   components: { Question },
@@ -18,11 +19,21 @@ export default {
   },
   computed: {
     searched: function () {
-      return this.searchBox;
+      var filtered = util.bibleTimeline.filter(time => {
+        var condition = false;
+        if (
+          time.date.toLowerCase().indexOf(this.search.toLowerCase()) !== -1 ||
+          time.events.join(', ').toLowerCase().indexOf(this.search.toLowerCase()) !== -1
+        ) { condition = true; }
+        return condition
+      })
+      this.timeline = filtered;
+      return filtered;
     }
   },
   mounted: function () {
     this.gotoPage('', util.bibleTimeline);
+    new SideNav();
   },
   created() {
     this.student = util.localStorage().student;

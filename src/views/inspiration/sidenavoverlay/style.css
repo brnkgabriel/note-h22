@@ -1,31 +1,43 @@
+
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 nav {
   height: 60px;
   width: 100%;
   background: #282828;
+  display: flex;
+  flex: row;
+  align-items: center;
 }
 
 .menu-open i {
-  color: white !important;
-  font-size: 36px !important;
+  color: white;
+  font-size: 36px;
   padding-left: 10px;
 }
 
 .menu-close i {
-  color: black !important;
-  font-size: 36px !important;
+  color: black;
+  font-size: 36px;
   padding: 10px;
 }
 
 .side-nav {
   position: relative;
-  transition: transform 0.35s ease-out;
+  transition: transform .35s ease-out;
   background: #f0f0f0;
   height: 100%;
   width: 90%;
   max-width: 400px;
-  box-shadow: 0 5px 6px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 5px 6px 4px rgba(0, 0, 0, 0.2);
   transform: translateX(-102%);
   will-change: transform;
+  display: flex;
+  flex-direction: column;
 }
 
 .side-nav-container {
@@ -38,8 +50,8 @@ nav {
   pointer-events: none;
 }
 
-.side-nav-container::before {
-  transition: opacity 0.3s cubic(0,0,0.3,1);
+.side-nav-container:before {
+  transition: opacity 0.3s cubic-bezier(0, 0, 0.3, 1);
   content: '';
   display: block;
   position: absolute;
@@ -47,18 +59,18 @@ nav {
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   will-change: opacity;
   opacity: 0;
   pointer-events: none;
 }
 
 .side-nav-animatable .side-nav {
-  transition: transform 0.33s cubic-bezier(0,0,0.3,0.1);
+  transition: transform 0.33s cubic-bexier(0, 0, 0.3, 0.1);
 }
 
 .side-nav-animatable.side-nav-visible .side-nav {
-  transition: transform 0.33s cubic-bezier(0,0,0.3,1);
+  transition: transform 0.33s cubic-bezier(0, 0, 0.3, 1);
 }
 
 .side-nav-visible {
@@ -66,9 +78,9 @@ nav {
 }
 
 .side-nav-visible .side-nav {
-  transform: translateX(0%)
+  transform: none;
 }
 
-.side-nav-visible::before {
+.side-nav-visible:before {
   opacity: 1;
 }
