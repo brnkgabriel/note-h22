@@ -1,0 +1,32 @@
+<div v-if="materials">
+  <div class="tabs tabs-style-underline">
+    <nav>
+      <ul>
+        <li :class="tab.materials" @click="setState('materials')">
+          <a href="#section-materials" class="icon icon-content">
+            <span>Materials</span>
+          </a>
+        </li>
+        <li :class="tab.questions" @click="setState('questions')">
+          <a href="#section-questions" class="icon icon-questions">
+            <span>Questions</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="content-wrap">
+      <section id="section-materials" :class="tab.materials">
+        <div class="material-list">
+          <div v-for="(material, index) in materials" :key="index">
+            <div class="material-title">{{material.title}}</div>
+            <div class="material-questions icon icon-questions" @click="openQuestion(material)"></div>
+          </div>
+        </div>
+        <div class="material-pane">
+          pane
+        </div>
+      </section>
+      <section id="section-questions" :class="tab.questions">2</section>
+    </div>
+  </div>
+</div>

@@ -5,7 +5,7 @@ import About from './views/About.vue'
 import Profile from './views/profile/Profile.vue'
 import Quiz from './views/quiz/Quiz.vue'
 import Rank from './views/rank/Rank.vue'
-import Questions from './views/questions/Questions.vue'
+import Materials from './views/materials/Materials.vue'
 import Login from './views/login/Login.vue'
 import Signup from './views/signup/Signup.vue'
 
@@ -52,9 +52,9 @@ let router = new Router({
       }
     },
     {
-      path: '/questions',
-      name: 'questions',
-      component: Questions,
+      path: '/materials',
+      name: 'materials',
+      component: Materials,
       meta: {
         requiresAuth: true
       }

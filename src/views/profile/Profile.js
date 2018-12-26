@@ -1,5 +1,5 @@
 
-import beforeRouteEnter from "./beforeRouteEnter-profile"
+import beforeRouteEnter from '../../util/beforeRouteEnter'
 import util from "../../util"
 import methods from './methods-profile'
 import { bus } from '../../main'

@@ -16,9 +16,26 @@ nav {
   padding: 10px;
 }
 
+.side-nav-level {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: yellow;
+  height: 100%;
+  width: 100%;
+  max-width: 400px;
+  transform: translateX(-102%);
+  will-change: transform;
+  transition: transform 0.3s ease-out;
+}
+
+.side-nav-level.open {
+  transform: translateX(0%);
+}
+
 .side-nav {
   position: relative;
-  transition: transform 0.35s ease-out;
+  transition: transform 0.3s ease-out;
   background: #f0f0f0;
   height: 100%;
   width: 90%;
@@ -54,11 +71,11 @@ nav {
 }
 
 .side-nav-animatable .side-nav {
-  transition: transform 0.33s cubic-bezier(0,0,0.3,0.1);
+  transition: transform 0.3s cubic-bezier(0,0,0.3,0.1);
 }
 
 .side-nav-animatable.side-nav-visible .side-nav {
-  transition: transform 0.33s cubic-bezier(0,0,0.3,1);
+  transition: transform 0.3s cubic-bezier(0,0,0.3,1);
 }
 
 .side-nav-visible {

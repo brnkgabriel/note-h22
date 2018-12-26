@@ -5,7 +5,7 @@
       <li><router-link class="nav-link" to="/">Home</router-link></li>
       <li v-if="isLoggedIn"><router-link class="nav-link" to="/profile">Profile</router-link></li>
       <li v-if="isLoggedIn"><router-link class="nav-link" to="/quiz">Quiz</router-link></li>
-      <li v-if="isLoggedIn && student.roles_permissions.roles === 'admin'"><router-link class="nav-link" to="/questions">Questions</router-link></li>
+      <li v-if="isLoggedIn && student.roles_permissions.roles === 'admin'"><router-link class="nav-link" to="/materials">Materials</router-link></li>
       <li v-if="isLoggedIn"><router-link class="nav-link" to="/rank">Rank</router-link></li> 
       <li v-if="!isLoggedIn"><router-link class="nav-link" to="/login">Login</router-link></li>
       <li v-if="!isLoggedIn"><router-link class="nav-link" to="/signup">Signup</router-link></li>

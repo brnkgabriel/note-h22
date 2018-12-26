@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import db from '../firebase/firebase-init'
-import 'firebase/auth';
+import 'firebase/auth/dist/index.cjs';
 import { bus } from '../main'
 
 Vue.use(Vuex)
@@ -10,7 +10,6 @@ export default new Vuex.Store({
   state: {
     students: null,
     materials: null,
-    questions: null,
     student: null
   },
   mutations: {
@@ -21,11 +20,6 @@ export default new Vuex.Store({
       localStorage.setItem('materials', JSON.stringify(payload));
       bus.$emit('incomingMaterials');
       state.materials = payload;
-    },
-    setQuestions(state, payload) {
-      localStorage.setItem('questions', JSON.stringify(payload));
-      bus.$emit('incomingQuestions', payload);
-      state.questions = payload;
     },
     setStudent(state, payload) {
       localStorage.setItem('student', JSON.stringify(payload));
@@ -66,6 +60,7 @@ export default new Vuex.Store({
             'questions': doc.data().questions,
             'time': doc.data().time,
             'title': doc.data().title,
+            'event': doc.data().event,
             'type': doc.data().type,
             'uid': doc.data().uid
           }
@@ -74,27 +69,6 @@ export default new Vuex.Store({
 
         context.commit('setMaterials', dbMaterials);
       })
-    },
-    getQuestions(context) {
-      db.collection('questions')
-        .onSnapshot(snapshot => {
-          var dbQuestions = [];
-          snapshot.forEach(doc => {
-            const question = {
-              'uid': doc.data().uid,
-              'serial': doc.data().serial,
-              'stage': doc.data().stage,
-              'img': doc.data().img,
-              'question': doc.data().question,
-              'options': doc.data().options,
-              'option': doc.data().option,
-              'answer': doc.data().answer,
-              'type': doc.data().type
-            }
-            dbQuestions.push(question);
-          })
-          context.commit('setQuestions', dbQuestions);
-        })
     },
     getStudent(context, payload) {
       db.collection('users')
@@ -128,12 +102,6 @@ export default new Vuex.Store({
       .catch(err => console.log(err));
       context.commit('setStudent', payload);
     },
-    saveMaterial(context, payload) {
-      db.collection('materials')
-      .doc(payload.uid).update(payload)
-      .then(() => console.log('document successfully updated'))
-      .catch(err => console.log(err));
-    },
     deleteMaterials (context, payload) {
       localStorage.setItem('materials', JSON.stringify(payload))
       var batch = db.batch();
@@ -164,22 +132,5 @@ export default new Vuex.Store({
         console.log(payload.title, 'successfully written!')
       })
     },
-    storeQuestions(context, payload) {
-      localStorage.setItem('questions', JSON.stringify(payload))
-      var batch = db.batch();
-      for (var i = 0; i < payload.length; i++) {
-        var ref = db.collection("questions").doc(payload[i].uid);
-        batch.set(ref, payload[i]);
-        console.log(payload[i]);
-      }
-      batch.commit().then(function () {
-        console.log('committed')
-      })
-    }
-  },
-  getters: {
-    getStudent(state) {
-      return state.students;
-    }
   }
 })

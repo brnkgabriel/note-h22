@@ -1,4 +1,4 @@
-import beforeRouteEnter from "./beforeRouteEnter-quiz";
+import beforeRouteEnter from '../../util/beforeRouteEnter';
 import util from "../../util";
 import { bus } from "../../main";
 import Question from './question/Question.vue'
@@ -14,7 +14,9 @@ export default {
       timeline: null,
       currentPage: 1,
       recordsPerPage: 15,
-      search: ''
+      search: '',
+      selectedTime: util.bibleTimeline[0],
+      eventsClass: ''
     };
   },
   computed: {
@@ -51,8 +53,14 @@ export default {
       evt.preventDefault();
       this.$store.dispatch("updateStudent", util.encodeStudent(this.student));
     },
+    selectTime: function (time) {
+      this.selectedTime = time;
+      this.eventsClass = 'open';
+    },
     gotoPage: function (page) {
-      if (page) { page === 'prev' ? this.prevPage() : this.nextPage(); }
+      if (page) { page === 'prev' ? this.currentPage-- : this.currentPage++ }
+      if (this.currentPage < 1) { this.currentPage = this.numPages();  }
+      else if (this.currentPage > this.numPages()) { this.currentPage = 1; }
       return this.changePage(this.currentPage);
     },
     changePage: function (page) {
@@ -65,14 +73,6 @@ export default {
         start = end - this.recordsPerPage + 1;
       }
       this.timeline = util.bibleTimeline.slice(start, end);
-    },
-    prevPage: function () {
-      this.currentPage--;
-      if (this.currentPage < 1) { this.currentPage = this.numPages();  }
-    },
-    nextPage: function () {
-      this.currentPage++;
-      if (this.currentPage > this.numPages()) { this.currentPage = 1; }
     },
     numPages: function () {
       return Math.ceil(util.bibleTimeline.length / this.recordsPerPage);
