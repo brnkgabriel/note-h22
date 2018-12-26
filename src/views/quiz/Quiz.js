@@ -1,11 +1,9 @@
 import beforeRouteEnter from '../../util/beforeRouteEnter';
 import util from "../../util";
 import { bus } from "../../main";
-import Question from './question/Question.vue'
 import SideNav from './sidenav'
 
 export default {
-  components: { Question },
   data() {
     return {
       student: null,
@@ -16,7 +14,8 @@ export default {
       recordsPerPage: 15,
       search: '',
       selectedTime: util.bibleTimeline[0],
-      eventsClass: ''
+      eventsClass: '',
+      selectedMaterials: []
     };
   },
   computed: {
@@ -76,6 +75,18 @@ export default {
     },
     numPages: function () {
       return Math.ceil(util.bibleTimeline.length / this.recordsPerPage);
+    },
+    selectMaterials: function (event) {
+      var sMaterials = this.materials.filter(material => {
+        return material.event.toLowerCase() === event.toLowerCase()
+      })
+      this.selectedMaterials = sMaterials;
+      // console.log('selected event is', event)
+    },
+    getThumbnail: function (embedLink) {
+      var videoIdArray = embedLink.split('/');
+      var videoId = videoIdArray[videoIdArray.length - 1];
+      return 'https://img.youtube.com/vi/' + videoId + '/2.jpg';
     }
   }
 };

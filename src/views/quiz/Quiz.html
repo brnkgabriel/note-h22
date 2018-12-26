@@ -13,7 +13,7 @@
           <a @click="eventsClass=''" class="close-events" href="#">back</a>
           <h2>{{selectedTime.date}}</h2>
           <ul>
-            <li v-for="(event, index) in selectedTime.events" :key="index">{{event}}</li>
+            <li v-for="(event, index) in selectedTime.events" :key="index" @click="selectMaterials(event)">{{event}}</li>
           </ul>
         </div>
         <a href="#0" class="js-menu-close menu-close">
@@ -34,4 +34,10 @@
     </div>
   </div>
 
+  <div class="selected-materials">
+    <div class="selected-material" v-for="(material, index) in selectedMaterials" :key="index">
+      <div class="selected-material-title">{{material.title}}</div>
+      <div class="selected-material-thumbnail"><img :src="getThumbnail(material.location)" alt="thumbnail"/></div>
+    </div>
+  </div>
 </div>

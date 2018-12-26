@@ -6,7 +6,7 @@ ul {
 .tabs {
   position: relative;
   overflow: hidden;
-  margin: 0 auto;
+  margin: 0 10px;
   font-weight: 300;
   font-size: 1.25em;
 }
@@ -121,16 +121,70 @@ ul {
 .material-list,
 .material-pane,
 .material-title,
-.material-questions {
+.material-questions,
+.material-edit-pane,
+.material-preview-pane,
+.question-list,
+.question-pane,
+.question-edit-pane,
+.question-preview-pane {
   display: inline-block;
+  vertical-align: top;
 }
 
-.material-list {
+.material-list,
+.question-list {
   width: 60%;
   background-color: greenyellow
 }
 
-.material-pane {
+.material-pane,
+.question-pane {
   width: 40%;
-  background-color: maroon;
+  background-color: aqua;
+}
+
+.material-edit-pane,
+.material-preview-pane,
+.question-edit-pane,
+.question-preview-pane  {
+  width: 46%;
+  margin: 2%;
+}
+
+iframe {
+  width: 100%
+}
+
+.material-questions {
+  cursor: pointer;
+}
+
+.material-edit-pane > div > label,
+.material-edit-pane > div > input {
+  display: inline-block;
+  text-align: left;
+}
+
+.material-edit-pane > div > label {
+  width: 30%;
+}
+
+.material-edit-pane > div > input {
+  width: 70%;
+}
+
+.material-preview-title,
+.material-preview-time {
+  font-weight: bold;
+  font-size: 1.1em !important;
+}
+
+.material-preview-author,
+.material-preview-event {
+  font-size: 0.75em;
+}
+
+.save-materials {
+  text-align: center;
 }
