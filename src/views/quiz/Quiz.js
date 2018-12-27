@@ -81,7 +81,6 @@ export default {
         return material.event.toLowerCase() === event.toLowerCase()
       })
       this.selectedMaterials = sMaterials;
-      // console.log('selected event is', event)
     },
     getThumbnail: function (embedLink) {
       var videoIdArray = embedLink.split('/');

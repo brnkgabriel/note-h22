@@ -20,9 +20,14 @@
     <div class="content-wrap">
       <section id="section-materials" :class="tab.materials">
         <div class="material-list">
-          <div v-for="(material, index) in materials" :key="index">
-            <div class="material-title" @click="selectMaterial(material)">{{material.title}}</div>
-            <div class="material-questions icon icon-questions" @click="openQuestion(material)"></div>
+          <div class="materials">
+            <div v-for="(material, index) in materials" :key="index">
+              <div class="material-title" @click="selectMaterial(material)">{{material.title}}</div>
+              <div class="material-questions icon icon-questions" @click="openQuestion(material)"></div>
+            </div>
+          </div>
+          <div id="infinite-list" class="timeline">
+            <div v-for="(time, index) in timeline" :key="index" @click="selectTime(time)">{{time.date}}</div>
           </div>
         </div>
         <div class="material-pane">
@@ -41,11 +46,13 @@
             </div>
             <div class="material-edit-event">
               <label for="material-edit-event">Event: </label>
-              <input type="text" id="material-edit-event" placeholder="material event..." v-model="selectedMaterial.event">
+              <select v-model="selectedMaterial.event">
+                <option v-for="(event, index) in selectedEvents" :key="index">{{event}}</option>
+              </select>
             </div>
             <div class="material-edit-time">
               <label for="material-edit-time">Time: </label>
-              <input type="text" id="material-edit-time" placeholder="material time..." v-model="selectedMaterial.time">
+              <input disabled type="text" id="material-edit-time" placeholder="material time..." v-model="selectedMaterial.time">
             </div>
             <div class="material-edit-type">
               <label for="material-edit-type">Type: </label>

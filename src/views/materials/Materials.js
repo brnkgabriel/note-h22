@@ -1,32 +1,72 @@
 import beforeRouteEnter from '../../util/beforeRouteEnter'
-import util from '../../util';
-import { bus } from '../../main';
+import util from '../../util'
+import { bus } from '../../main'
+import InfiniteList from './infinite-list'
+import properties from './properties'
+
 export default {
   data() {
     return {
       materials: [],
-      tab: {
-        materials: 'tab-current',
-        questions: ''
-      },
+      timeline: [],
+      tab: { materials: 'tab-current', questions: '' },
       selectedMaterial: null,
       selectedQuestion: null,
-      selectedOption: null
+      selectedOption: null,
+      selectedEvents: null,
+      interval: null,
+      listElm: null,
+      count: 0
     }
   },
+  mounted() {
+    this.interval = setInterval(this.checkElement, 10)
+  },
   created() {
-    this.materials = util.localStorage().materials;
+    this.initializeData();
     util.fetchMaterials();
 
     bus.$on("incomingMaterials", () => {
-      this.materials = util.localStorage().materials;
-      this.selectedMaterial = this.materials[0];
-      this.selectedQuestion = this.selectedMaterial.questions[0];
-      this.selectedOption = this.selectedQuestion.options[0]
+      this.initializeData();
     })
   },
   beforeRouteEnter: beforeRouteEnter,
   methods: {
+    initializeData: function () {
+      this.materials = util.localStorage().materials;
+      this.selectedMaterial = this.materials[0];
+      this.selectedQuestion = this.selectedMaterial.questions[0];
+      this.selectedOption = this.selectedQuestion.options[0];
+      this.selectedEvents = util.bibleTimeline.find(time => {
+        return time.date.toLowerCase() === this.selectedMaterial.time.toLowerCase()
+      }).events;
+    },
+    checkElement: function () {
+      this.listElm = document.querySelector('#infinite-list');
+      if (this.listElm) {
+        this.loadMore();
+        this.listElm.addEventListener('scroll', this.handleScroll);
+        clearInterval(this.interval)
+      }
+    },
+    handleScroll: function () {
+      if (
+        this.listElm.scrollTop + this.listElm.clientHeight >= this.listElm.scrollHeight
+      ) { this.loadMore(); }
+    },
+    loadMore: function () {
+      var limit = this.count + 20;
+      for (var i = this.count; i < limit; i++) {
+        if (i === (util.bibleTimeline.length - 1)) { return }
+        this.count++;
+        this.timeline.push(util.bibleTimeline[i]);
+      }
+    },
+    selectTime: function (time) {
+      this.selectedMaterial.time = time.date;
+      this.selectedEvents = time.events;
+      this.selectedMaterial.event = time.events[0];
+    },
     setState: function (selected) {
       var tabKeys = Object.keys(this.tab);
       tabKeys.forEach(key => this.tab[key] = '');
@@ -40,29 +80,7 @@ export default {
       this.selectedMaterial = material;
     },
     addMaterial: function () {
-      var newMaterial = {
-        title: 'Material title...',
-        author: 'Material author...',
-        event: 'Material event...',
-        time: 'Material time...',
-        location: 'Material web location...',
-        type: 'Material type...',
-        questions: [
-          {
-            title: 'New Question...',
-            options: [
-              {
-                key: 'New Option',
-                value: 'New Value',
-                pts: 0
-              }
-            ],
-            uid: 'question-' + +new Date
-          }
-        ],
-        uid: 'material-' + +new Date
-      }
-      this.materials.unshift(newMaterial);
+      this.materials.unshift(properties.newMaterial());
       this.selectedMaterial = this.materials[0]
     },
     saveMaterials: function () {
@@ -75,25 +93,11 @@ export default {
       this.selectedOption = option;
     },
     addOption: function () {
-      var newOption = {
-        value: 'Enter New Option...',
-        pts: 0
-      }
-      this.selectedQuestion.options.unshift(newOption);
+      this.selectedQuestion.options.unshift(properties.newOption());
       this.selectedOption = this.selectedQuestion.options[0];
     },
     addQuestion: function () {
-      var newQuestion = {
-        title: 'Enter New Question',
-        uid: 'Question-' + +new Date,
-        options: [
-          {
-            value: 'Enter New Option...',
-            pts: 0
-          }
-        ]
-      }
-      this.selectedMaterial.questions.unshift(newQuestion);
+      this.selectedMaterial.questions.unshift(properties.newQuestion());
       this.selectedQuestion = this.selectedMaterial.questions[0]
     }
   }
