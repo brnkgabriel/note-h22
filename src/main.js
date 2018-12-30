@@ -5,7 +5,7 @@ import store from './store/store'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false 
 
 let app;
 export const bus = new Vue();

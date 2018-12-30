@@ -14,7 +14,7 @@ export default {
         roles_permissions: null,
         uid: null,
         user_data: null
-      }
+      },
     };
   },
   created() {
@@ -25,6 +25,12 @@ export default {
       this.student = util.localStorage().student
       this.materials = util.localStorage().materials
     })
+    console.log(this.student)
+  },
+  computed: {
+    students: function () {
+      return this.$store.state.students;
+    }
   },
   beforeRouteEnter: beforeRouteEnter,
   methods: methods

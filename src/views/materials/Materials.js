@@ -78,6 +78,10 @@ export default {
     },
     selectMaterial: function (material) {
       this.selectedMaterial = material;
+      var time = util.bibleTimeline.find(time => {
+        return time.date.toLowerCase() === this.selectedMaterial.time.toLowerCase()
+      });
+      this.selectTime(time);
     },
     addMaterial: function () {
       this.materials.unshift(properties.newMaterial());
@@ -88,6 +92,8 @@ export default {
     },
     selectQuestion: function (question) {
       this.selectedQuestion = question;
+      this.selectedOption.value = '';
+      this.selectedOption.pts = 0;
     },
     selectOption: function (option) {
       this.selectedOption = option;
