@@ -17,6 +17,7 @@ html {
 .one-third,
 .two-thirds,
 .one-fourth,
+.three-fourths,
 .half {
   width: 100%;
 }
@@ -42,6 +43,8 @@ html {
   .one-fourth { width: calc(100% / 4); }
 
   .two-thirds { width: calc(100% / 3 * 2); }
+
+  .three-fourths { width: calc(100% / 4 * 3); }
 
   .column {
     display: inline-block;

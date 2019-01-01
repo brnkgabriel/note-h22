@@ -91,23 +91,24 @@
           <div class="row"> 
             <div class="column half">
               <div class="row">
-                <label class="column one-third" for="question-edit-title">Title: </label>
-                <textarea class="column two-thirds" name="" id="question-edit-title" cols="30" rows="10" v-model="selectedQuestion.title"></textarea>
+                <label class="column one-fourth" for="question-edit-title">Title: </label>
+                <textarea class="column three-fourths" name="" id="question-edit-title" cols="30" rows="10" v-model="selectedQuestion.title"></textarea>
               </div>
               <div class="row">
-                <label class="column one-third" for="question-edit-option-value">Option: </label>
-                <input class="column two-thirds" type="text" id="question-edit-option-value" v-model="selectedOption.value" />
+                <label class="column one-fourth" for="question-edit-option-value">Option: </label>
+                <input class="column three-fourths" type="text" id="question-edit-option-value" v-model="selectedOption.value" /> 
               </div>
               <div class="row"> 
-                <label class="column one-third" for="question-edit-option-pts">Points: </label>
-                <input class="column two-thirds" type="number" id="question-edit-option-pts" v-model="selectedOption.pts" />
+                <label class="column one-fourth" for="question-edit-option-pts">Points: </label>
+                <input class="column one-fourth" type="number" id="question-edit-option-pts" v-model="selectedOption.pts" />
+                <button class="column half" @click="addOption()">Add Option</button>
               </div>
               <div class="material-edit-actions">
                 <button @click="addQuestion()">Add Question</button>
               </div>
-              <div class="question-add-option">
+              <!-- <div class="question-add-option">
                 <button @click="addOption()">Add Option</button>
-              </div>
+              </div> -->
               <div class="material-edit-actions">
                 <button @click="saveQuestion()">Save Question</button>
               </div>

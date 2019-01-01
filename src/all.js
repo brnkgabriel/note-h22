@@ -7,9 +7,12 @@ var all = {
         response: []
       }
     },
+    aggregate: function (scores) {
+      return 0
+    }
   },
   login: {
-
+    
   },
   signup: {
 
