@@ -1,7 +1,4 @@
 <div v-if="selectedMaterial">
-  <div class="save-materials">
-    <button class="foo-button mdc-button" @click.prevent="saveMaterials()">Save Materials</button>
-  </div>
   <div class="tabs tabs-style-underline">
     <nav>
       <ul>
@@ -62,6 +59,9 @@
               <div class="material-edit-actions">
                 <button @click.prevent="addMaterial()">Add Material</button>
               </div>
+              <div class="save-materials">
+                <button @click.prevent="saveMaterials()">Save Materials</button>
+              </div>
             </div>
             <div class="column half">
               <div class="material-preview-title">
@@ -84,7 +84,7 @@
       <section id="section-questions" :class="tab.questions + ' row'">
         <div class="column half">
           <div v-for="(question, index) in selectedMaterial.questions" :key="index">
-            <div class="question-title" @click="selectQuestion(question)">{{question.title}}</div>
+            <div class="question-title"> <span @click="selectQuestion(question)">{{question.title}}</span> <span @click="deleteQuestion(question)">x</span></div>
           </div>
         </div>
         <div class="column half">
@@ -102,11 +102,14 @@
                 <label class="column one-third" for="question-edit-option-pts">Points: </label>
                 <input class="column two-thirds" type="number" id="question-edit-option-pts" v-model="selectedOption.pts" />
               </div>
+              <div class="material-edit-actions">
+                <button @click="addQuestion()">Add Question</button>
+              </div>
               <div class="question-add-option">
                 <button @click="addOption()">Add Option</button>
               </div>
               <div class="material-edit-actions">
-                <button @click="addQuestion()">Add Question</button>
+                <button @click="saveQuestion()">Save Question</button>
               </div>
             </div>
             <div class="column half">

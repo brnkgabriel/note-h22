@@ -17,13 +17,26 @@ export default {
       selectedTime: util.bibleTimeline[0],
       eventsClass: '',
       selectedMaterials: [],
-      loadedMaterial: null
+      loadedMaterial: null,
+      quizEnded: '',
+      state: util.initialQuizState(''),
+      nextQuestion: {
+        title: '',
+        options: [],
+        uid: ''
+      },
+      // totalAggregate: 0
     };
   },
   computed: {
     searched: function () {
       this.timeline = util.searched(this.search, util.bibleTimeline)
       return util.searched(this.search, util.bibleTimeline);
+    },
+    totalAggregate: function () {
+      return (
+        util.getAggregate(this.student.scores) / util.getAge(this.student.birthday, util.today)
+      ).toFixed(3)
     }
   },
   mounted: function () {
@@ -32,17 +45,64 @@ export default {
     this.modal = document.querySelector('.modal');
   },
   created() {
-    this.student = util.localStorage().student;
+    this.student = util.localStorage().student; 
     this.materials = util.localStorage().materials;
+    
+    // this.totalAggregate = (
+    //   util.getAggregate(this.student.scores) / util.getAge(this.student.birthday, util.today)
+    // ).toFixed(3)
     util.fetchMaterials();
 
     bus.$on("incomingMaterials", () => {
       this.student = util.localStorage().student;
       this.materials = util.localStorage().materials;
     });
+    console.log(this.student)
   },
   beforeRouteEnter: beforeRouteEnter,
   methods: {
+    updateStateAndScores: function (nextQuestion, optionIdx) { 
+      var questionIdx = this.loadedMaterial.questions.findIndex(question => {
+        return question.uid === nextQuestion.uid
+      })
+      var response = questionIdx + '|' + optionIdx; 
+      this.state.response.push(response); 
+      this.state.materialId = this.loadedMaterial.uid;
+
+      this.state['index'] = this.state['index'] + 1;
+      this.moveToNextQuestion();
+
+      this.student.state = this.state;
+
+      var scoreIdx = this.student.scores.findIndex(score => {
+        return score.materialId === this.state.materialId
+      })
+
+      if (scoreIdx === -1) {
+        this.student.scores.push(this.state)
+      } else {
+        this.student.scores[scoreIdx] = this.state
+      }
+      
+      this.$store.dispatch('updateStudent', this.student)
+      console.log('this.student is', this.student)
+    },
+    moveToNextQuestion: function () { 
+      var next = this.loadedMaterial.questions[this.state['index']];
+      if (next) {
+        this.nextQuestion = next;
+        this.quizEnded = ''
+      } else { this.quizEnded = `You've completed quiz for ${this.loadedMaterial.title}` }
+      return next;
+    },
+    updateState: function () {
+      var quizStarted = this.student.scores.find(score => {
+        return score.materialId === this.loadedMaterial.uid
+      })  
+      if (quizStarted) { this.state = quizStarted; }
+      else { this.state = util.initialQuizState(this.loadedMaterial.uid); } 
+      this.moveToNextQuestion();
+    },
     toggleModal: function () {
       if (this.modal.classList.contains('is-visible')) {
         this.loadedMaterial = null;
@@ -51,6 +111,7 @@ export default {
     },
     loadMaterial: function (material) {
       this.loadedMaterial = material;
+      this.updateState();
       this.toggleModal();
     },
     updateStudent: function (evt) {

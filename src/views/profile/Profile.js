@@ -13,7 +13,9 @@ export default {
         last_name: null,
         roles_permissions: null,
         uid: null,
-        user_data: null
+        birthday: null,
+        scores: [],
+        state: {}
       },
     };
   },

@@ -42,7 +42,9 @@ export default new Vuex.Store({
               'last_name': doc.data().last_name,
               'roles_permissions': doc.data().roles_permissions,
               'uid': doc.data().uid,
-              'user_data': doc.data().user_data
+              'birthday': doc.data().birthday,
+              'scores': doc.data().scores,
+              'state': doc.data().state
             }
             dbStudents.push(student);
           })
@@ -82,7 +84,9 @@ export default new Vuex.Store({
               'last_name': doc.data().last_name,
               'roles_permissions': doc.data().roles_permissions,
               'uid': doc.data().uid,
-              'user_data': doc.data().user_data
+              'birthday': doc.data().birthday,
+              'scores': doc.data().scores,
+              'state': doc.data().state
             }
           })
           context.commit('setStudent', dbStudent);
@@ -124,6 +128,12 @@ export default new Vuex.Store({
       }
       batch.commit().then(function () {
         console.log('committed')
+      })
+    },
+    saveMaterial(context, payload) {
+      db.collection('materials')
+      .doc(payload.uid).update(payload).then(function () {
+        console.log(payload.title, 'successfully updated')
       })
     },
     addMaterial(context, payload) {

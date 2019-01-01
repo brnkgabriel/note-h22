@@ -1,5 +1,5 @@
 <div id="quiz" v-if="student">
-
+Total Aggregate is: {{totalAggregate}}
   <h1>Quiz</h1>
   <nav>
     <a href="#" class="js-menu-open menu-open">
@@ -33,11 +33,7 @@
   </div>
 
   <div class="selected-materials">
-    <div
-    class="selected-material modal-trigger modal-toggle"
-    v-for="(material, index) in selectedMaterials"
-    :key="index"
-    @click="loadMaterial(material)">
+    <div class="selected-material modal-trigger modal-toggle" v-for="(material, index) in selectedMaterials" :key="index" @click="loadMaterial(material)">
       <div class="selected-material-title">{{material.title}}</div>
       <div class="selected-material-thumbnail">
         <img :src="getThumbnail(material.location)" alt="thumbnail" />
@@ -54,6 +50,17 @@
       </div>
       <div class="modal-body">
         <iframe :src="loadedMaterial.location" frameborder="0"></iframe>
+        <div class="questions" v-if="!quizEnded">
+          <div class="question-title">{{ nextQuestion.title }}</div>
+          <ul>
+            <li @click="updateStateAndScores(nextQuestion, optionIdx)" v-for="(option, optionIdx) in nextQuestion.options" :key="optionIdx">
+              {{option.value}}
+            </li>
+          </ul>
+        </div>
+        <div class="questions" v-if="quizEnded">
+          {{quizEnded}}
+        </div>
       </div>
     </div>
   </div>

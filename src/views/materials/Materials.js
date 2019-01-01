@@ -16,7 +16,12 @@ export default {
       selectedEvents: null,
       interval: null,
       listElm: null,
-      count: 0
+      count: 0,
+      indices: {
+        mat: 0,
+        que: 0,
+        opt: 0
+      }
     }
   },
   mounted() {
@@ -34,9 +39,9 @@ export default {
   methods: {
     initializeData: function () {
       this.materials = util.localStorage().materials;
-      this.selectedMaterial = this.materials[0];
-      this.selectedQuestion = this.selectedMaterial.questions[0];
-      this.selectedOption = this.selectedQuestion.options[0];
+      this.selectedMaterial = this.materials[this.indices.mat];
+      this.selectedQuestion = this.selectedMaterial.questions[this.indices.que];
+      this.selectedOption = this.selectedQuestion.options[this.indices.opt];
       this.selectedEvents = util.bibleTimeline.find(time => {
         return time.date.toLowerCase() === this.selectedMaterial.time.toLowerCase()
       }).events;
@@ -74,9 +79,26 @@ export default {
     },
     openQuestion: function (material) {
       this.setState('questions');
+      this.indices.mat = this.getIdx(material, this.materials)
+      console.log('indices is', this.indices)
       this.selectedMaterial = material;
+      this.selectedQuestion = this.selectedMaterial.questions[0];
+      this.selectedOption = this.selectedQuestion.options[0];
+    },
+    getIdx: function (tofind, collection) {
+      var idx = collection.findIndex(item => {
+        return item.uid.toLowerCase() === tofind.uid.toLowerCase()
+      });
+      if (idx > -1) { return idx }
+      else { return 0 }
     },
     selectMaterial: function (material) {
+      // var matIdx = this.materials.findIndex(mat => {
+      //   return mat.uid.toLowerCase() === material.uid.toLowerCase()
+      // });
+      // if (matIdx > -1) { this.indices.mat = matIdx }
+      this.indices.mat = this.getIdx(material, this.materials)
+
       this.selectedMaterial = material;
       var time = util.bibleTimeline.find(time => {
         return time.date.toLowerCase() === this.selectedMaterial.time.toLowerCase()
@@ -84,27 +106,55 @@ export default {
       this.selectTime(time);
     },
     addMaterial: function () {
-      this.materials.unshift(properties.newMaterial());
-      this.selectedMaterial = this.materials[0]
+      this.materials.push(properties.newMaterial());
+      var lastIdx = this.materials.length - 1;
+      this.selectedMaterial = this.materials[lastIdx]
+      this.indices.mat = lastIdx;
     },
     saveMaterials: function () {
       this.$store.dispatch('saveMaterials', this.materials)
     },
-    selectQuestion: function (question) {
+    saveQuestion: function () {
+      this.$store.dispatch('saveMaterial', this.selectedMaterial)
+    },
+    selectQuestion: function (question) { 
+      // var queIdx = this.selectedMaterial.questions.findIndex(que => {
+      //   return que.uid.toLowerCase() === question.uid.toLowerCase()
+      // });
+      // if (queIdx > -1) { this.indices.que = queIdx }
+      
+      this.indices.que = this.getIdx(question, this.selectedMaterial.questions)
+
       this.selectedQuestion = question;
-      this.selectedOption.value = '';
-      this.selectedOption.pts = 0;
+      this.selectedOption = this.selectedQuestion.options[0]
+    },
+    deleteQuestion: function (question) {
+      this.indices.que = this.getIdx(question, this.selectedMaterial.questions)
+      if (this.selectedMaterial.questions.length > 1) { 
+        var filtered = this.selectedMaterial.questions.filter(que => {
+          return que.uid.toLowerCase() !== question.uid.toLowerCase()
+        })
+        this.selectedMaterial.questions = filtered;
+        var lastIdx = this.selectedMaterial.questions.length - 1;
+        this.selectedQuestion = this.selectedMaterial.questions[lastIdx];
+        this.selectedOption = this.selectedQuestion.options[0];
+        this.indices.que = lastIdx;
+      }
     },
     selectOption: function (option) {
+      if (queIdx > -1) { this.indices.que = queIdx }
       this.selectedOption = option;
     },
     addOption: function () {
-      this.selectedQuestion.options.unshift(properties.newOption());
-      this.selectedOption = this.selectedQuestion.options[0];
+      this.selectedQuestion.options.push(properties.newOption());
+      var lastIdx = this.selectedQuestion.options.length - 1;
+      this.selectedOption = this.selectedQuestion.options[lastIdx];
     },
     addQuestion: function () {
-      this.selectedMaterial.questions.unshift(properties.newQuestion());
-      this.selectedQuestion = this.selectedMaterial.questions[0]
+      this.selectedMaterial.questions.push(properties.newQuestion());
+      var lastIdx = this.selectedMaterial.questions.length - 1;
+      this.selectedQuestion = this.selectedMaterial.questions[lastIdx]
+      this.selectedOption = this.selectedQuestion.options[0];
     }
   }
 }
