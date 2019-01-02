@@ -2,6 +2,7 @@ import beforeRouteEnter from '../../util/beforeRouteEnter';
 import util from "../../util";
 import { bus } from "../../main";
 import SideNav from './sidenav';
+import all from '../../all'
 
 export default {
   data() {
@@ -19,7 +20,7 @@ export default {
       selectedMaterials: [],
       loadedMaterial: null,
       quizEnded: '',
-      state: util.initialQuizState(''),
+      state: all.utilities.initialQuizState(''),
       nextQuestion: {
         title: '',
         options: [],
@@ -34,9 +35,9 @@ export default {
       return util.searched(this.search, util.bibleTimeline);
     },
     totalAggregate: function () {
-      return (
-        util.getAggregate(this.student.scores) / util.getAge(this.student.birthday, util.today)
-      ).toFixed(3)
+      return all.utilities.aggregate(
+        this.student.scores, this.materials, this.student.birthday
+      );
     }
   },
   mounted: function () {
@@ -47,71 +48,45 @@ export default {
   created() {
     this.student = util.localStorage().student; 
     this.materials = util.localStorage().materials;
-    
-    // this.totalAggregate = (
-    //   util.getAggregate(this.student.scores) / util.getAge(this.student.birthday, util.today)
-    // ).toFixed(3)
+
     util.fetchMaterials();
 
     bus.$on("incomingMaterials", () => {
       this.student = util.localStorage().student;
       this.materials = util.localStorage().materials;
     });
-    console.log(this.student)
   },
   beforeRouteEnter: beforeRouteEnter,
   methods: {
-    updateStateAndScores: function (nextQuestion, optionIdx) { 
-      var questionIdx = this.loadedMaterial.questions.findIndex(question => {
-        return question.uid === nextQuestion.uid
-      })
-      var response = questionIdx + '|' + optionIdx; 
-      this.state.response.push(response); 
-      this.state.materialId = this.loadedMaterial.uid;
-
-      this.state['index'] = this.state['index'] + 1;
-      this.moveToNextQuestion();
-
-      this.student.state = this.state;
-
-      var scoreIdx = this.student.scores.findIndex(score => {
-        return score.materialId === this.state.materialId
-      })
-
-      if (scoreIdx === -1) {
-        this.student.scores.push(this.state)
-      } else {
-        this.student.scores[scoreIdx] = this.state
-      }
-      
+    updateStateAndScores: function (nextQuestion, optionIdx) {
+      all.quiz.updateStateAndScores(
+        nextQuestion,optionIdx, this.state,
+        this.loadedMaterial, this.student
+      )
       this.$store.dispatch('updateStudent', this.student)
-      console.log('this.student is', this.student)
+      this.goToNextQuestion();
     },
-    moveToNextQuestion: function () { 
+    goToNextQuestion: function () { 
       var next = this.loadedMaterial.questions[this.state['index']];
-      if (next) {
-        this.nextQuestion = next;
-        this.quizEnded = ''
-      } else { this.quizEnded = `You've completed quiz for ${this.loadedMaterial.title}` }
-      return next;
+      if (next) { this.nextQuestion = next; this.quizEnded = '' }
+      else { this.quizEnded = `You've completed quiz for ${this.loadedMaterial.title}` }
     },
-    updateState: function () {
+    initializeState: function () {
       var quizStarted = this.student.scores.find(score => {
         return score.materialId === this.loadedMaterial.uid
       })  
       if (quizStarted) { this.state = quizStarted; }
-      else { this.state = util.initialQuizState(this.loadedMaterial.uid); } 
-      this.moveToNextQuestion();
+      else { this.state = all.utilities.initialQuizState(this.loadedMaterial.uid); } 
+      this.goToNextQuestion();
     },
     toggleModal: function () {
-      if (this.modal.classList.contains('is-visible')) {
-        this.loadedMaterial = null;
-      }
+      if (this.modal.classList.contains('is-visible')) 
+      { this.loadedMaterial = null; }
       this.modal.classList.toggle('is-visible')
     },
     loadMaterial: function (material) {
       this.loadedMaterial = material;
-      this.updateState();
+      this.initializeState();
       this.toggleModal();
     },
     updateStudent: function (evt) {
@@ -123,19 +98,12 @@ export default {
       this.eventsClass = 'open';
     },
     gotoPage: function (page) {
-      if (page) { page === 'prev' ? this.currentPage-- : this.currentPage++ }
-      if (this.currentPage < 1) { this.currentPage = this.numPages(); }
-      else if (this.currentPage > this.numPages()) { this.currentPage = 1; }
-      return this.changePage(this.currentPage);
-    },
-    changePage: function (page) {
-      this.timeline = util.bibleTimeline.slice(
-        util.boundaries(page, this.numPages, this.recordsPerPage).start,
-        util.boundaries(page, this.numPages, this.recordsPerPage).end
+      var {timeline, cPage} = all.utilities.gotoPage(
+        page, this.currentPage, this.recordsPerPage,
+        util.bibleTimeline
       )
-    },
-    numPages: function () {
-      return Math.ceil(util.bibleTimeline.length / this.recordsPerPage);
+      this.timeline = timeline;
+      this.currentPage = cPage;
     },
     selectMaterials: function (event) {
       var sMaterials = this.materials.filter(material => {

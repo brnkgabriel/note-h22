@@ -6,6 +6,8 @@ html {
   box-sizing: inherit;
 }
 
+.row { text-align: center; }
+
 .row::before,
 .row::after {
   display: table;
