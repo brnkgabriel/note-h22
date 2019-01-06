@@ -1,0 +1,828 @@
+<style type="text/css">
+
+  @import url(https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+  a {
+    color: #FF9900;
+    text-decoration: none;
+    outline: none;
+  }
+
+  .wrapper-sc>section {
+    padding: 5em 0;
+    font-size: 1.25em;
+    min-height: 100%;
+  }
+
+  /* tabs.css */
+
+  .tabs {
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    width: 100%;
+    font-weight: 300;
+    font-size: 1.25em;
+  }
+
+  .tabs nav {
+    text-align: center;
+  }
+
+  .tabs nav ul {
+    position: relative;
+    display: flex;
+    justify-content: space-evenly !important;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 1200px;
+    flex-flow: row wrap;
+    border-bottom: 1px dotted #FF9900;
+  }
+
+  .tabs nav ul li {
+    position: relative;
+    z-index: 1;
+    display: block;
+    margin: 0;
+    text-align: center;
+    /*flex: 1;*/
+  }
+
+  .tabs nav a {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 2.5;
+  }
+
+  .tabs nav a span {
+    font-size: 0.75em;
+  }
+
+  .content-wrap {
+    background-color: #ededed;
+  }
+
+  .content-wrap section {
+    display: none;
+    margin: 0 auto;
+    padding: 1em;
+    max-width: 1200px;
+    text-align: center;
+  }
+
+  .content-wrap section.content-current {
+    display: block;
+  }
+
+  .content-wrap section p {
+    margin: 0;
+    padding: 0.75em 0;
+    color: rgba(40, 44, 42, 0.5);
+    font-weight: 900;
+    font-size: 4em;
+  }
+
+  /* tabstyles.css */
+
+  .tabs-style-iconfall {
+    overflow: visible;
+  }
+
+  .tabs-style-iconfall nav a {
+    display: inline-block;
+    overflow: visible;
+    padding: 1em 0 2em;
+    color: #74777b;
+    line-height: 1;
+    transition: color 0.3s cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  .tabs-style-iconfall nav a:hover,
+  .tabs-style-iconfall nav a:focus,
+  .tabs-style-iconfall nav li.tab-current a {
+    color: #FF9900;
+  }
+
+  .tabs-style-iconfall nav a span {
+    font-weight: 700;
+  }
+
+  .tabs-style-iconfall nav li::before {
+    position: absolute;
+    bottom: 1em;
+    left: 50%;
+    margin-left: -20px;
+    width: 40px;
+    height: 4px;
+    background: #FF9900;
+    content: '';
+    opacity: 0;
+    transition: transform 0.2s ease-in;
+    transform: scale3d(0, 1, 1);
+  }
+
+  .tabs-style-iconfall nav li.tab-current::before {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+
+  .tabs-style-iconfall i.fa {
+    display: block;
+    opacity: 0;
+    transition: transform 0.2s, opacity 0.2s;
+    transform: translate3d(0, -100px, 0);
+  }
+
+  .tabs-style-iconfall nav li.tab-current i.fa {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* accordion */
+
+  ul {
+    padding: 0;
+  }
+
+  .accordian ul li {
+    border-bottom: 0.5px dotted #EF8122;
+    margin-bottom: 0;
+    margin-top: 0;
+    text-align: left;
+  }
+
+  ul li:last-child {
+    border-bottom: none;
+  }
+
+  #accordian {
+    background: #f7f0f0;
+    margin: 50px auto 0 auto;
+    color: #EF8122;
+    box-shadow: 0 0 5px #EF8122
+  }
+
+  .accordian ul li a {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: .6em !important;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  #accordian h3 {
+    background: #EF8122;
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  #accordian h3 a {
+    padding: 0 10px;
+    display: block;
+    color: white;
+    text-decoration: none;
+  }
+
+  #accordian h3:hover {
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.7);
+  }
+
+  i {
+    margin-right: 10px;
+  }
+
+  #accordian li {
+    list-style: none;
+  }
+
+  #accordian ul ul li a,
+  #accordian h4 {
+    color: #EF8122;
+    text-decoration: none;
+    font-size: 11px;
+    display: block;
+    padding: 0 15px;
+    transition: all 0.15s;
+    position: relative;
+  }
+
+  #accordian ul ul li a:hover {
+    background: #EF8122;
+    color: white;
+  }
+
+  #accordian ul ul {
+    display: none;
+  }
+
+  #accordian li.active>ul {
+    display: block;
+  }
+
+  #accordian ul ul ul {
+    margin-left: 15px;
+    border-left: 1px dotted rgba(0, 0, 0, 0.5);
+  }
+
+  #accordian a:not(:only-child):before {
+    content: "\f105";
+    font-family: fontawesome;
+    position: absolute;
+    left: 3px;
+    top: 0;
+    font-size: 14px;
+  }
+
+  #accordian .active>a:not(:only-child):before {
+    content: "\f107";
+  }
+
+  .fa-lg {
+    line-height: 0 !important;
+  }
+
+  .fa {
+    margin-right: 0 !important
+  }
+
+  /**************************************************************************************************/
+
+  /* Rate Percents */
+
+  .rate-status {
+    display: flex;
+    align-items: center;
+  }
+
+  .rate-title {
+    width: 50px;
+  }
+
+  .rate-qty {
+    margin-left: 5px;
+  }
+
+  .bar-container {
+    background-color: #ccc;
+    height: 5px;
+    width: 150px;
+    margin: 5px 0;
+  }
+
+  .rate-bar {
+    height: 100%;
+    width: 0;
+    background-color: #FFCC36;
+  }
+
+  /* Rating Star Widgets Style */
+
+  .rating {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+  }
+
+  .star {
+    border: none;
+    background-color: transparent;
+  }
+
+  .star:focus,
+  .star:active {
+    outline: none;
+  }
+
+  div.rating-stars {
+    padding: 0;
+    margin-left: 5px;
+    font-size: 12px;
+  }
+
+  div.rating-stars>button.star>i.fa {
+    cursor: pointer;
+    font-size: 1.5em;
+    color: #ccc;
+  }
+
+  div.rating-stars>button.star.hover>i.fa {
+    color: #FFCC36;
+    cursor: pointer;
+  }
+
+  div.rating-stars>button.star.selected>i.fa {
+    color: #FF912C;
+    cursor: default;
+  }
+
+
+  /**************************************************************************************************/
+
+  #card *,
+  #card_el *,
+  #card_co *,
+  #card_hl *,
+  #card_mtp *,
+  #card_etp *,
+  #card_ctp *,
+  #card_htp * {
+    font-size: 0.95em;
+  }
+
+  #pos-rel {
+    width: 25px;
+    height: 25px;
+    position: fixed;
+    background-color: #f68b1e;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    z-index: 400;
+    right: 4%;
+    bottom: 50px;
+  }
+
+  .map {
+    padding: 0 !important;
+    margin: 5px 0 !important;
+  }
+
+  .centerDetailItem,
+  .centerDetailItem_el,
+  .centerDetailItem_co,
+  .centerDetailItem_hl,
+  .centerDetailItem_mtp,
+  .centerDetailItem_etp,
+  .centerDetailItem_ctp,
+  .centerDetailItem_htp {
+    padding: 10px;
+    margin: 10px;
+  }
+
+  .detailTitle {
+    text-align: center !important;
+    color: white;
+  }
+
+  .centerDetails>div,
+  .centerDetails_el>div,
+  .centerDetails_co>div,
+  .centerDetails_hl>div,
+  .centerDetails_mtp>div,
+  .centerDetails_etp>div,
+  .centerDetails_ctp>div,
+  .centerDetails_htp>div {
+    box-shadow: 0 0 5px rgba(2, 2, 2, 0.4);
+    background-color: white;
+  }
+
+  .canClick,
+  .canClick_el,
+  .canClick_co,
+  .canClick_hl,
+  .canClick_mtp,
+  .canClick_etp,
+  .canClick_ctp,
+  .canClick_htp {
+    display: block;
+    cursor: pointer;
+    margin: 10px;
+    padding: 5px;
+    color: #FF9900;
+    box-shadow: 0 0 5px rgba(2, 2, 2, 0.4);
+  }
+
+  .canClick:hover,
+  .canClick_el:hover,
+  .canClick_co:hover,
+  .canClick_hl:hover,
+  .canClick_mtp:hover,
+  .canClick_etp:hover,
+  .canClick_ctp:hover,
+  .canClick_htp:hover {
+    color: white;
+    background-color: black;
+  }
+
+  .canClick:active,
+  .canClick_el:active,
+  .canClick_co:active,
+  .canClick_hl:active,
+  .canClick_mtp:active,
+  .canClick_etp:active,
+  .canClick_ctp:active,
+  .canClick_htp:active {
+    color: white;
+    background-color: grey;
+  }
+
+  .content,
+  .content_el,
+  .content_co,
+  .content_hl,
+  .content_mtp,
+  .content_etp,
+  .content_ctp,
+  .content_htp {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+  }
+
+  #centers,
+  #centers_el,
+  #centers_co,
+  #centers_hl,
+  #centers_mtp,
+  #centers_etp,
+  #centers_ctp,
+  #centers_htp {
+    display: flex;
+    justify-content: center;
+  }
+
+  .title-no-margin,
+  .title-no-margin_el,
+  .title-no-margin_co,
+  .title-no-margin_hl,
+  .title-no-margin_mtp,
+  .title-no-margin_etp,
+  .title-no-margin_ctp,
+  .title-no-margin_htp {
+    margin: 0;
+    text-align: left;
+  }
+
+  .content,
+  .content_el,
+  .content_co,
+  .content_hl,
+  .content_mtp,
+  .content_etp,
+  .content_ctp,
+  .content_htp {
+    height: auto;
+    overflow: hidden;
+    transition: height 0.5s;
+  }
+
+  .card,
+  .card_el,
+  .card_co,
+  .card_hl,
+  .card_mtp,
+  .card_etp,
+  .card_ctp,
+  .card_htp {
+    width: 810px;
+    margin: 50px;
+    border-radius: 2px;
+    background: white;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  }
+
+  .ac-element,
+  .ac-element_el,
+  .ac-element_co,
+  .ac-element_hl,
+  .ac-element_mtp,
+  .ac-element_etp,
+  .ac-element_ctp,
+  .ac-element_htp {
+    position: relative;
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.3s;
+    background: white;
+  }
+
+  .ac-element.selected,
+  .ac-element_el.selected,
+  .ac-element_co.selected,
+  .ac-element_hl.selected,
+  .ac-element_mtp.selected,
+  .ac-element_etp.selected,
+  .ac-element_ctp.selected,
+  .ac-element_htp.selected {
+    transform: scale(1.1);
+    box-shadow: 0 0 5px rgba(2, 2, 2, 0.4);
+    z-index: 2;
+  }
+
+  h1 {
+    position: relative;
+    background: #FF9900;
+    padding: 8px 30px;
+    font-size: 20px;
+    line-height: 30px;
+    color: #fff;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  h1:hover,
+  .selected h1 {
+    cursor: pointer;
+    background: #FEB101;
+  }
+
+  h1:before,
+  h1:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -1px;
+    margin-right: 30px;
+    width: 20px;
+    height: 2px;
+    background: #fff;
+    transition: transform 0.3s;
+  }
+
+  h1:before {
+    transform: rotate(0deg);
+    animation: close-line-one-in 0.5s forwards;
+  }
+
+  .selected h1:before {
+    animation: close-line-one-out 0.5s forwards;
+  }
+
+  h1:after {
+    transform: rotate(90deg);
+    animation: close-line-two-in 0.5s forwards;
+  }
+
+  .selected h1:after {
+    animation: close-line-two-out 0.5s forwards;
+  }
+
+  .content,
+  .content_el,
+  .content_co,
+  .content_hl,
+  .content_mtp,
+  .content_etp,
+  .content_ctp,
+  .content_htp {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all ease-out 0.3s 0.1s;
+  }
+
+  .selected .content,
+  .selected .content_el,
+  .selected .content_co,
+  .selected .content_hl,
+  .selected .content_mtp,
+  .selected .content_etp,
+  .selected .content_ctp,
+  .selected .content_htp {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  @keyframes close-line-one-out {
+    0%,
+    50% {
+      transform: translateX(0);
+    }
+    75% {
+      transform: translateX(50px);
+    }
+    76% {
+      transform: translateX(50px) translateY(50px);
+    }
+    100% {
+      transform: rotate(45deg);
+    }
+  }
+
+  @keyframes close-line-one-in {
+    0%,
+    20% {
+      transform: rotate(45deg);
+    }
+    60% {
+      transform: translateX(50px) translateY(50px) rotate(45deg);
+    }
+    61% {
+      transform: translateX(50px);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  @keyframes close-line-two-out {
+    0%,
+    50% {
+      transform: rotate(90deg);
+    }
+    75% {
+      transform: translateY(-50px) rotate(90deg);
+    }
+    76% {
+      transform: translateY(-50px) translateX(50px) rotate(90deg);
+    }
+    100% {
+      transform: rotate(135deg);
+    }
+  }
+
+  @keyframes close-line-two-in {
+    0% {
+      transform: rotate(135deg);
+    }
+    50% {
+      transform: translateY(-50px) translateX(50px) rotate(135deg);
+    }
+    51% {
+      transform: translateY(-50px) rotate(90deg);
+    }
+    100% {
+      transform: rotate(90deg);
+    }
+  }
+
+  /***************************************** Detail View *************************************/
+
+  #centers-content {
+    width: 480px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    max-height: 500px;
+  }
+
+  .modalm {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s opacity 0.25s 0s, transform 0.25s;
+    z-index: 500;
+  }
+
+  .modalm-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 0.5rem;
+  }
+
+  .close {
+    position: absolute;
+    top: -30px;
+    left: 46.9%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 30px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+  }
+
+  .close:hover {
+    background-color: darkgrey;
+  }
+
+  .close-button {
+    position: relative;
+  }
+
+  .show-modalm {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+  }
+
+  .hdr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .to-warranty {
+    color: #f68b1e;
+    text-decoration: none;
+    text-align: center;
+    margin-left: 5px;
+  }
+
+  #lnk {
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    padding-bottom: 50px;
+  }
+
+  .r-p {
+    margin-left: 10px;
+  }
+</style>
+<div class="hdr">
+  <img src="[MEDIA_BASE_URL]/cms/8-18/ServiceCenters/Service-desktop.jpg" alt="banner" />
+</div>
+<div class="wrapper-sc">
+  <div class="modalm">
+    <div class="modalm-content">
+      <div class="close-button">
+        <div class="close">x</div>
+      </div>
+      <div id="centers-content"></div>
+    </div>
+  </div>
+  <section>
+    <div class="tabs tabs-style-iconfall">
+      <nav>
+        <ul>
+          <li>
+            <a href="#section-iconfall-1">
+              <i class="fa fa-mobile"></i>
+              <span>Mobile</span>
+            </a>
+          </li>
+          <li>
+            <a href="#section-iconfall-2">
+              <i class="fa fa-plug"></i>
+              <span>Electronics</span>
+            </a>
+          </li>
+          <li>
+            <a href="#section-iconfall-3">
+              <i class="fa fa-laptop"></i>
+              <span>Computing</span>
+            </a>
+          </li>
+          <li>
+            <a href="#section-iconfall-4">
+              <i class="fa fa-home"></i>
+              <span>Home & Living</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="content-wrap">
+        <section id="section-iconfall-1">
+          <div id="centers">
+            <div id="card" class="card"></div>
+          </div>
+
+          <div id="centers_mtp">
+            <div id="card_mtp" class="card_mtp"></div>
+          </div>
+        </section>
+        <section id="section-iconfall-2">
+          <div id="centers_el">
+            <div id="card_el" class="card_el"></div>
+          </div>
+
+          <div id="centers_etp">
+            <div id="card_etp" class="card_etp"></div>
+          </div>
+        </section>
+        <section id="section-iconfall-3">
+          <div id="centers_co">
+            <div id="card_co" class="card_co"></div>
+          </div>
+
+          <div id="centers_ctp">
+            <div id="card_ctp" class="card_ctp"></div>
+          </div>
+        </section>
+        <section id="section-iconfall-4">
+          <div id="centers_hl">
+            <div id="card_hl" class="card_hl"></div>
+          </div>
+
+          <div id="centers_htp">
+            <div id="card_htp" class="card_htp"></div>
+          </div>
+        </section>
+        <div id="lnk">
+          <span>To find out more, see the</span>
+          <a class="to-warranty" href="https://www.jumia.com.ng/warranty/">FAQs.</a>
+          <span class="r-p">For return policy, click</span>
+          <a class="to-warranty" href="https://www.jumia.com.ng/return-policy/"> here.</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

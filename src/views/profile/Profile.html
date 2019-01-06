@@ -4,9 +4,24 @@
       <div class="container">
         <div class="row">
           <div class="column half biodata">
-            {{student.first_name}} {{student.last_name}}
+            <div>{{user.first_name}} {{user.last_name}}</div>
+            <div>{{user.email}}</div>
+            <div>{{user.birthday}}</div>
           </div>
-          <div class="column half biodata">stats</div>
+          <div class="column half biodata">
+            <div>
+              <label for="totalAggregate">Total Points: </label>
+              <span>{{totalPts}}</span>
+            </div>
+            <div>
+              <label for="totalAggregate">Age is: </label>
+              <span>{{age}}</span>
+            </div>
+            <div>
+              <label for="totalAggregate">Total Aggregate: </label>
+              <span>{{totalAggregate}}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -29,10 +44,10 @@
       score history
     </div>
     <div class="column one-third section">
-      <div class="students" v-if="student.roles_permissions.roles === 'admin'">
+      <div class="users" v-if="user.roles_permissions.roles === 'admin'">
         <ul>
-          <li v-for="(student, index) in students">
-            {{student.first_name}} {{student.last_name}}
+          <li v-for="(user, index) in users">
+            {{user.first_name}} {{user.last_name}}
           </li>
         </ul>
       </div>

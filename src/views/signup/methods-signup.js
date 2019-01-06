@@ -10,12 +10,12 @@ var methods = {
     firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
     .then(credential => {
       var today = util.today.year + '-' + util.today.month + '-' + util.today.day;
-      var dbStudent = {
+      var dbuser = {
         'email': this.email,
         'first_name': this.firstName,
         'last_name': this.lastName,
         'roles_permissions': {
-          'roles': 'student'
+          'roles': 'user'
         },
         'uid': credential.user.uid,
         'birthday': this.birthday,
@@ -26,13 +26,13 @@ var methods = {
           response: []
         }
       }
-      this.$store.dispatch('addStudent', dbStudent);
-      this.delayToCompleteProcessing = setInterval(this.checkStudent, 10);
+      this.$store.dispatch('addUser', dbuser);
+      this.delayToCompleteProcessing = setInterval(this.checkuser, 10);
     }).catch(err => console.log(err));
   },
-  checkStudent: function () {
-    if (this.$store.state.student) {
-      bus.$emit('isLoggedIn', this.$store.state.student);
+  checkuser: function () {
+    if (this.$store.state.user) {
+      bus.$emit('isLoggedIn', this.$store.state.user);
       this.$router.push("/profile");
       clearInterval(this.delayToCompleteProcessing);
     }

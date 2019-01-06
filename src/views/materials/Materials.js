@@ -9,6 +9,7 @@ export default {
     return {
       materials: [],
       timeline: [],
+      files: [],
       tab: { materials: 'tab-current', questions: '' },
       selectedMaterial: null,
       selectedQuestion: null,
@@ -37,6 +38,14 @@ export default {
   },
   beforeRouteEnter: beforeRouteEnter,
   methods: {
+    pickFile(evt) {
+      var files = evt.target.files;
+      var fileReader = new FileReader();
+      fileReader.addEventListener('load', () => {
+        this.selectedMaterial.thumbnail = fileReader.result;
+      })
+      fileReader.readAsDataURL(files[0])
+    },
     initializeData: function () {
       this.materials = util.localStorage().materials;
       this.selectedMaterial = this.materials[this.indices.mat];
@@ -79,8 +88,7 @@ export default {
     },
     openQuestion: function (material) {
       this.setState('questions');
-      this.indices.mat = this.getIdx(material, this.materials)
-      console.log('indices is', this.indices)
+      this.indices.mat = this.getIdx(material, this.materials) 
       this.selectedMaterial = material;
       this.selectedQuestion = this.selectedMaterial.questions[0];
       this.selectedOption = this.selectedQuestion.options[0];
@@ -93,10 +101,6 @@ export default {
       else { return 0 }
     },
     selectMaterial: function (material) {
-      // var matIdx = this.materials.findIndex(mat => {
-      //   return mat.uid.toLowerCase() === material.uid.toLowerCase()
-      // });
-      // if (matIdx > -1) { this.indices.mat = matIdx }
       this.indices.mat = this.getIdx(material, this.materials)
 
       this.selectedMaterial = material;
@@ -118,13 +122,7 @@ export default {
       this.$store.dispatch('saveMaterial', this.selectedMaterial)
     },
     selectQuestion: function (question) { 
-      // var queIdx = this.selectedMaterial.questions.findIndex(que => {
-      //   return que.uid.toLowerCase() === question.uid.toLowerCase()
-      // });
-      // if (queIdx > -1) { this.indices.que = queIdx }
-      
-      this.indices.que = this.getIdx(question, this.selectedMaterial.questions)
-
+      this.indices.que = this.getIdx(question, this.selectedMaterial.questions) 
       this.selectedQuestion = question;
       this.selectedOption = this.selectedQuestion.options[0]
     },

@@ -7,7 +7,7 @@ import all from '../../all'
 export default {
   data() {
     return {
-      student: null,
+      user: null,
       materials: [],
       quizTypes: util.quizTypes,
       timeline: null,
@@ -25,8 +25,7 @@ export default {
         title: '',
         options: [],
         uid: ''
-      },
-      // totalAggregate: 0
+      }
     };
   },
   computed: {
@@ -36,7 +35,7 @@ export default {
     },
     totalAggregate: function () {
       return all.utilities.aggregate(
-        this.student.scores, this.materials, this.student.birthday
+        this.user.scores, this.materials, this.user.birthday
       );
     }
   },
@@ -46,33 +45,27 @@ export default {
     this.modal = document.querySelector('.modal');
   },
   created() {
-    this.student = util.localStorage().student; 
-    this.materials = util.localStorage().materials;
-
+    all.utilities.studAndMat.call(this)
     util.fetchMaterials();
-
-    bus.$on("incomingMaterials", () => {
-      this.student = util.localStorage().student;
-      this.materials = util.localStorage().materials;
-    });
+    bus.$on("incomingMaterials", all.utilities.studAndMat.bind(this));
   },
   beforeRouteEnter: beforeRouteEnter,
   methods: {
-    updateStateAndScores: function (nextQuestion, optionIdx) {
-      all.quiz.updateStateAndScores(
+    processresponse: function (nextQuestion, optionIdx) {
+      all.quiz.processresponse(
         nextQuestion,optionIdx, this.state,
-        this.loadedMaterial, this.student
+        this.loadedMaterial, this.user
       )
-      this.$store.dispatch('updateStudent', this.student)
+      this.$store.dispatch('updateuser', this.user)
       this.goToNextQuestion();
     },
-    goToNextQuestion: function () { 
+    goToNextQuestion: function () {
       var next = this.loadedMaterial.questions[this.state['index']];
       if (next) { this.nextQuestion = next; this.quizEnded = '' }
       else { this.quizEnded = `You've completed quiz for ${this.loadedMaterial.title}` }
     },
     initializeState: function () {
-      var quizStarted = this.student.scores.find(score => {
+      var quizStarted = this.user.scores.find(score => {
         return score.materialId === this.loadedMaterial.uid
       })  
       if (quizStarted) { this.state = quizStarted; }
@@ -89,9 +82,9 @@ export default {
       this.initializeState();
       this.toggleModal();
     },
-    updateStudent: function (evt) {
+    updateuser: function (evt) {
       evt.preventDefault();
-      this.$store.dispatch("updateStudent", util.encodeStudent(this.student));
+      this.$store.dispatch("updateUser", util.encodeuser(this.user));
     },
     selectTime: function (time) {
       this.selectedTime = time;
@@ -99,8 +92,8 @@ export default {
     },
     gotoPage: function (page) {
       var {timeline, cPage} = all.utilities.gotoPage(
-        page, this.currentPage, this.recordsPerPage,
-        util.bibleTimeline
+        page, this.currentPage,
+        this.recordsPerPage, util.bibleTimeline
       )
       this.timeline = timeline;
       this.currentPage = cPage;

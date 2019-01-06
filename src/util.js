@@ -93,8 +93,8 @@ var util = {
   // getScores: function (responses, questions) {
   //   return process.getScores(responses, questions)
   // },
-  // obtainScore: function (foundQuestion, studentAnswer) {
-  //   return process.obtainScore(foundQuestion, studentAnswer)
+  // obtainScore: function (foundQuestion, userAnswer) {
+  //   return process.obtainScore(foundQuestion, userAnswer)
   // },
   fetchMaterials: function () { 
     var CheckMaterials = function () {
@@ -127,19 +127,19 @@ var util = {
   //   return process.encodeScores(scores)
   // },
   localStorage: function () { 
-    var dbStudent = JSON.parse(localStorage.getItem('student'))
+    var dbuser = JSON.parse(localStorage.getItem('user'))
     var dbMaterials = JSON.parse(localStorage.getItem('materials'))
-    // var decodedStudent = util.decodeStudentData(dbStudent, dbMaterials);
-    return { student: dbStudent, materials: dbMaterials }
+    // var decodeduser = util.decodeuserData(dbuser, dbMaterials);
+    return { user: dbuser, materials: dbMaterials }
   },
-  // decodeStudentData: function (dbStudent, materials) {
-  //   var student = dbStudent;
-  //   var userData = util.getQuizData(student.user_data);
+  // decodeuserData: function (dbuser, materials) {
+  //   var user = dbuser;
+  //   var userData = util.getQuizData(user.user_data);
   //   var state = util.decodeScore(userData.state, materials);
   //   var scores = util.decodeScores(userData.scores, materials);
-  //   student.user_data.scores = scores
-  //   student.user_data.state = state
-  //   return student;
+  //   user.user_data.scores = scores
+  //   user.user_data.state = state
+  //   return user;
   // },
   today: {
     day: new Date().getDate(),

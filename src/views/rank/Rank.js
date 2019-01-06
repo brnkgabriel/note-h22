@@ -2,8 +2,8 @@
 import beforeRouteEnter from '../../util/beforeRouteEnter'
 export default {
   computed: {
-    students: function () {
-      return this.$store.state.students;
+    users: function () {
+      return this.$store.state.users;
     }
   },
   beforeRouteEnter: beforeRouteEnter

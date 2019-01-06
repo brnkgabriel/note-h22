@@ -7,15 +7,15 @@ export default {
   data() {
     return {
       isLoggedIn: false,
-      student: null
+      user: null
     };
   },
   created() {
-    this.student = JSON.parse(localStorage.getItem("student"));
-    this.isLoggedIn = !!localStorage.getItem("student");
-    bus.$on("isLoggedIn", student => {
-      this.isLoggedIn = !!student;
-      this.student = student;
+    this.user = JSON.parse(localStorage.getItem("user"));
+    this.isLoggedIn = !!localStorage.getItem("user");
+    bus.$on("isLoggedIn", user => {
+      this.isLoggedIn = !!user;
+      this.user = user;
     });
   },
   methods: {
@@ -24,7 +24,7 @@ export default {
         .auth()
         .signOut()
         .then(() => {
-          this.$store.commit("removeStudent");
+          this.$store.commit("removeUser");
           this.isLoggedIn = false;
           this.$router.push("/login");
         });

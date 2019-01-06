@@ -56,6 +56,10 @@
                 <label class="column half" for="material-edit-type">Type: </label>
                 <input class="column half" type="text" id="material-edit-type" placeholder="material type..." v-model="selectedMaterial.type">
               </div>
+              <div class="row">
+                <label class="column half" for="material-edit-thumbnail">Thumbnail: </label>
+                <input @change="pickFile" class="column half" type="file" id="material-edit-thumbnail" accept="image/*" placeholder="material thumbnail...">
+              </div>
               <div class="material-edit-actions">
                 <button @click.prevent="addMaterial()">Add Material</button>
               </div>
@@ -76,6 +80,12 @@
               </div>
               <div class="material-preview-time">
                 <span>{{selectedMaterial.time}}</span>
+              </div>
+              <div class="material-preview-thumbnail">
+                <img :src="selectedMaterial.thumbnail" alt="thumbnail"/>
+                <span> 
+                {{selectedMaterial.thumbnail}}
+                </span>
               </div>
             </div>
           </div>
@@ -106,9 +116,6 @@
               <div class="material-edit-actions">
                 <button @click="addQuestion()">Add Question</button>
               </div>
-              <!-- <div class="question-add-option">
-                <button @click="addOption()">Add Option</button>
-              </div> -->
               <div class="material-edit-actions">
                 <button @click="saveQuestion()">Save Question</button>
               </div>

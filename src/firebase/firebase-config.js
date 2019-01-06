@@ -1,8 +1,8 @@
 export default {
-  apiKey: "AIzaSyC8xL4sJXrMX6FGvJC3eV4lov1BdUtS540",
-  authDomain: "school-2f6da.firebaseapp.com",
-  databaseURL: "https://school-2f6da.firebaseio.com",
-  projectId: "school-2f6da",
-  storageBucket: "school-2f6da.appspot.com",
-  messagingSenderId: "343777478218"
+  apiKey: "AIzaSyD0jcIJAqph2McxcTYSm--P8no7bH1nui8",
+  authDomain: "d-word.firebaseapp.com",
+  databaseURL: "https://d-word.firebaseio.com",
+  projectId: "d-word",
+  storageBucket: "d-word.appspot.com",
+  messagingSenderId: "802152013292"
 }

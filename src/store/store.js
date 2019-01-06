@@ -8,35 +8,35 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    students: null,
+    users: null,
     materials: null,
-    student: null
+    user: null
   },
   mutations: {
-    setStudents(state, payload) {
-      state.students = payload
+    setUsers(state, payload) {
+      state.users = payload
     },
     setMaterials(state, payload) {
       localStorage.setItem('materials', JSON.stringify(payload));
       bus.$emit('incomingMaterials');
       state.materials = payload;
     },
-    setStudent(state, payload) {
-      localStorage.setItem('student', JSON.stringify(payload));
-      state.student = payload;
+    setUser(state, payload) {
+      localStorage.setItem('user', JSON.stringify(payload));
+      state.user = payload;
     },
-    removeStudent(state) {
-      localStorage.removeItem('student');
-      state.student = null;
+    removeUser(state) {
+      localStorage.removeItem('user');
+      state.user = null;
     }
   },
   actions: {
-    getStudents(context) {
+    getUsers(context) {
       db.collection('users')
         .onSnapshot(snapshot => {
-          var dbStudents = [];
+          var dbusers = [];
           snapshot.forEach(doc => {
-            const student = {
+            const user = {
               'email': doc.data().email,
               'first_name': doc.data().first_name,
               'last_name': doc.data().last_name,
@@ -46,9 +46,9 @@ export default new Vuex.Store({
               'scores': doc.data().scores,
               'state': doc.data().state
             }
-            dbStudents.push(student);
+            dbusers.push(user);
           })
-          context.commit('setStudents', dbStudents);
+          context.commit('setUsers', dbusers);
         })
     },
     getMaterials(context) {
@@ -64,6 +64,7 @@ export default new Vuex.Store({
             'title': doc.data().title,
             'event': doc.data().event,
             'type': doc.data().type,
+            'thumbnail': doc.data().thumbnail,
             'uid': doc.data().uid
           }
           dbMaterials.push(material)
@@ -72,13 +73,13 @@ export default new Vuex.Store({
         context.commit('setMaterials', dbMaterials);
       })
     },
-    getStudent(context, payload) {
+    getUser(context, payload) {
       db.collection('users')
         .where('uid', '==', payload.uid)
         .onSnapshot(snapshot => {
-          var dbStudent = {};
+          var dbuser = {};
           snapshot.forEach(doc => {
-            dbStudent = {
+            dbuser = {
               'email': doc.data().email,
               'first_name': doc.data().first_name,
               'last_name': doc.data().last_name,
@@ -89,22 +90,22 @@ export default new Vuex.Store({
               'state': doc.data().state
             }
           })
-          context.commit('setStudent', dbStudent);
+          context.commit('setUser', dbuser);
         })
     },
-    addStudent(context, payload) { 
+    addUser(context, payload) { 
       db.collection("users")
       .doc(payload.uid).set(payload).then(function () {
         console.log("Document successfully written!");
-        context.commit('setStudent', payload);
+        context.commit('setUser', payload);
       });
     },
-    updateStudent(context, payload) {
+    updateUser(context, payload) {
       db.collection("users")
       .doc(payload.uid).update(payload)
       .then(() => console.log('document successfully updated'))
       .catch(err => console.log(err));
-      context.commit('setStudent', payload);
+      context.commit('setUser', payload);
     },
     deleteMaterials (context, payload) {
       localStorage.setItem('materials', JSON.stringify(payload))

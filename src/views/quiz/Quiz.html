@@ -1,4 +1,4 @@
-<div id="quiz" v-if="student">
+<div id="quiz" v-if="user">
 Total Aggregate is: {{totalAggregate}}
   <h1>Quiz</h1>
   <nav>
@@ -53,7 +53,7 @@ Total Aggregate is: {{totalAggregate}}
         <div class="questions" v-if="!quizEnded">
           <div class="question-title">{{ nextQuestion.title }}</div>
           <ul>
-            <li @click="updateStateAndScores(nextQuestion, optionIdx)" v-for="(option, optionIdx) in nextQuestion.options" :key="optionIdx">
+            <li @click="processresponse(nextQuestion, optionIdx)" v-for="(option, optionIdx) in nextQuestion.options" :key="optionIdx">
               {{option.value}}
             </li>
           </ul>

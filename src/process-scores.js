@@ -14,9 +14,9 @@ var processScores = {
     }
     return scores;
   },
-  obtainScore: function (foundQuestion, studentAnswer) {
+  obtainScore: function (foundQuestion, userAnswer) {
     var score = foundQuestion.options
-    .find(option => option.key === studentAnswer);
+    .find(option => option.key === userAnswer);
 
     if (score !== undefined) { return parseInt(score.pts); }
     else { return 0; }

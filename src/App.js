@@ -6,7 +6,7 @@ export default {
     Navbar
   },
   created() {
-    this.$store.dispatch('getStudents');
+    this.$store.dispatch('getUsers');
     this.$store.dispatch('getMaterials')
   },
   mounted() {

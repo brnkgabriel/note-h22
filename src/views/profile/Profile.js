@@ -3,11 +3,12 @@ import beforeRouteEnter from '../../util/beforeRouteEnter'
 import util from "../../util"
 import methods from './methods-profile'
 import { bus } from '../../main'
+import all from '../../all'
 
 export default {
   data() {
     return {
-      student: {
+      user: {
         email: null,
         first_name: null,
         last_name: null,
@@ -20,18 +21,24 @@ export default {
     };
   },
   created() {
-    this.student = util.localStorage().student
-    this.materials = util.localStorage().materials
+    all.utilities.studAndMat.call(this);
     util.fetchMaterials()
-    bus.$on('incomingMaterials', () => {
-      this.student = util.localStorage().student
-      this.materials = util.localStorage().materials
-    })
-    console.log(this.student)
+    bus.$on('incomingMaterials', () => all.utilities.studAndMat.bind(this))
   },
   computed: {
-    students: function () {
-      return this.$store.state.students;
+    users: function () {
+      return this.$store.state.users;
+    },
+    totalPts: function () {
+      return all.utilities.totalPts(this.user.scores, this.materials)
+    },
+    age: function () {
+      return all.utilities.age(this.user.birthday, all.utilities.today)
+    },
+    totalAggregate: function () {
+      return all.utilities.aggregate(
+        this.user.scores, this.materials, this.user.birthday
+      );
     }
   },
   beforeRouteEnter: beforeRouteEnter,

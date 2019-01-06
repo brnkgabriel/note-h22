@@ -1,8 +1,8 @@
 import util from "../../util";
 var methods = {
-  updateStudent: function(evt) {
+  updateuser: function(evt) {
     evt.preventDefault();
-    this.$store.dispatch("updateStudent", util.encodeStudent(this.student));
+    this.$store.dispatch("updateUser", util.encodeuser(this.user));
   }
 }
 

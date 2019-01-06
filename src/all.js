@@ -108,6 +108,15 @@ var all = {
         cPage: cPage
       }
     },
+    localStorage: function () {
+      var dbuser = JSON.parse(localStorage.getItem('user'))
+      var dbMaterials = JSON.parse(localStorage.getItem('materials'))
+      return { user: dbuser, materials: dbMaterials }
+    },
+    studAndMat: function () {
+      this.user = all.utilities.localStorage().user; 
+      this.materials = all.utilities.localStorage().materials;
+    }
   },
   login: {
 
@@ -119,8 +128,8 @@ var all = {
 
   },
   quiz: {
-    updateStateAndScores: function (
-      nextQue, optIdx, state, mat, student
+    processresponse: function (
+      nextQue, optIdx, state, mat, user
     ) {
       var queIdx = all.utilities
       .getIdx(nextQue, mat.questions, 'uid'); 
@@ -128,12 +137,12 @@ var all = {
       state.materialId = mat.uid;
       state['index'] = state['index'] + 1;
       state['timestamp'] = +new Date;
-      student.state = state;
+      user.state = state;
       
       var scoIdx = all.utilities
-      .getIdx(state, student.scores, 'materialId');
-      if (scoIdx === -1) { student.scores.push(state) }
-      else { student.scores[scoIdx] = state }
+      .getIdx(state, user.scores, 'materialId');
+      if (scoIdx === -1) { user.scores.push(state) }
+      else { user.scores[scoIdx] = state }
     }
   },
   materials: {

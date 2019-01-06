@@ -33,7 +33,7 @@ var mapData = {
     "The Love Walk|1",
     "Opted for Group Discussion|3",
     "Repositioning for Exploits|2",
-    "1John 4:4|3",
+    "1John 4:4|3", 
     "Hand Sequence|3",
     "Yesterday, Today and Tomorrow|3",
     "Your Abilities|3",

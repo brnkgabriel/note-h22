@@ -11,7 +11,7 @@ let app;
 export const bus = new Vue();
 
 firebase.auth().onAuthStateChanged(user => {
-  if (user) { store.dispatch('getStudent', user); }
+  if (user) { store.dispatch('getUser', user); }
   if (!app) {
     app = new Vue({
       router,

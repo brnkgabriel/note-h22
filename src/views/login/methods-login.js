@@ -7,13 +7,13 @@ var methods = {
     evt.preventDefault();
     firebase.auth().signInWithEmailAndPassword(this.email, this.password)
     .then(credential => {
-      this.$store.dispatch("getStudent", { uid: credential.user.uid });
-      this.delayToCompleteProcessing = setInterval(this.checkStudent, 10);
+      this.$store.dispatch("getUser", { uid: credential.user.uid });
+      this.delayToCompleteProcessing = setInterval(this.checkuser, 10);
     }).catch(err => console.log(err));
   },
-  checkStudent: function() {
-    if (this.$store.state.student) {
-      bus.$emit('isLoggedIn', this.$store.state.student);
+  checkuser: function() {
+    if (this.$store.state.user) {
+      bus.$emit('isLoggedIn', this.$store.state.user);
       this.$router.push("/profile");
       clearInterval(this.delayToCompleteProcessing);
     }
