@@ -224,3 +224,7 @@ iframe {
     cursor: pointer;
   } 
 }
+
+.material-preview-thumbnail img {
+  width: 90%
+}

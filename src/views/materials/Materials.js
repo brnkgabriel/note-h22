@@ -35,6 +35,9 @@ export default {
     bus.$on("incomingMaterials", () => {
       this.initializeData();
     })
+    bus.$on("thumbnail", (thumbnail) => {
+      this.selectedMaterial.thumbnail = thumbnail
+    })
   },
   beforeRouteEnter: beforeRouteEnter,
   methods: {
@@ -42,6 +45,7 @@ export default {
       var files = evt.target.files;
       var fileReader = new FileReader();
       fileReader.addEventListener('load', () => {
+        this.$store.dispatch('uploadThumbnail', files[0])
         this.selectedMaterial.thumbnail = fileReader.result;
       })
       fileReader.readAsDataURL(files[0])
@@ -54,6 +58,7 @@ export default {
       this.selectedEvents = util.bibleTimeline.find(time => {
         return time.date.toLowerCase() === this.selectedMaterial.time.toLowerCase()
       }).events;
+      this.selectedEvents = this.selectedEvents.map(event => event.toLowerCase())
     },
     checkElement: function () {
       this.listElm = document.querySelector('#infinite-list');
@@ -77,9 +82,9 @@ export default {
       }
     },
     selectTime: function (time) {
-      this.selectedMaterial.time = time.date;
-      this.selectedEvents = time.events;
-      this.selectedMaterial.event = time.events[0];
+      this.selectedMaterial.time = time.date.toLowerCase()
+      this.selectedEvents = time.events.map(event => event.toLowerCase())
+      this.selectedMaterial.event = time.events[0].toLowerCase()
     },
     setState: function (selected) {
       var tabKeys = Object.keys(this.tab);
@@ -125,6 +130,19 @@ export default {
       this.indices.que = this.getIdx(question, this.selectedMaterial.questions) 
       this.selectedQuestion = question;
       this.selectedOption = this.selectedQuestion.options[0]
+    },
+    deleteOption: function (option) {
+      this.indices.opt = this.selectedQuestion.options
+      .findIndex(opt => opt.value.toLowerCase() === option.value.toLowerCase())
+      if (this.selectedQuestion.options.length > 1) {
+        var filtered = this.selectedQuestion.options.filter(opt => {
+          return opt.value.toLowerCase() !== option.value.toLowerCase()
+        })
+        this.selectedQuestion.options = filtered;
+        var lastIdx = this.selectedQuestion.options.length - 1;
+        this.selectedOption = this.selectedQuestion.options[0];
+        this.indices.opt = lastIdx;
+      }
     },
     deleteQuestion: function (question) {
       this.indices.que = this.getIdx(question, this.selectedMaterial.questions)

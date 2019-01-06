@@ -83,9 +83,6 @@
               </div>
               <div class="material-preview-thumbnail">
                 <img :src="selectedMaterial.thumbnail" alt="thumbnail"/>
-                <span> 
-                {{selectedMaterial.thumbnail}}
-                </span>
               </div>
             </div>
           </div>
@@ -128,7 +125,7 @@
                 <ul>
                   <li v-for="(option, index) in selectedQuestion.options" :key="index">
                     <span class="option-value-pts" @click="selectOption(option)">{{option.value}} ({{option.pts}})</span>
-                    <span class="option-delete">x</span>
+                    <span class="option-delete" @click="deleteOption(option)">x</span>
                   </li>
                 </ul>
               </div>

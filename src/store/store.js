@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import db from '../firebase/firebase-init'
-import 'firebase/auth/dist/index.cjs';
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/storage'
 import { bus } from '../main'
 
 Vue.use(Vuex)
@@ -53,25 +55,25 @@ export default new Vuex.Store({
     },
     getMaterials(context) {
       db.collection('materials')
-      .onSnapshot(snapshot => {
-        var dbMaterials = [];
-        snapshot.forEach(doc => {
-          const material = {
-            'author': doc.data().author,
-            'location': doc.data().location,
-            'questions': doc.data().questions,
-            'time': doc.data().time,
-            'title': doc.data().title,
-            'event': doc.data().event,
-            'type': doc.data().type,
-            'thumbnail': doc.data().thumbnail,
-            'uid': doc.data().uid
-          }
-          dbMaterials.push(material)
-        })
+        .onSnapshot(snapshot => {
+          var dbMaterials = [];
+          snapshot.forEach(doc => {
+            const material = {
+              'author': doc.data().author,
+              'location': doc.data().location,
+              'questions': doc.data().questions,
+              'time': doc.data().time,
+              'title': doc.data().title,
+              'event': doc.data().event,
+              'type': doc.data().type,
+              'thumbnail': doc.data().thumbnail,
+              'uid': doc.data().uid
+            }
+            dbMaterials.push(material)
+          })
 
-        context.commit('setMaterials', dbMaterials);
-      })
+          context.commit('setMaterials', dbMaterials);
+        })
     },
     getUser(context, payload) {
       db.collection('users')
@@ -93,21 +95,21 @@ export default new Vuex.Store({
           context.commit('setUser', dbuser);
         })
     },
-    addUser(context, payload) { 
+    addUser(context, payload) {
       db.collection("users")
-      .doc(payload.uid).set(payload).then(function () {
-        console.log("Document successfully written!");
-        context.commit('setUser', payload);
-      });
+        .doc(payload.uid).set(payload).then(function () {
+          console.log("Document successfully written!");
+          context.commit('setUser', payload);
+        });
     },
     updateUser(context, payload) {
       db.collection("users")
-      .doc(payload.uid).update(payload)
-      .then(() => console.log('document successfully updated'))
-      .catch(err => console.log(err));
+        .doc(payload.uid).update(payload)
+        .then(() => console.log('document successfully updated'))
+        .catch(err => console.log(err));
       context.commit('setUser', payload);
     },
-    deleteMaterials (context, payload) {
+    deleteMaterials(context, payload) {
       localStorage.setItem('materials', JSON.stringify(payload))
       var batch = db.batch();
       for (var i = 0; i < payload.length; i++) {
@@ -133,15 +135,20 @@ export default new Vuex.Store({
     },
     saveMaterial(context, payload) {
       db.collection('materials')
-      .doc(payload.uid).update(payload).then(function () {
-        console.log(payload.title, 'successfully updated')
-      })
+        .doc(payload.uid).update(payload).then(function () {
+          console.log(payload.title, 'successfully updated')
+        })
+    },
+    uploadThumbnail(context, payload) {
+      firebase.storage().ref('thumbnails/' + payload.name).put(payload)
+      .then(snapshot => snapshot.ref.getDownloadURL())
+      .then(downloadURL => bus.$emit('thumbnail', downloadURL))
     },
     addMaterial(context, payload) {
       db.collection("materials")
-      .doc(payload.uid).set(payload).then(function () {
-        console.log(payload.title, 'successfully written!')
-      })
+        .doc(payload.uid).set(payload).then(function () {
+          console.log(payload.title, 'successfully written!')
+        })
     },
   }
 })
