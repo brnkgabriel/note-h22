@@ -17,6 +17,7 @@ export default {
       selectedEvents: null,
       interval: null,
       listElm: null,
+      modal: null,
       count: 0,
       indices: {
         mat: 0,
@@ -27,6 +28,7 @@ export default {
   },
   mounted() {
     this.interval = setInterval(this.checkElement, 10)
+    this.modal = document.querySelector('.modal');
   },
   created() {
     this.initializeData();
@@ -41,6 +43,11 @@ export default {
   },
   beforeRouteEnter: beforeRouteEnter,
   methods: {
+    toggleModal() {
+      if (this.modal.classList.contains('is-visible')) 
+      { this.loadedMaterial = null; }
+      this.modal.classList.toggle('is-visible')
+    },
     pickFile(evt) {
       var files = evt.target.files;
       var fileReader = new FileReader();
@@ -86,17 +93,12 @@ export default {
       this.selectedEvents = time.events.map(event => event.toLowerCase())
       this.selectedMaterial.event = time.events[0].toLowerCase()
     },
-    setState: function (selected) {
-      var tabKeys = Object.keys(this.tab);
-      tabKeys.forEach(key => this.tab[key] = '');
-      this.tab[selected] = 'tab-current';
-    },
     openQuestion: function (material) {
-      this.setState('questions');
       this.indices.mat = this.getIdx(material, this.materials) 
       this.selectedMaterial = material;
       this.selectedQuestion = this.selectedMaterial.questions[0];
       this.selectedOption = this.selectedQuestion.options[0];
+      this.toggleModal()
     },
     getIdx: function (tofind, collection) {
       var idx = collection.findIndex(item => {
