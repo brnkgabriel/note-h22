@@ -1,7 +1,7 @@
 import beforeRouteEnter from '../../util/beforeRouteEnter'
 import util from '../../util'
+import all from '../../all'
 import { bus } from '../../main'
-import InfiniteList from './infinite-list'
 import properties from './properties'
 
 export default {
@@ -44,9 +44,10 @@ export default {
   beforeRouteEnter: beforeRouteEnter,
   methods: {
     toggleModal() {
-      if (this.modal.classList.contains('is-visible')) 
-      { this.loadedMaterial = null; }
-      this.modal.classList.toggle('is-visible')
+      all.utilities.toggleModal(this.modal, this.loadedMaterial)
+      // if (this.modal.classList.contains('is-visible')) 
+      // { this.loadedMaterial = null; }
+      // this.modal.classList.toggle('is-visible')
     },
     pickFile(evt) {
       var files = evt.target.files;

@@ -1,7 +1,5 @@
 import beforeRouteEnter from '../../util/beforeRouteEnter';
-import util from "../../util";
 import { bus } from "../../main";
-import SideNav from './sidenav';
 import all from '../../all'
 
 export default {
@@ -9,13 +7,13 @@ export default {
     return {
       user: null,
       materials: [],
-      quizTypes: util.quizTypes,
+      quizTypes: all.utilities.quizTypes,
       timeline: null,
       modal: null,
       currentPage: 1,
       recordsPerPage: 15,
       search: '',
-      selectedTime: util.bibleTimeline[0],
+      selectedTime: all.utilities.bibleTimeline[0],
       eventsClass: '',
       selectedMaterials: [],
       loadedMaterial: null,
@@ -30,8 +28,11 @@ export default {
   },
   computed: {
     searched: function () {
-      this.timeline = util.searched(this.search, util.bibleTimeline)
-      return util.searched(this.search, util.bibleTimeline);
+      var keys = ['date-string', 'events-array'];
+      this.timeline = all.utilities
+      .search(this.search, all.utilities.bibleTimeline, keys)
+      return all.utilities
+      .search(this.search, all.utilities.bibleTimeline, keys);
     },
     totalAggregate: function () {
       return all.utilities.aggregate(
@@ -40,13 +41,12 @@ export default {
     }
   },
   mounted: function () {
-    this.gotoPage('', util.bibleTimeline);
-    new SideNav();
+    this.gotoPage('', all.utilities.bibleTimeline); 
     this.modal = document.querySelector('.modal');
   },
   created() {
-    all.utilities.studAndMat.call(this)
-    util.fetchMaterials();
+    all.utilities.studAndMat.call(this) 
+    all.utilities.fetchMaterials();
     bus.$on("incomingMaterials", all.utilities.studAndMat.bind(this));
   },
   beforeRouteEnter: beforeRouteEnter,
@@ -56,7 +56,7 @@ export default {
         nextQuestion,optionIdx, this.state,
         this.loadedMaterial, this.user
       )
-      this.$store.dispatch('updateuser', this.user)
+      this.$store.dispatch('updateUser', this.user)
       this.goToNextQuestion();
     },
     goToNextQuestion: function () {
@@ -73,18 +73,12 @@ export default {
       this.goToNextQuestion();
     },
     toggleModal: function () {
-      if (this.modal.classList.contains('is-visible')) 
-      { this.loadedMaterial = null; }
-      this.modal.classList.toggle('is-visible')
+      all.utilities.toggleModal(this.modal, this.loadedMaterial)
     },
     loadMaterial: function (material) {
       this.loadedMaterial = material;
       this.initializeState();
       this.toggleModal();
-    },
-    updateuser: function (evt) {
-      evt.preventDefault();
-      this.$store.dispatch("updateUser", util.encodeuser(this.user));
     },
     selectTime: function (time) {
       this.selectedTime = time;
@@ -93,7 +87,7 @@ export default {
     gotoPage: function (page) {
       var {timeline, cPage} = all.utilities.gotoPage(
         page, this.currentPage,
-        this.recordsPerPage, util.bibleTimeline
+        this.recordsPerPage, all.utilities.bibleTimeline
       )
       this.timeline = timeline;
       this.currentPage = cPage;
@@ -104,11 +98,6 @@ export default {
       })
       this.selectedMaterials = sMaterials;
       this.loadedMaterial = this.selectMaterials[0];
-    },
-    getThumbnail: function (embedLink) {
-      var videoIdArray = embedLink.split('/');
-      var videoId = videoIdArray[videoIdArray.length - 1];
-      return 'https://img.youtube.com/vi/' + videoId + '/2.jpg';
     }
   }
 };

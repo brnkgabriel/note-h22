@@ -23,7 +23,26 @@ var util = {
     }
     return { start, end }
   },
-  searched: function (search, collection) {
+  search: function (toFind, collection, keys) { 
+    return collection.filter(item => {
+      var condition = false; 
+      for (var j = 0; j < keys.length; j++) {
+        var keyStr = keys[j].split('-')[0];
+        var keyType = keys[j].split('-')[1];
+        if (keyType === 'array') {
+          if (item[keyStr].join(',').toLowerCase().indexOf(toFind.toLowerCase()) !== -1) {
+            condition = true;
+          }
+        } else {
+          if (item[keyStr].toLowerCase().indexOf(toFind.toLowerCase()) !== -1) {
+            condition = true;
+          }
+        }
+      }
+      return condition;
+    })
+  },
+  searched: function (search, collection, []) {
     return collection.filter(time => {
       var condition = false;
       if (

@@ -12,8 +12,33 @@ describe('all test', () => {
 
 describe('all.utilities', () => {
   var totalPts;
+  var el;
   beforeEach(() => {
     totalPts = all.utilities.totalPts(data.scores, data.materials);
+    el = {
+      class: '',
+      classList: {
+        contains: function (cl) {
+          return el.class.indexOf(cl) === -1
+        },
+        toggle: function (cl) {
+          var classList = el.class.split(' '); 
+          var classIdx = -1;
+          for (var i = 0; i < classList.length; i++) {
+            if (cl === classList[i]) {
+              classIdx = i;
+              break;
+            }
+          }
+          if (classIdx === -1) {
+            el.class = el.class + ' ' + cl
+          } else {
+            var splitClass = el.class.split(' ' + cl);
+            el.class = splitClass[0] + splitClass[1]
+          }
+        }
+      }
+    }
   })
 
   it('all.utilities.totalPts(scores, materials) should return an integer', () => {
@@ -71,5 +96,36 @@ describe('all.utilities', () => {
     var numPages = all.utilities.numPages(mapdata.bibleTimeline, recordsPerPage);
     var expected = { start: 0, end: 14 };
     expect(all.utilities.boundaries(page, numPages,recordsPerPage, mapdata.bibleTimeline)).to.be.eql(expected);
+  })
+
+  it('all.utilities.toggleModal(el) should add class is-visible to el', () => {
+    all.utilities.toggleModal(el);
+    expect(el.class).to.contain('is-visible')
+  });
+
+  it('all.utilities.toggleModal(el) should remove class is-visible', () => {
+    all.utilities.toggleModal(el)
+    all.utilities.toggleModal(el)
+    expect(el.class).not.to.contain('is-visible')
+  })
+
+  it('all.utilities.search should return 7 items for Jesus search', () => {
+    var toFind = 'Jesus';
+    var matchedItems = all.utilities
+    .search(
+      toFind, mapdata.bibleTimeline,
+      ['date-string', 'events-array']
+    )
+    expect(matchedItems.length).to.be.eql(7)
+  })
+
+  it('all.utilities.search should return 21 items for David search', () => {
+    var toFind = 'David';
+    var matchedItems = all.utilities
+    .search(
+      toFind, mapdata.bibleTimeline,
+      ['date-string', 'events-array']
+    )
+    expect(matchedItems.length).to.be.eql(21)
   })
 })

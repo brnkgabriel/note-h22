@@ -1,3 +1,10 @@
+// comment when testing
+import { bus } from './main'
+import mapData from './map-data';
+import store from './store/store'; 
+// comment when using
+// var mapData = require('./map-data')
+
 var all = {
   utilities: {
     today: {
@@ -5,6 +12,8 @@ var all = {
       month: new Date().getMonth() + 1,
       year: new Date().getFullYear()
     },
+    quizTypes: mapData.quizTypes,
+    bibleTimeline: mapData.bibleTimeline,
     initialQuizState: function (materialId) {
       return {
         materialId: materialId,
@@ -116,7 +125,38 @@ var all = {
     studAndMat: function () {
       this.user = all.utilities.localStorage().user; 
       this.materials = all.utilities.localStorage().materials;
-    }
+    },
+    toggleModal: function (el, loadedMaterial) {
+      if (el.classList.contains('is-visible')) 
+      { loadedMaterial = null; }
+      el.classList.toggle('is-visible')
+    },
+    search: function (toFind, collection, keys) {
+      var idx = function (toFind, from) {
+        return from.toLowerCase().indexOf(toFind.toLowerCase())
+      }
+      return collection.filter(item => {
+        var condition = false; 
+        for (var j = 0; j < keys.length; j++) {
+          var key = keys[j].split('-')[0], type = keys[j].split('-')[1];
+          if (type === 'array') {
+            idx(toFind, item[key].join(',')) !== -1 ? condition = true : ''
+          } else {
+            idx(toFind, item[key]) !== -1 ? condition = true : ''
+          }
+        }
+        return condition;
+      })
+    },
+    fetchMaterials: function () { 
+      var CheckMaterials = function () {
+        if (store.state.materials) {
+          bus.$emit('incomingMaterials');
+          clearInterval(delayTillArrival)
+        }
+      }
+      var delayTillArrival = setInterval(CheckMaterials, 10);
+    },
   },
   login: {
 

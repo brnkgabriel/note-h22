@@ -1,45 +1,42 @@
 <div id="quiz" v-if="user">
-Total Aggregate is: {{totalAggregate}}
   <h1>Quiz</h1>
-  <nav>
-    <a href="#" class="js-menu-open menu-open">
-      <i>menu</i>
-    </a>
-  </nav>
-  <div class="js-side-nav-container side-nav-container">
-    <div class="js-side-nav side-nav">
-      <div :class="'side-nav-level ' + eventsClass">
-        <a @click="eventsClass=''" class="close-events" href="#">back</a>
-        <h2>{{selectedTime.date}}</h2>
-        <ul>
-          <li v-for="(event, index) in selectedTime.events" :key="index" @click="selectMaterials(event)">{{event}}</li>
-        </ul>
+  <div class="row">
+    <div class="column one-fourth">
+      <div class="js-side-nav-container side-nav-container">
+        <div class="js-side-nav side-nav">
+          <div class="hidden">{{searched.length}}</div>
+          <input v-model="search" type="text" placeholder="Enter search term...">
+          <button @click.prevent="gotoPage('prev')">Prev Page</button>
+          <button @click.prevent="gotoPage('next')">Next Page</button>
+
+          <h2 class="icon icon-world">Creation till Date</h2>
+          <ul>
+            <li class="open-events" v-for="(time, index) in timeline" :key="index">
+              <a href="#" @click.prevent="selectTime(time)">{{time.date}}</a>
+            </li>
+          </ul>
+          <div :class="'side-nav-level ' + eventsClass">
+            <h2>{{selectedTime.date}}</h2>
+            <ul>
+              <li v-for="(event, index) in selectedTime.events" :key="index" @click="selectMaterials(event)">{{event}}</li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <a href="#0" class="js-menu-close menu-close">
-        <i>close</i>
-      </a>
-      <div class="hidden">{{searched.length}}</div>
-      <input v-model="search" type="text" placeholder="Enter search term...">
-      <button @click.prevent="gotoPage('prev')">Prev Page</button>
-      <button @click.prevent="gotoPage('next')">Next Page</button>
-
-      <h2 class="icon icon-world">Creation till Date</h2>
-      <ul>
-        <li class="open-events" v-for="(time, index) in timeline" :key="index">
-          <a href="#" @click.prevent="selectTime(time)">{{time.date}}</a>
-        </li>
-      </ul>
     </div>
-  </div>
-
-  <div class="selected-materials">
-    <div class="selected-material modal-trigger modal-toggle" v-for="(material, index) in selectedMaterials" :key="index" @click="loadMaterial(material)">
-      <div class="selected-material-title">{{material.title}}</div>
-      <div class="selected-material-thumbnail">
-        <img :src="getThumbnail(material.location)" alt="thumbnail" />
+    <div class="column three-fourths"> 
+      Total Aggregate is: {{totalAggregate}}
+      <div class="selected-materials">
+        <div class="selected-material modal-trigger modal-toggle" v-for="(material, index) in selectedMaterials" :key="index" @click="loadMaterial(material)">
+          <div class="selected-material-title">{{material.title}}</div>
+          <div class="selected-material-thumbnail">
+            <img :src="material.thumbnail" alt="thumbnail" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
   <!-- Modal -->
   <div class="modal">
     <div class="modal-sandbox" @click="toggleModal()"></div>
