@@ -10,12 +10,12 @@
           <button @click.prevent="gotoPage('next')">Next Page</button>
 
           <h2 class="icon icon-world">Creation till Date</h2>
-          <ul>
-            <li class="open-events" v-for="(time, index) in timeline" :key="index">
-              <a href="#" @click.prevent="selectTime(time)">{{time.date}}</a>
+          <ul class="calendar">
+            <li class="dates" v-for="(time, index) in timeline" :key="index">
+              <a href="#" @click.prevent="selectTime(time)">{{removeBCorAD(time.date)}}</a>
             </li>
           </ul>
-          <div :class="'side-nav-level ' + eventsClass">
+          <div class="side-nav-level">
             <h2>{{selectedTime.date}}</h2>
             <ul>
               <li v-for="(event, index) in selectedTime.events" :key="index" @click="selectMaterials(event)">{{event}}</li>
@@ -28,10 +28,10 @@
       Total Aggregate is: {{totalAggregate}}
       <div class="selected-materials">
         <div class="selected-material modal-trigger modal-toggle" v-for="(material, index) in selectedMaterials" :key="index" @click="loadMaterial(material)">
-          <div class="selected-material-title">{{material.title}}</div>
           <div class="selected-material-thumbnail">
             <img :src="material.thumbnail" alt="thumbnail" />
           </div>
+          <div class="selected-material-title">{{material.title}}</div>
         </div>
       </div>
     </div>

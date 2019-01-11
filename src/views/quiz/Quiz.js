@@ -11,10 +11,9 @@ export default {
       timeline: null,
       modal: null,
       currentPage: 1,
-      recordsPerPage: 15,
+      recordsPerPage: 20,
       search: '',
       selectedTime: all.utilities.bibleTimeline[0],
-      eventsClass: '',
       selectedMaterials: [],
       loadedMaterial: null,
       quizEnded: '',
@@ -48,9 +47,20 @@ export default {
     all.utilities.studAndMat.call(this) 
     all.utilities.fetchMaterials();
     bus.$on("incomingMaterials", all.utilities.studAndMat.bind(this));
+    
   },
   beforeRouteEnter: beforeRouteEnter,
   methods: {
+    removeBCorAD: function (time) {
+      var timeArray = time.split(' ');
+      var time = '';
+      if (timeArray.length === 3) {
+        time = timeArray[0] + ' ' + timeArray[1];
+      } else {
+        time = timeArray[0];
+      }
+      return time;
+    },
     processresponse: function (nextQuestion, optionIdx) {
       all.quiz.processresponse(
         nextQuestion,optionIdx, this.state,
@@ -73,7 +83,7 @@ export default {
       this.goToNextQuestion();
     },
     toggleModal: function () {
-      all.utilities.toggleModal(this.modal, this.loadedMaterial)
+      all.utilities.toggleModal.call(this)
     },
     loadMaterial: function (material) {
       this.loadedMaterial = material;
@@ -82,7 +92,6 @@ export default {
     },
     selectTime: function (time) {
       this.selectedTime = time;
-      this.eventsClass = 'open';
     },
     gotoPage: function (page) {
       var {timeline, cPage} = all.utilities.gotoPage(
@@ -96,6 +105,7 @@ export default {
       var sMaterials = this.materials.filter(material => {
         return material.event.toLowerCase() === event.toLowerCase()
       })
+      console.log('sMaterials are', sMaterials)
       this.selectedMaterials = sMaterials;
       this.loadedMaterial = this.selectMaterials[0];
     }

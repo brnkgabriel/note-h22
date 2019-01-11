@@ -129,13 +129,13 @@ var mapData = {
     "Signed Up"],
   bibleTimeline: [
     {
-      "date": "Before Time",
+      "date": "< Time",
       "events": [
         "In the Beginning was the Word (John 1)"
       ]
     },
     {
-      "date": "Before 4000 BC",
+      "date": "< 4000 BC",
       "events": [
         "The Creation (Genesis 1)",
         "The Garden of Eden (Genesis 2)",
@@ -143,14 +143,14 @@ var mapData = {
       ]
     },
     {
-      "date": "Before 3000 BC",
+      "date": "< 3000 BC",
       "events": [
         "Cain kills Abel (Genesis 4)",
         "From Adam to Noah (Genesis 5)"
       ]
     },
     {
-      "date": "Before 2500 BC",
+      "date": "< 2500 BC",
       "events": [
         "Wickedness Provokes God's wrath (Genesis 6)",
         "The Great Flood (Genesis 7)",
@@ -160,7 +160,7 @@ var mapData = {
       ]
     },
     {
-      "date": "Before 2100 BC",
+      "date": "< 2100 BC",
       "events": [
         "Job's Suffering and Faith (Job 1 - 42)",
         "The Tower of Babel (Genesis 11)"

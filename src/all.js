@@ -126,10 +126,10 @@ var all = {
       this.user = all.utilities.localStorage().user; 
       this.materials = all.utilities.localStorage().materials;
     },
-    toggleModal: function (el, loadedMaterial) {
-      if (el.classList.contains('is-visible')) 
-      { loadedMaterial = null; }
-      el.classList.toggle('is-visible')
+    toggleModal: function () {
+      if (this.modal.classList.contains('is-visible')) 
+      { this.loadedMaterial = null; }
+      this.modal.classList.toggle('is-visible')
     },
     search: function (toFind, collection, keys) {
       var idx = function (toFind, from) {

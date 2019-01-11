@@ -22,6 +22,10 @@ body {
   background-color: #F1ECFF;
 }
 
+ul {
+  padding: 0;
+}
+
 body * { 
   font-family: 'Montserrat', sans-serif;
   font-size: 13px;
