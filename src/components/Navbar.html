@@ -1,4 +1,4 @@
-<nav id="navbar">
+<!-- <nav id="navbar">
   <h2>The Word</h2>
   <ul>
     <li>
@@ -29,4 +29,98 @@
       <router-link class="nav-link" to="/about">About</router-link>
     </li>
   </ul>
-</nav>
+</nav> -->
+
+<div id="navbar">
+
+  <nav class="sidebar">
+    <div class="nav-header">
+      <div class="logo-wrap">
+        <!-- <a href="http://www.mediahawkz.com/" class="logo-icon">
+          <img src="http://mediahawkz.com/assets/images/favicons/apple-icon-72x72.png" alt="logo-icon" width="40">
+        </a>
+        <a href="http://www.mediahawkz.com/" class="logo-text">Mediahawkz</a> -->
+        <router-link class="nav-link logo-icon" to="/">
+          <img src="http://mediahawkz.com/assets/images/favicons/apple-icon-72x72.png" alt="logo-icon" width="40">
+        </router-link>
+        <router-link class="nav-link logo-text" to="/">Bible Quiz</router-link>
+      </div>
+    </div>
+    <ul class="nav-links ul-base">
+      <li v-if="isLoggedIn">
+        <router-link class="nav-link" to="/profile">Profile</router-link>
+      </li>
+      <li v-if="isLoggedIn">
+        <router-link class="nav-link" to="/quiz">Quiz</router-link>
+      </li>
+      <li v-if="isLoggedIn && user.roles_permissions.roles === 'admin'">
+        <router-link class="nav-link" to="/materials">Materials</router-link>
+      </li>
+      <li v-if="isLoggedIn">
+        <router-link class="nav-link" to="/rank">Rank</router-link>
+      </li>
+      <li v-if="!isLoggedIn">
+        <router-link class="nav-link" to="/login">Login</router-link>
+      </li>
+      <li v-if="!isLoggedIn">
+        <router-link class="nav-link" to="/signup">Signup</router-link>
+      </li>
+      <li v-if="isLoggedIn">
+        <button class="nav-link" @click="logout">Logout</button>
+      </li>
+      <li>
+        <router-link class="nav-link" to="/about">About</router-link>
+      </li>
+    </ul>
+    <div class="copyright">
+      <span>&copy; 2019
+        <a href="#" class="link">Made in Nigeria</a>
+      </span>
+      <span>Designed by Gabriel</span>
+    </div>
+  </nav>
+  <header>
+    <div class="header-inner clearfix">
+      <div class="nav-btn nav-slider">
+        <i class="material-icons">menu</i>
+      </div>
+      <div class="header-logo">
+        <a href="http://www.mediahawkz.com/">
+          <img src="http://mediahawkz.com/assets/images/logos/logo-v2-1.png" alt="logo">
+        </a>
+      </div>
+      <div class="header-links">
+        <ul class="ul-base">
+          <li v-if="isLoggedIn">
+            <router-link class="nav-link" to="/profile">Profile</router-link>
+          </li>
+          <li v-if="isLoggedIn">
+            <router-link class="nav-link" to="/quiz">Quiz</router-link>
+          </li>
+          <li v-if="isLoggedIn && user.roles_permissions.roles === 'admin'">
+            <router-link class="nav-link" to="/materials">Materials</router-link>
+          </li>
+          <li v-if="isLoggedIn">
+            <router-link class="nav-link" to="/rank">Rank</router-link>
+          </li>
+          <li v-if="isLoggedIn">
+            <button class="nav-link" @click="logout">Logout</button>
+          </li>
+          <li>
+            <router-link class="nav-link" to="/about">About</router-link>
+          </li>
+        </ul>
+      </div>
+      <div class="header-menu">
+        <ul class="ul-base">
+          <li v-if="!isLoggedIn">
+            <router-link class="nav-link" to="/login">Login</router-link>
+          </li>
+          <li v-if="!isLoggedIn">
+            <router-link class="nav-link" to="/signup">Signup</router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+</div>

@@ -2,10 +2,6 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css');
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
 *,
 *::after,
 *::before {
@@ -262,6 +258,5 @@ main {
   top: 65px;
   left: 0;
   overflow-y: auto;
-  background: #e4e4e4;
   will-change: transform;
 }
