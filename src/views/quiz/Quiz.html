@@ -5,20 +5,28 @@
       <div class="js-side-nav-container side-nav-container">
         <div class="js-side-nav side-nav">
           <div class="hidden">{{searched.length}}</div>
-          <input v-model="search" type="text" placeholder="Enter search term...">
-          <button @click.prevent="gotoPage('prev')">Prev Page</button>
-          <button @click.prevent="gotoPage('next')">Next Page</button>
+          <fieldset class="md-txt">
+            <input v-model="search" type="text" required/>
+            <hr>
+            <label>Search Time</label>
+          </fieldset>
+          <button class="md-btn" @click.prevent="gotoPage('prev')">Prev Page</button>
+          <button class="md-btn" @click.prevent="gotoPage('next')">Next Page</button>
 
           <h2 class="icon icon-world">Creation till Date</h2>
           <ul class="calendar">
-            <li class="dates" v-for="(time, index) in timeline" :key="index">
-              <a href="#" @click.prevent="selectTime(time)">{{removeBCorAD(time.date)}}</a>
+            <li
+            class="dates avatar"
+            v-for="(time, index) in timeline"
+            :key="index"
+            @click.prevent="selectTime(time)">
+              <span>{{removeBCorAD(time.date)}}</span>
             </li>
           </ul>
           <div class="side-nav-level">
             <h2>{{selectedTime.date}}</h2>
             <ul>
-              <li v-for="(event, index) in selectedTime.events" :key="index" @click="selectMaterials(event)">{{event}}</li>
+              <li v-for="(event, index) in selectedTime.events" :key="index">{{event}}</li>
             </ul>
           </div>
         </div>

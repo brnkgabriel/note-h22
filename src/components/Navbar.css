@@ -1,3 +1,11 @@
+#navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  width: 100%;
+}
+
 ul {
   list-style: none;
   padding: 0;
@@ -7,7 +15,6 @@ ul {
 ul li {
   display: inline-block;
   margin: 5px;
-  background-color: gray;
 }
 
 ul li a {

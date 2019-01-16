@@ -44,7 +44,7 @@ export default {
   beforeRouteEnter: beforeRouteEnter,
   methods: {
     toggleModal() {
-      all.utilities.toggleModal(this.modal, this.loadedMaterial)
+      all.utilities.toggleModal.call(this);
       // if (this.modal.classList.contains('is-visible')) 
       // { this.loadedMaterial = null; }
       // this.modal.classList.toggle('is-visible')

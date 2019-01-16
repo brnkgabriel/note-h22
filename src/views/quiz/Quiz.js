@@ -92,6 +92,11 @@ export default {
     },
     selectTime: function (time) {
       this.selectedTime = time;
+      var sMaterials = this.materials.filter(material => {
+        return material.time.toLowerCase() === time.date.toLowerCase()
+      })
+      this.selectedMaterials = sMaterials;
+      this.loadedMaterial = this.selectedMaterials[0];
     },
     gotoPage: function (page) {
       var {timeline, cPage} = all.utilities.gotoPage(
@@ -101,13 +106,5 @@ export default {
       this.timeline = timeline;
       this.currentPage = cPage;
     },
-    selectMaterials: function (event) {
-      var sMaterials = this.materials.filter(material => {
-        return material.event.toLowerCase() === event.toLowerCase()
-      })
-      console.log('sMaterials are', sMaterials)
-      this.selectedMaterials = sMaterials;
-      this.loadedMaterial = this.selectMaterials[0];
-    }
   }
 };

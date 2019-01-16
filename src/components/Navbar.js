@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import { bus } from "../main";
+// import NavMenu from '../nav-menu'
 
 export default {
   name: "navbar",
@@ -18,6 +19,9 @@ export default {
       this.user = user;
     });
   },
+  // mounted() {
+  //   new NavMenu();
+  // },
   methods: {
     logout: function() {
       firebase

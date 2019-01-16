@@ -16,41 +16,66 @@
         <div class="column half">
           <div class="row">
             <div class="column half">
-              <div class="row">
+              <!-- <div class="row">
                 <label class="column half" for="material-edit-title">Title: </label>
                 <input class="column half" type="text" id="material-edit-title" placeholder="material title..." v-model="selectedMaterial.title">
-              </div>
-              <div class="row">
+              </div> -->
+              <fieldset class="md-txt">
+                <input v-model="selectedMaterial.title" type="text" required/>
+                <hr>
+                <label>Title</label>
+              </fieldset>
+              <!-- <div class="row">
                 <label class="column half" for="material-edit-author">Author: </label>
                 <input class="column half" type="text" id="material-edit-author" placeholder="material author..." v-model="selectedMaterial.author">
-              </div>
-              <div class="row">
+              </div> -->
+              <fieldset class="md-txt">
+                <input v-model="selectedMaterial.author" type="text" required/>
+                <hr>
+                <label>Author</label>
+              </fieldset>
+              <!-- <div class="row">
                 <label class="column half" for="material-edit-location">Location: </label>
                 <input class="column half" type="text" id="material-edit-location" placeholder="material location..." v-model="selectedMaterial.location">
-              </div>
+              </div> -->
+              <fieldset class="md-txt">
+                <input v-model="selectedMaterial.location" type="text" required/>
+                <hr>
+                <label>Location</label>
+              </fieldset>
               <div class="row">
                 <label class="column half" for="material-edit-event">Event: </label>
                 <select class="column half" v-model="selectedMaterial.event">
                   <option v-for="(event, index) in selectedEvents" :key="index">{{event}}</option>
                 </select>
               </div>
-              <div class="row">
+              <!-- <div class="row">
                 <label class="column half" for="material-edit-time">Time: </label>
                 <input class="column half" disabled type="text" id="material-edit-time" placeholder="material time..." v-model="selectedMaterial.time">
-              </div>
-              <div class="row">
+              </div> -->
+              <fieldset class="md-txt">
+                <input v-model="selectedMaterial.time" type="text" disabled />
+                <hr>
+                <!-- <label>Time</label> -->
+              </fieldset>
+              <!-- <div class="row">
                 <label class="column half" for="material-edit-type">Type: </label>
                 <input class="column half" type="text" id="material-edit-type" placeholder="material type..." v-model="selectedMaterial.type">
-              </div>
+              </div> -->
+              <fieldset class="md-txt">
+                <input v-model="selectedMaterial.type" type="text" required/>
+                <hr>
+                <label>Type</label>
+              </fieldset>
               <div class="row">
                 <label class="column half" for="material-edit-thumbnail">Thumbnail: </label>
                 <input @change="pickFile" class="column half" type="file" id="material-edit-thumbnail" accept="image/*" placeholder="material thumbnail...">
               </div>
               <div class="material-edit-actions">
-                <button @click.prevent="addMaterial()">Add Material</button>
+                <button class="md-btn btn-sm ripple-effect" @click.prevent="addMaterial()">Add Material</button>
               </div>
               <div class="save-materials">
-                <button @click.prevent="saveMaterials()">Save Materials</button>
+                <button class="md-btn btn-sm ripple-effect" @click.prevent="saveMaterials()">Save Materials</button>
               </div>
             </div>
             <div class="column half">

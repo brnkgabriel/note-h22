@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Open+Sans:300,400,700');
+@import url('https://use.fontawesome.com/releases/v5.6.3/css/all.css');
+
+@font-face {
+  font-family: 'Noteworthy';
+  font-style: normal;
+  font-weight: normal;
+  src: url('./fonts/noteworthy/Noteworthy-Bold.otf') format('otf'),
+  url('./fonts/noteworthy/Noteworthy-Lt.ttf') format('ttf'),
+  url('./fonts/noteworthy/Noteworthy-Lt.woff') format('woff');
+  }
+@font-face {
+  font-weight: normal;
+  font-style: normal;
+  font-family: "icomoon";
+  src: url("./fonts/icomoon/icomoon.eot?u59ytb");
+  src: url("./fonts/icomoon/icomoon.eot?#iefixu59ytb")
+      format("embedded-opentype"),
+    url("./fonts/icomoon/icomoon.woff?u59ytb")
+      format("woff"),
+    url("./fonts/icomoon/icomoon.ttf?u59ytb")
+      format("truetype"),
+    url("./fonts/icomoon/icomoon.svg?u59ytb#icomoon")
+      format("svg");
+}
+/* Icons */
+.icon::before {
+  z-index: 10;
+  display: inline-block;
+  margin: 0 0.4em 0 0;
+  vertical-align: middle;
+  text-transform: none;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 1.3em;
+  font-family: "icomoon";
+  line-height: 1;
+  speak-as: none;
+  -webkit-backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-worship::before {
+  content: "\e60b";
+}
+
+.icon-message::before {
+  content: "\e60f";
+}
+
+.icon-bible::before {
+  content: "\e60c";
+}
+
+.icon-book::before {
+  content: "\e60d";
+}
+
+.icon-picture::before {
+  content: "\e60e";
+}
+
+.icon-edit::before {
+  content: "\e60b";
+}
+
+.icon-delete::before {
+  content: "\e610"
+}
+
+.icon-basket::before {
+  content: "\e611"
+}
+
+.icon-menu-toggle::before {
+  content: "\e613"
+}
+
+.icon-arrow-right::before {
+  content: "\e612"
+}
+
+.icon-content::before {
+  content: "\e618"
+}
+
+.icon-questions::before {
+  content: "\e617"
+}
+
+body { 
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  color: #2E3037;
+  /* Better Font Rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale
+}
+
+h1, h2, h3 {
+  font-family: 'Montserrat', sans-serif;
+}

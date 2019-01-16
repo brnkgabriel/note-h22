@@ -141,8 +141,8 @@ export default new Vuex.Store({
     },
     uploadThumbnail(context, payload) {
       firebase.storage().ref('thumbnails/' + payload.name).put(payload)
-      .then(snapshot => snapshot.ref.getDownloadURL())
-      .then(downloadURL => bus.$emit('thumbnail', downloadURL))
+        .then(snapshot => snapshot.ref.getDownloadURL())
+        .then(downloadURL => bus.$emit('thumbnail', downloadURL))
     },
     addMaterial(context, payload) {
       db.collection("materials")

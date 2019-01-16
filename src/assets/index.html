@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <title>Component Design</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <h2>Avatar Design</h2>
+      <img src="http://placehold.it/100x100" class="avatar" alt="avatar">
+      <img src="http://placehold.it/100x100" class="avatar-small" alt="avatar">
+
+      <h2>Buttons</h2>
+      <button class="md-btn btn-fab"><i class="fas fa-thumbs-up"></i></button>
+      <button class="md-btn btn-fab-mini"><i class="fas fa-thumbs-down"></i></button>
+      <button class="md-btn btn-lg">Large button</button>
+      <button class="md-btn btn-sm">Small button</button>
+      <button class="md-btn btn-xs">Extra Small button</button>
+      <button class="md-btn" disabled>Disabled button</button>
+      <button class="md-btn btn-flat">Flat button</button>
+      <button class="md-btn btn-flat" disabled>Flat Disabled button</button>
+      <button class="md-btn btn-flat" disabled>Flat Disabled button</button>
+      <a href="#" class="md-btn btn-link">link button</a>
+      <a href="#" class="md-btn btn-link" disabled>disabled link button</a>
+      <button class="md-btn"><i class="fas fa-thumbs-down"></i> button with icon</button>
+      <button class="md-btn"><i class="fas fa-thumbs-down right"></i> right button with icon</button>
+      <button class="md-btn ripple-effect"><i class="fas fa-thumbs-down right"></i> right button with icon and ripple</button>
+
+      <h2>Textfield</h2>
+      <fieldset class="md-txt">
+        <input type="text" required/>
+        <hr>
+        <label>First Name</label>
+      </fieldset>
+
+      <h2>Checkbox</h2>
+      <div class="md-switch">
+        <input type="checkbox" id="id-name--1" name="set-name" class="switch-input">
+        <label for="id-name--1" class="switch-label">
+          Switch <span class="toggle--on">On</span><span class="toggle--off">Off</span>
+        </label>
+      </div>
+    </div>
+  </div>
+  <script src="./md.js"></script>
+</body>
+
+</html>

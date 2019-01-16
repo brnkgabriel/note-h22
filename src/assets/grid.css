@@ -26,6 +26,7 @@ html {
 
 .column {
   margin-bottom: 10px;
+  border: 1px solid black;
 }
 
 .container {
@@ -37,17 +38,24 @@ html {
 @media only screen and (min-width: 800px) {
 
   .one { width: 100%; }
+  .half { width: calc(99% / 2); }
+  .one-third { width: calc(98% / 3); }
+  .one-fourth { width: calc(97% / 4); }
+  .two-thirds { width: calc(98% / 3 * 2); }
+  .three-fourths { width: calc(97% / 4 * 3); }
 
-  .half { width: calc(100% / 2); }
+  .half:nth-child(n),
+  .one-third:nth-child(n),
+  .one-fourth:nth-child(n),
+  .two-thirds:nth-child(n),
+  .three-fourths:nth-child(n) { margin-right: 1%; }
 
-  .one-third { width: calc(100% / 3); }
-
-  .one-fourth { width: calc(100% / 4); }
-
-  .two-thirds { width: calc(100% / 3 * 2); }
-
-  .three-fourths { width: calc(100% / 4 * 3); }
-
+  .half:last-child,
+  .one-third:last-child,
+  .one-fourth:last-child,
+  .two-thirds:last-child,
+  .three-fourths:last-child { margin-right: 0; }
+  
   .column {
     display: inline-block;
     vertical-align: top;

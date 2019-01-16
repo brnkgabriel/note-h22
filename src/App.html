@@ -1,23 +1,4 @@
-<!-- <div id="st-container" class="st-container container">
-  <div class="toolbar"></div>
-  <navbar />
-  <div class="st-pusher">
-    <div class="st-content">
-      <div class="st-content-inner">
-        <div class="title">
-        </div>
-        <div class="main">
-          <router-view/>
-        </div>
-      </div>
-    </div>
-  </div>
-  <a data-effect="st-effect-5" href="#nowhere" class="cd-nav-trigger">
-    <span></span>
-  </a>
-</div> -->
-
-<div class="container">
+<!-- <div class="container">
   <div class="row">
     <div class="column one">
       <navbar/>
@@ -28,4 +9,60 @@
       <router-view/>
     </div>
   </div>
+</div> -->
+<div>
+  
+<nav class="sidebar">
+  <div class="nav-header">
+    <div class="logo-wrap">
+      <a href="http://www.mediahawkz.com/" class="logo-icon">
+        <img src="http://mediahawkz.com/assets/images/favicons/apple-icon-72x72.png" alt="logo-icon" width="40">
+      </a>
+      <a href="http://www.mediahawkz.com/" class="logo-text">Mediahawkz</a>
+    </div>
+  </div>
+  <ul class="nav-links ul-base">
+    <li><a href="#">Profile</a></li>
+    <li><a href="#">Quiz</a></li>
+    <li><a href="#">Rank</a></li>
+    <li><a href="#">Materials</a></li>
+  </ul>
+  <div class="copyright">
+    <span>&copy; 2019
+      <a href="#" class="link">Made in Nigeria</a>
+    </span>
+    <span>Designed by Gabriel</span>
+  </div>
+</nav>
+<header>
+  <div class="header-inner clearfix">
+    <div class="nav-btn nav-slider">
+      <i class="material-icons">menu</i>
+    </div>
+    <div class="header-logo">
+      <a href="http://www.mediahawkz.com/">
+        <img src="http://mediahawkz.com/assets/images/logos/logo-v2-1.png" alt="logo">
+      </a>
+    </div>
+    <div class="header-links">
+      <ul class="ul-base">
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Quiz</a></li>
+        <li><a href="#">Rank</a></li>
+        <li><a href="#">Materials</a></li>
+      </ul>
+    </div>
+    <div class="header-menu">
+      <ul class="ul-base">
+        <li><a href="#">Login</a></li>
+        <li><a href="#">Signup</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+<main role="main">
+  <router-view/>
+</main>
+<footer></footer>
+<div class="overlay"></div>
 </div>
